@@ -1,0 +1,149 @@
+/***************************************************************************
+						  kptc.h  -  description
+							 -------------------
+	begin                : Wed Feb 14 2001
+	copyright            : (C) 2001 by Lars Schnake
+	email                : mail@lars-schnake.de
+
+	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de )
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+#ifndef KPTC_H
+#define KPTC_H
+
+#include "stringpool.hpp"
+#include "modem.h"
+#include "modecommander.h"
+#include "cwspeedwidget.h"
+#include "rttyspeedwidget.h"
+#include "mylineedit.h"
+#include "commanddialog.h"
+#include "modecommander.h"
+#include "kled.h"
+#include "configdialog.h"
+#include "configdata.h"
+#include "configmachine.h"
+#include "statusinfo.h"
+#include "cqdialog.h"
+#include "modebuttons.h"
+#include "cwspeedwidget.h"
+#include "updatedialog.h"
+
+#include <QFile>
+#include <QtGui/QFont>
+#include <QtGui/QColor>
+#include <QtWidgets/QBoxLayout>
+#include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QDial>
+#include <QtWidgets/QFrame>
+#include <QtGui/QKeySequence>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QLayout>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenu>
+#include <QtWidgets/QMenuBar>
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QSplitter>
+#include <QtWidgets/QStatusBar>
+#include <QtWidgets/QTextEdit>
+#include <QtWidgets/QToolBar>
+
+class Kptc : public QMainWindow
+{
+	Q_OBJECT
+	public:
+		/** construtor */
+			Kptc(QWidget* parent=0);
+		/** destructor */
+		~Kptc();
+
+	private:
+		const QString standby= tr("Stand by");
+		const QString qrt = tr("QRT");
+		const QString changeover = tr("changeover");
+		const QString cq = tr("CQ");
+		const QString cqws = tr(" CQ ");
+		const QString prescribe = tr("prescribe");
+		const QString flush = tr("flush");
+		const QString fix_speed = tr("fix speed");
+		const QString speed_up = tr("speed up");
+		const QString speed_down = tr("speed down");
+		const QString tx_speed = tr("tx speed");
+		const QString baudrate = tr("baudrate");
+
+		int currentterm;
+		// meaning of currentterm :
+		// 1: (ctrl-A) : prescripe/message window
+		// 2: (ctrl-B) : rec window
+		// 3: (ctrl-C) : delayed echo
+		bool bPromptInfoFollows;
+		bool bStatusByteFollows;
+		int parsePromptText;
+		CommandDialog commanddialog;
+		ModeCommander *modecommander;
+		StatusInfo *statusinfo;
+		CWSpeedWidget  *cwspeedwidget;
+		RTTYSpeedWidget * rttyspeedwidget;
+		QString statusmessage;
+		QString prompt;
+		QColor colors;
+		KLed led;
+		QMenu *fixmenu;
+		QStatusBar *mystatusBar;
+		QToolBar *modetoolbar;
+		QToolBar *lefttoolbar;
+		QTextEdit *termoutput;
+		MyLineEdit *textedit;
+		CQDialog *cqdialog;
+		ModeButtons *modebuttons;
+		ConfigMachine * configmachine;
+		void useconfigmachine();
+		void parsePrompt(const char);
+		void parseStatus(const char);
+		bool queryClose ();
+		void expandToolBar(QString text, char *slot, QObject *obj,  QToolBar *bar);
+		void initializeToolBar();
+		void initializePopUpMenues();
+		void initializeStatusBar();
+		void initializeMenuBar();
+		bool isEndline(char c);
+
+	public slots:
+		void parseModemOut(unsigned char);
+		void sendline(QString);
+		void sendchar(unsigned char);
+		void openconfigdialog();
+		void openCommandDialog();
+		void showPactor();
+		void showAmtor();
+		void showRTTY();
+		void showPSK31();
+		void showCW();
+		void initchangeover();
+		void initQRT();
+		void updateStatusBar();
+		void clearTrafficWindow();
+		void clearEditWindow();
+		void sendFixText ( int );
+		void shutdown();
+		void showcwspeeddialog();
+		void showrttyspeeddialog();
+		void echoText( QString );
+		void openUpdateDialog();
+		void fileQuit();
+		void closeEvent(QCloseEvent* ce);
+
+};
+
+#endif
