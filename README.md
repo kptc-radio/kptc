@@ -1,7 +1,7 @@
 # kptc
 Kptc is a Qt application for operating comfortable with the SCS PTC-II ( or PTC-IIe, PTC-IIpro)
 
-# Build kptc
+## Build kptc
 Kptc depends on Qt 5, the needed modules are core, gui and widgets. 
 
 The following way should work:
