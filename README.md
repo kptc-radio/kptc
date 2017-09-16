@@ -2,7 +2,7 @@
 Kptc is a Qt application for operating comfortable with the SCS PTC-II ( or PTC-IIe, PTC-IIpro)
 
 ## Build kptc
-Kptc depends on Qt 5, the needed modules are core, gui and widgets. 
+Kptc depends on Qt 5, the needed modules are core, gui and widgets. It is assumed that you can compile with C++14. If you can not do this, you can remove this setting from kptc.pro file. Kptc is going to depend on C++14 in future versions.
 
 The following way should work:
 
