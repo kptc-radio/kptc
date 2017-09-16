@@ -30,7 +30,6 @@
 #include "configdata.h"
 #include "modem.h"
 #include "modecommander.h"
-#include "stringpool.hpp"
 
 /**
   *@author Lars Schnake

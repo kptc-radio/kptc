@@ -20,8 +20,6 @@
 #ifndef MODEBUTTONS_H
 #define MODEBUTTONS_H
 
-#include "stringpool.hpp"
-
 #include <qobject.h>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QPushButton>

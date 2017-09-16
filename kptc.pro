@@ -30,8 +30,7 @@ HEADERS += \
 	src/statusinfo.h \
 	src/update.h \
 	src/updatedialog.h \
-	src/kled.h \
-    src/stringpool.hpp
+	src/kled.h
 
 SOURCES += \
 	src/commanddialog.cpp \

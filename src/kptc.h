@@ -20,7 +20,6 @@
 #ifndef KPTC_H
 #define KPTC_H
 
-#include "stringpool.hpp"
 #include "modem.h"
 #include "modecommander.h"
 #include "cwspeedwidget.h"
