@@ -45,11 +45,6 @@ Kptc::Kptc(QWidget *parent) : QMainWindow()
 		// Toolbar for changing the mods:
 
 		/*
-	modetoolbar->insertButton("mini-pactor.xpm",1,SIGNAL(clicked()),modecommander, SLOT(changetoPactor()), true," | Pactor | ");
-	modetoolbar->insertButton("mini-pactor.xpm",2,SIGNAL(clicked()),modecommander, SLOT(changetoAmtor()), true, " | Amtor |");
-	modetoolbar->insertButton("mini-pactor.xpm",3,SIGNAL(clicked()),modecommander, SLOT(changetoRTTY()), true, " | RTTY | ");
-	modetoolbar->insertButton("mini-pactor.xpm",4,SIGNAL(clicked()),modecommander, SLOT(changetoPSK31()), true, " | PSK31 | ");
-	modetoolbar->insertButton("mini-pactor.xpm",5,SIGNAL(clicked()),modecommander, SLOT(changetoCW()), true, " | CW | ");
 
 	KToolBarRadioGroup *moderadiogroup = new KToolBarRadioGroup(modetoolbar,"modradiogroup");
 	modetoolbar->setToggle(1);
