@@ -343,13 +343,12 @@ void ConfigDialog::selectwidget( QListWidgetItem * lbi) {
 }
 
 void ConfigDialog::createFixTextWidget() {
-	QWidget * fixtext_top = new QWidget(0);
+	/*QWidget * fixtext_top = new QWidget(0);
 
 	list.clear();
 	oblist.clear();
 
 	QBoxLayout *layout = new QBoxLayout(QBoxLayout::TopToBottom, fixtext_top);
-
 	QString number;
 	for ( int i = 1 ; i <= 8; i++ ) {
 		number.setNum(i);
@@ -362,6 +361,7 @@ void ConfigDialog::createFixTextWidget() {
 	}
 		layout->activate();
 		widgetstack->addWidget(fixtext_top);
+		*/
 }
 
 void ConfigDialog::createBoxWidget() {

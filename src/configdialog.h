@@ -76,7 +76,7 @@ class ConfigDialog : public QDialog  {
 		QCheckBox *personal_CheckBox_cmsg ;
 		QTextEdit *logout_MultiLineEdit_ctext;
 		QCheckBox *logout_CheckBox_cmsg ;
-		QList <FixTextPicker> list;
+		//QList <FixTextPicker> list;
 		QList <QObject> oblist;
 		QLineEdit *logout_LineEdit_path;
 		QCheckBox *logout_CheckBox_script;
