@@ -77,22 +77,37 @@ class ConfigDialog : public QDialog  {
 		QTextEdit *logout_MultiLineEdit_ctext;
 		QCheckBox *logout_CheckBox_cmsg ;
 		QList <FixTextPicker> list;
-		std::vector <QObject> oblist;
+		QList <QObject> oblist;
 		QLineEdit *logout_LineEdit_path;
 		QCheckBox *logout_CheckBox_script;
 		QPushButton *logout_PushButton_choosescript;
 		QLineEdit *login_LineEdit_path;
 		QCheckBox *login_CheckBox_script;
 		QPushButton *login_PushButton_choosescript;
+		QWidget *port_top;
+		QWidget *personal_top;
+		QButtonGroup *port_ButtonGroup_1;
+
+		void createListBox();
+		void createButtons();
+		void createRadioButtons();
+		void createLabels();
+		void createLineEdits();
+		void createLogInWidget();
+		void createLogOutWidget();
+		void createFixTextWidget();
+		void createBoxWidget();
 
 	private slots:
 		void resetwidgets();
 		void selectwidget(QListWidgetItem *lbi) ;
 		void writeconfig();
-		void chooseFile();
 		void chooseLogoutFile();
 		void chooseLoginFile();
 		void update_widgets();
+
+	public slots:
+		void chooseFile();
 
 };
 
