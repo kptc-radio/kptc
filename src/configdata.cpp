@@ -147,7 +147,7 @@ void ConfigData::setAwayMsg(bool set, QString msg) {
 
 bool ConfigData::isAwayMsg() {
 	QString s= this->getValue(Group::LOGOUT, "USEAWAYMSG", "TRUE");
-	this->stringIsTrue(s);
+	return this->stringIsTrue(s);
 }
 
 QString ConfigData::getAwayMsg() {
