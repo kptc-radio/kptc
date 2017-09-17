@@ -55,6 +55,10 @@ QString ConfigData::getValue(Group group, QString key, QString defaultvalue) {
 	return data;
 }
 
+bool ConfigData::stringIsTrue(const QString &string) {
+	return string == "TRUE";
+}
+
 ConfigData::ConfigData()
 {
 	this->settings = new QSettings("kptc", "kptc");
@@ -136,14 +140,14 @@ void ConfigData::setAwayMsg(bool set, QString msg) {
 		this->setValue(Group::LOGOUT, "USEAWAYMSG", "TRUE");
 	}
 	else {
-		this->setValue(Group::LOGOUT, "USEAWAYMSG", "TRUE");
+		this->setValue(Group::LOGOUT, "USEAWAYMSG", "FALSE");
 	}
 	this->setValue(Group::LOGOUT, "AWAYMSG", msg);
 }
 
 bool ConfigData::isAwayMsg() {
 	QString s= this->getValue(Group::LOGOUT, "USEAWAYMSG", "TRUE");
-	return (s == "TRUE");
+	this->stringIsTrue(s);
 }
 
 QString ConfigData::getAwayMsg() {
@@ -162,7 +166,7 @@ void ConfigData::setCMsg(bool set, QString msg) {
 
 bool ConfigData::isCMsg() {
 	QString s= this->getValue(Group::PERSONAL, "USECMSG", "TRUE");
-	return  s == "TRUE";
+	return this->stringIsTrue(s);
 }
 
 QString ConfigData::getCMsg() {
@@ -259,28 +263,32 @@ QString ConfigData::getLoginPath () {
 
 void ConfigData::setLogoutScript( bool set ) {
 	QString qset;
-	if (set) qset = "TRUE";
-	else qset = "FALSE";
+	if (set) {
+		qset = "TRUE";
+	}
+	else {
+		qset = "FALSE";
+	}
 	this->setValue(Group::LOGOUT,  "LOGOUTSCRIPT" , qset);
 }
 
 bool ConfigData::isLogoutScript() {
 	QString s = this->getValue(Group::LOGOUT, "LOGOUTSCRIPT" , "FALSE" );
-	if ( s == "TRUE" ) return true;
-	else return false;
-
+	return this->stringIsTrue(s);
 }
 
 void ConfigData::setLoginScript( bool set ) {
 	QString qset;
-	if (set) qset = "TRUE";
-	else qset = "FALSE";
+	if (set) {
+		qset = "TRUE";
+	}
+	else {
+		qset = "FALSE";
+	}
 	this->setValue(Group::LOGIN,  "LOGINSCRIPT" , qset);
 }
 
 bool ConfigData::isLoginScript() {
 	QString s = this->getValue(Group::LOGIN, "LOGINSCRIPT" , "FALSE" );
-	if ( s == "TRUE" ) return true;
-	else return false;
-
+	return this->stringIsTrue(s);
 }
