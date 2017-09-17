@@ -19,9 +19,14 @@
 
 #include "configdialog.h"
 
+#include <iostream>
+
 #define i18n
 
 ConfigDialog::ConfigDialog(QWidget *parent, Qt::WindowFlags f) : QDialog(parent){
+
+
+	port_top = new QWidget();
 
 	this->createListBox();
 	this->createButtons();
@@ -33,6 +38,8 @@ ConfigDialog::ConfigDialog(QWidget *parent, Qt::WindowFlags f) : QDialog(parent)
 	setMinimumSize( 500, 340 );
 	setMaximumSize( 500, 340 );
 
+	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
+
 	widgetstack= new QStackedWidget(this);
 	widgetstack->setFrameStyle(QFrame::Sunken | QFrame::Box);
 	widgetstack->setLineWidth(1);
@@ -40,7 +47,7 @@ ConfigDialog::ConfigDialog(QWidget *parent, Qt::WindowFlags f) : QDialog(parent)
 	widgetstack->setGeometry( 130, 10, 360, 290 );
 
  // ************************ port settings GUI ********************************
-
+	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 	personal_CheckBox_cmsg = new QCheckBox(personal_top);
 	personal_CheckBox_cmsg->setText( i18n(QString("set \"connect message\"")) );
 	personal_CheckBox_cmsg->setGeometry( 120, 150, 150, 20 );
@@ -48,19 +55,20 @@ ConfigDialog::ConfigDialog(QWidget *parent, Qt::WindowFlags f) : QDialog(parent)
 	personal_MultiLineEdit_ctext->setGeometry( 120, 170, 230, 100 );
 
 	connect( personal_CheckBox_cmsg, SIGNAL(clicked()), this, SLOT( update_widgets()) );
-
+	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
   widgetstack->addWidget(personal_top);
-
+	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 	this->createBoxWidget();
 	this->createLogOutWidget();
 	this->createLogInWidget();
 
 // final :
-	widgetstack->setCurrentIndex(0);
+	//widgetstack->setCurrentIndex(0);
 	resetwidgets();
 }
 
 void ConfigDialog::createListBox() {
+	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 	QListWidget* ListBox = new QListWidget( this);
 	ListBox->setGeometry( 10, 10, 110, 290 );
 	ListBox->setMinimumSize( 110, 290 );
@@ -81,6 +89,7 @@ void ConfigDialog::createListBox() {
 }
 
 void ConfigDialog::createButtons() {
+	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 	QPushButton *OkButton = new QPushButton( "OkButton", this );
 	OkButton->setGeometry( 285, 310, 90, 20 );
 	OkButton->setMinimumSize( 90, 20 );
@@ -106,7 +115,7 @@ void ConfigDialog::createButtons() {
 }
 
 void ConfigDialog::createRadioButtons() {
-	port_top = new QWidget();
+	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 
 	port_ButtonGroup_1 = new QButtonGroup( port_top );
 	port_ButtonGroup_1->setExclusive( true );
@@ -160,6 +169,7 @@ void ConfigDialog::createRadioButtons() {
 }
 
 void ConfigDialog::createLabels() {
+	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 	QLabel* port_Label_3;
 	port_Label_3 = new QLabel( port_top);
 	port_Label_3->setGeometry( 220, 20, 100, 30 );
@@ -171,6 +181,8 @@ void ConfigDialog::createLabels() {
 	port_Label_3->setMidLineWidth( 0 );;
 	port_Label_3->setText( i18n( "port speed") );
 	port_Label_3->setMargin( -1 );
+
+	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 
 	port_ComboBox_speed = new QComboBox(port_top);
 	port_ComboBox_speed->setGeometry( 200, 50, 100, 30 );
@@ -189,13 +201,14 @@ void ConfigDialog::createLabels() {
 	port_ButtonGroup_1->addButton( port_RadioButton2 );
 	port_ButtonGroup_1->addButton( port_RadioButton3 );
 	port_ButtonGroup_1->addButton( port_RadioButton4 );
-
+std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 	connect( port_ButtonGroup_1, SIGNAL(buttonClicked(int) ), this, SLOT( update_widgets()) );
-
-	widgetstack->addWidget(port_top);
-
+std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
+//BUG
+	//widgetstack->addWidget(port_top);
+std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 	personal_top = new QWidget();
-
+std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 	QLabel* personal_Label_8;
 	personal_Label_8 = new QLabel( personal_top);
 	personal_Label_8->setGeometry( 40, 110, 100, 20 );
@@ -207,7 +220,7 @@ void ConfigDialog::createLabels() {
 	personal_Label_8->setMidLineWidth( 0 );
 	personal_Label_8->setText( "SELCALL:" );
 	personal_Label_8->setMargin( -1 );
-
+std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 	QLabel* personal_Label_7;
 	personal_Label_7 = new QLabel( personal_top );
 	personal_Label_7->setGeometry( 40, 80, 100, 20 );
@@ -243,6 +256,7 @@ void ConfigDialog::createLabels() {
 }
 
 void ConfigDialog::createLineEdits() {
+	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 	port_LineEdit_dev = new QLineEdit( port_top );
 	port_LineEdit_dev->setGeometry( 55, 140, 75, 20 );
 	port_LineEdit_dev->setMinimumSize( 0, 0 );
@@ -294,6 +308,7 @@ void ConfigDialog::createLineEdits() {
 }
 
 void ConfigDialog::createLogOutWidget() {
+	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 	QWidget * logout_top = new QWidget();
 	logout_CheckBox_cmsg = new QCheckBox(logout_top);
 	logout_CheckBox_cmsg->setText( i18n("set \"away message\"") );
@@ -314,6 +329,7 @@ void ConfigDialog::createLogOutWidget() {
 }
 
 void ConfigDialog::createLogInWidget() {
+	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 	QWidget * login_top = new QWidget();
 	login_CheckBox_script = new QCheckBox(login_top);
 	login_CheckBox_script->setText( i18n("use personal login script") );
@@ -328,6 +344,7 @@ void ConfigDialog::createLogInWidget() {
 }
 
 void ConfigDialog::selectwidget( QListWidgetItem * lbi) {
+	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 	if (lbi == NULL){
 		return;
 	}
@@ -343,6 +360,7 @@ void ConfigDialog::selectwidget( QListWidgetItem * lbi) {
 }
 
 void ConfigDialog::createFixTextWidget() {
+	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 	/*QWidget * fixtext_top = new QWidget(0);
 
 	list.clear();
