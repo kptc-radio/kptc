@@ -60,7 +60,9 @@ ConfigData::ConfigData()
 	this->settings = new QSettings("kptc", "kptc");
 }
 
-ConfigData::~ConfigData() {}
+ConfigData::~ConfigData() {
+	this->settings->deleteLater();
+}
 
 QString ConfigData::parseMacroText( QString text ) {
 	text.replace( QRegExp("%MYCALL%"), configdata.getCall() );
