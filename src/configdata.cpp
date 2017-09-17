@@ -5,7 +5,7 @@
 	copyright            : (C) 2001 by Lars Schnake
 	email                : lschnak@suse.de
 
-	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de )
+	Ported to Qt5 and restructured storage access by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de )
  ***************************************************************************/
 
 /***************************************************************************
@@ -40,6 +40,13 @@ QString ConfigData::getGroupName(Group group)
 		default:
 			return "";
 	}
+}
+
+QString ConfigData::boolToString(bool value) {
+	if (value) {
+		return "TRUE";
+	}
+	return "FALSE";
 }
 
 void ConfigData::setValue(Group group, QString key, QString value) {
@@ -132,16 +139,11 @@ void ConfigData::setfirststart( bool  first) {
 bool ConfigData::firststart() {
 	QString s=  this->getValue(Group::GENERAL, "FIRSTSTART", "TRUE");
 	//qDebug () << "configdata::firststart() - entry:" << s;
-	return ( s == "TRUE" );
+	return this->stringIsTrue(s);
 }
 
 void ConfigData::setAwayMsg(bool set, QString msg) {
-	if (set) {
-		this->setValue(Group::LOGOUT, "USEAWAYMSG", "TRUE");
-	}
-	else {
-		this->setValue(Group::LOGOUT, "USEAWAYMSG", "FALSE");
-	}
+	this->setValue(Group::LOGOUT, "USEAWAYMSG", this->boolToString(set));
 	this->setValue(Group::LOGOUT, "AWAYMSG", msg);
 }
 
@@ -155,12 +157,7 @@ QString ConfigData::getAwayMsg() {
 }
 /////
 void ConfigData::setCMsg(bool set, QString msg) {
-	if (set) {
-		this->setValue(Group::PERSONAL, "USECMSG", "TRUE");
-	}
-	else  {
-		this->setValue(Group::PERSONAL, "USECMSG", "FALSE");
-	}
+	this->setValue(Group::PERSONAL, "USECMSG", this->boolToString(set));
 	this->setValue(Group::PERSONAL, "CMSG", msg);
 }
 
@@ -262,13 +259,7 @@ QString ConfigData::getLoginPath () {
 }
 
 void ConfigData::setLogoutScript( bool set ) {
-	QString qset;
-	if (set) {
-		qset = "TRUE";
-	}
-	else {
-		qset = "FALSE";
-	}
+	QString qset = this->boolToString(set);
 	this->setValue(Group::LOGOUT,  "LOGOUTSCRIPT" , qset);
 }
 
@@ -278,13 +269,7 @@ bool ConfigData::isLogoutScript() {
 }
 
 void ConfigData::setLoginScript( bool set ) {
-	QString qset;
-	if (set) {
-		qset = "TRUE";
-	}
-	else {
-		qset = "FALSE";
-	}
+	QString qset = this->boolToString(set);
 	this->setValue(Group::LOGIN,  "LOGINSCRIPT" , qset);
 }
 

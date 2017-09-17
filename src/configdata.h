@@ -93,6 +93,7 @@ class ConfigData {
 		void setValue(Group group, QString key, QString value);
 		QString getValue(Group group, QString key, QString defaultvalue);
 		bool stringIsTrue (const QString &string);
+		QString boolToString(bool value);
 
 };
 
