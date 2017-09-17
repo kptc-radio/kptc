@@ -56,7 +56,7 @@ ConfigDialog::ConfigDialog(QWidget *parent, Qt::WindowFlags f) : QDialog(parent)
 	this->createLogInWidget();
 
 // final :
-	//widgetstack->raiseWidget(0);
+	widgetstack->setCurrentIndex(0);
 	resetwidgets();
 }
 
@@ -194,8 +194,6 @@ void ConfigDialog::createLabels() {
 
 	widgetstack->addWidget(port_top);
 
-// **************************** Pesonal Widget ***************************
-
 	personal_top = new QWidget();
 
 	QLabel* personal_Label_8;
@@ -296,57 +294,43 @@ void ConfigDialog::createLineEdits() {
 }
 
 void ConfigDialog::createLogOutWidget() {
-	///////////////////////////////////////////////////////////////////////////////////////
-	// *******************  LOGOUT WIDGET  ********************************
-
-		QWidget * logout_top = new QWidget();
-
-		logout_CheckBox_cmsg = new QCheckBox(logout_top);
-		logout_CheckBox_cmsg->setText( i18n("set \"away message\"") );
-		logout_CheckBox_cmsg->setGeometry( 5, 5, 150, 20 );
-		logout_MultiLineEdit_ctext = new QTextEdit(logout_top);
-		logout_MultiLineEdit_ctext->setGeometry( 150, 5, 200, 100 );
-		logout_CheckBox_script = new QCheckBox(logout_top);
-		logout_CheckBox_script->setText( i18n("use personal logout script") );
-		logout_CheckBox_script->setGeometry( 5, 130, 200, 20 );
-		logout_LineEdit_path = new QLineEdit(logout_top);
-		logout_LineEdit_path->setGeometry( 5, 150, 150, 20 );
-		logout_PushButton_choosescript = new QPushButton(i18n("choose"), logout_top);
-		logout_PushButton_choosescript->setGeometry( 170, 150, 50, 20 );
-
-		connect( logout_PushButton_choosescript, SIGNAL(	clicked() ), this, SLOT( chooseLogoutFile()) );
-
-		connect( logout_CheckBox_cmsg, SIGNAL(clicked(bool)), this, SLOT( update_widgets()) );
-		connect( logout_CheckBox_script, SIGNAL(clicked(bool)), this, SLOT( update_widgets()) );
-
-		widgetstack->addWidget(logout_top);
+	QWidget * logout_top = new QWidget();
+	logout_CheckBox_cmsg = new QCheckBox(logout_top);
+	logout_CheckBox_cmsg->setText( i18n("set \"away message\"") );
+	logout_CheckBox_cmsg->setGeometry( 5, 5, 150, 20 );
+	logout_MultiLineEdit_ctext = new QTextEdit(logout_top);
+	logout_MultiLineEdit_ctext->setGeometry( 150, 5, 200, 100 );
+	logout_CheckBox_script = new QCheckBox(logout_top);
+	logout_CheckBox_script->setText( i18n("use personal logout script") );
+	logout_CheckBox_script->setGeometry( 5, 130, 200, 20 );
+	logout_LineEdit_path = new QLineEdit(logout_top);
+	logout_LineEdit_path->setGeometry( 5, 150, 150, 20 );
+	logout_PushButton_choosescript = new QPushButton(i18n("choose"), logout_top);
+	logout_PushButton_choosescript->setGeometry( 170, 150, 50, 20 );
+	connect( logout_PushButton_choosescript, SIGNAL(	clicked() ), this, SLOT( chooseLogoutFile()) );
+	connect( logout_CheckBox_cmsg, SIGNAL(clicked(bool)), this, SLOT( update_widgets()) );
+	connect( logout_CheckBox_script, SIGNAL(clicked(bool)), this, SLOT( update_widgets()) );
+	widgetstack->addWidget(logout_top);
 }
 
 void ConfigDialog::createLogInWidget() {
-	// *********************  LOGIN WIDGET  ********************************
-
-		QWidget * login_top = new QWidget();
-
-		login_CheckBox_script = new QCheckBox(login_top);
-		login_CheckBox_script->setText( i18n("use personal login script") );
-		login_CheckBox_script->setGeometry( 5, 5, 200, 20 );
-		login_LineEdit_path = new QLineEdit(login_top);
-		login_LineEdit_path->setGeometry( 5, 30, 150, 20 );
-		login_PushButton_choosescript = new QPushButton(i18n("choose"), login_top);
-		login_PushButton_choosescript->setGeometry( 170, 30, 50, 20 );
-
-		connect( login_PushButton_choosescript, SIGNAL(	clicked() ), this, SLOT( chooseLoginFile()) );
-		connect( login_CheckBox_script, SIGNAL(clicked()), this, SLOT( update_widgets()) );
-
-		widgetstack->addWidget(login_top);
-
+	QWidget * login_top = new QWidget();
+	login_CheckBox_script = new QCheckBox(login_top);
+	login_CheckBox_script->setText( i18n("use personal login script") );
+	login_CheckBox_script->setGeometry( 5, 5, 200, 20 );
+	login_LineEdit_path = new QLineEdit(login_top);
+	login_LineEdit_path->setGeometry( 5, 30, 150, 20 );
+	login_PushButton_choosescript = new QPushButton(i18n("choose"), login_top);
+	login_PushButton_choosescript->setGeometry( 170, 30, 50, 20 );
+	connect( login_PushButton_choosescript, SIGNAL(	clicked() ), this, SLOT( chooseLoginFile()) );
+	connect( login_CheckBox_script, SIGNAL(clicked()), this, SLOT( update_widgets()) );
+	widgetstack->addWidget(login_top);
 }
 
 void ConfigDialog::selectwidget( QListWidgetItem * lbi) {
 	if (lbi == NULL){
 		return;
 	}
-
 	if (lbi->text() == "PORT")  widgetstack->setCurrentIndex(0);
 	else if (lbi->text() == "PERSONAL")  widgetstack->setCurrentIndex(1);
 	else if (lbi->text() == "LOGOUT")  widgetstack->setCurrentIndex(2);
@@ -359,45 +343,33 @@ void ConfigDialog::selectwidget( QListWidgetItem * lbi) {
 }
 
 void ConfigDialog::createFixTextWidget() {
-	///////////////////////////////////////////////////////////////////////////////////////
-	// *******************  FIX TEXT WIDGET   *****************************
-		QWidget * fixtext_top = new QWidget(0);
+	QWidget * fixtext_top = new QWidget(0);
 
-		list.clear();
-		oblist.clear();
+	list.clear();
+	oblist.clear();
 
-		QBoxLayout *layout = new QBoxLayout(QBoxLayout::TopToBottom, fixtext_top);
+	QBoxLayout *layout = new QBoxLayout(QBoxLayout::TopToBottom, fixtext_top);
 
-		QString number;
-		for ( int i = 1 ; i <= 8; i++ ) {
-			number.setNum(i);
-
+	QString number;
+	for ( int i = 1 ; i <= 8; i++ ) {
+		number.setNum(i);
 		FixTextPicker *tp = new FixTextPicker(fixtext_top);
 		tp->setNumlabelText( number + ".");
-
 		layout->addWidget( tp );
-
 		list.append( tp );
-	  oblist.append( *tp->choosebutton );
-
+		oblist.append( *tp->choosebutton );
 		connect ( tp->choosebutton, SIGNAL (clicked()), this, SLOT ( chooseFile()));
-
-		}
-
+	}
 		layout->activate();
 		widgetstack->addWidget(fixtext_top);
-
-	///////////////////////////////////////////////////////////////////////////////////////
 }
 
 void ConfigDialog::createBoxWidget() {
-	//  ******************   BOX WIDGET  ***********************************
-
-		QWidget * box_top = new QWidget();
-		QLabel* box_Label;
-		box_Label = new QLabel( box_top);
-		box_Label->setText(" coming soon ... ");
-		widgetstack->addWidget(box_top);
+	QWidget * box_top = new QWidget();
+	QLabel* box_Label;
+	box_Label = new QLabel( box_top);
+	box_Label->setText(" coming soon ... ");
+	widgetstack->addWidget(box_top);
 }
 
 void ConfigDialog::resetwidgets() {
