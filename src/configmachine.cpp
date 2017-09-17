@@ -23,7 +23,6 @@
 ConfigMachine::ConfigMachine(QWidget *_top) : top(_top) {}
 
 void ConfigMachine::doconfig(){
-/*
 	Modem::modem->closetty();
 	if ( ! Modem::modem->opentty() ) {
 
@@ -31,9 +30,9 @@ void ConfigMachine::doconfig(){
 	}
 
 	Modem::modem->startNotifier();
-	qDebug << Modem::modem->modemMessage()<< endl;
-*/
-	// Modem::modem->closetty();
+	//qDebug << Modem::modem->modemMessage()<< endl;
+
+	Modem::modem->closetty();
 
 	Modem::modem->writeLine("");
 	Modem::modem->send_esc();
