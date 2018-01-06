@@ -24,7 +24,7 @@ ConfigData configdata;
 
 QString ConfigData::getGroupName(Group group)
 {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    switch (group) {
+	switch (group) {
 		case  Group::PORT:
 			return "PORT";
 		case Group::PERSONAL:
@@ -43,36 +43,36 @@ QString ConfigData::getGroupName(Group group)
 }
 
 QString ConfigData::boolToString(bool value) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    if (value) {
+	if (value) {
 		return "TRUE";
 	}
 	return "FALSE";
 }
 
 void ConfigData::setValue(Group group, QString key, QString value) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    this->settings->beginGroup(this->getGroupName(group));
+	std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	this->settings->beginGroup(this->getGroupName(group));
 	this->settings->setValue(key, value);
 	this->settings->endGroup();
 }
 
 QString ConfigData::getValue(Group group, QString key, QString defaultvalue) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;this->settings->beginGroup(this->getGroupName(group));
+	std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;this->settings->beginGroup(this->getGroupName(group));
 	QString data = (QString) this->settings->value(key, defaultvalue).toString();
 	this->settings->endGroup();
 	return data;
 }
 
 bool ConfigData::stringIsTrue(const QString &string) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    return string == "TRUE";
+	std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	return string == "TRUE";
 }
 
 ConfigData::ConfigData()
 {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 
-    std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    this->settings = new QSettings("kptc", "kptc");
+	std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	this->settings = new QSettings("kptc", "kptc");
 }
 
 ConfigData::~ConfigData() {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
@@ -90,7 +90,7 @@ QString ConfigData::parseMacroText( QString text ) {std::cout << __FILE__ << __F
 // change and read keys
 
 void ConfigData::setPort(const QString dev) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    if (dev != 0L) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if (dev != 0L) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		this->setValue(Group::PORT, "PORTDEVICE", dev);
 	}
 }
@@ -108,7 +108,7 @@ QString ConfigData::getEditPort() {std::cout << __FILE__ << __FUNCTION__ << __LI
 }
 
 void ConfigData::setPortSpeed(const QString speed) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    if (speed != 0L){std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if (speed != 0L){std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		this->setValue(Group::PORT, "PORTSPEED", speed);
 	}
 }

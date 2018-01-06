@@ -28,7 +28,7 @@
 class KLed::Private
 {
 	public:
-        Private() : darkFactor( 300 ), state( On ), look( Raised ), shape( Circular ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;}
+		Private() : darkFactor( 300 ), state( On ), look( Raised ), shape( Circular ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;}
 
 		int darkFactor;
 		QColor color;
@@ -69,9 +69,9 @@ KLed::~KLed()
 
 void KLed::paintEvent( QPaintEvent* )
 { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    switch( d->shape ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	switch( d->shape ) {
 		case Rectangular:
-            switch ( d->look ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+			switch ( d->look ) {
 				case Sunken:
 					paintRectFrame( false );
 					break;
@@ -84,7 +84,7 @@ void KLed::paintEvent( QPaintEvent* )
 			}
 			break;
 		case Circular:
-            switch ( d->look ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+			switch ( d->look ) {
 				case Flat:
 					paintFlat();
 					break;
@@ -112,7 +112,7 @@ int KLed::KLedWidth() const
 
 bool KLed::paintCachedPixmap()
 { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    if (d->cachedPixmap[d->state].isNull()) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if (d->cachedPixmap[d->state].isNull()) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		return false;
 	}
 	QPainter painter(this);
@@ -167,7 +167,7 @@ KLed::Look KLed::look() const
 
 void KLed::setState( State state )
 { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    if ( d->state == state) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if ( d->state == state) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		return;
 	}
 	d->state = (state == Off ? Off : On);
@@ -176,7 +176,7 @@ void KLed::setState( State state )
 
 void KLed::setShape( Shape shape )
 { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    if ( d->shape == shape ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if ( d->shape == shape ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		return;
 	}
 
@@ -186,7 +186,7 @@ void KLed::setShape( Shape shape )
 
 void KLed::setColor( const QColor &color )
 { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    if ( d->color == color ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if ( d->color == color ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		return;
 	}
 	d->color = color;
@@ -195,7 +195,7 @@ void KLed::setColor( const QColor &color )
 
 void KLed::setDarkFactor( int darkFactor )
 { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    if ( d->darkFactor == darkFactor ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if ( d->darkFactor == darkFactor ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	 return;
 	}
 	d->darkFactor = darkFactor;
@@ -209,7 +209,7 @@ int KLed::darkFactor() const
 
 void KLed::setLook( Look look )
 { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    if ( d->look == look) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if ( d->look == look) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	 return;
 	}
 
@@ -260,12 +260,12 @@ void KLed::updateCachedPixmap()
 
 void KLed::paintKLed(Shape shape, Look look)
 { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    if (paintCachedPixmap()) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if (paintCachedPixmap()) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		 return;
 	}
 
 	QSize size(width() - 2, height() - 2);
-    if (shape == Circular) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if (shape == Circular) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		const int width = KLedWidth();
 		size = QSize(width, width);
 	}
@@ -284,7 +284,7 @@ void KLed::paintKLed(Shape shape, Look look)
 
 	QConicalGradient borderGradient(center, look == Sunken ? 90 : -90);
 	QColor borderColor = palette().color(QPalette::Dark);
-    if (d->state == On) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if (d->state == On) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		QColor glowOverlay = fillColor;
 		glowOverlay.setAlpha(80);
 		//borderColor = KColorUtils::overlayColors(borderColor, glowOverlay);
@@ -300,9 +300,9 @@ void KLed::paintKLed(Shape shape, Look look)
 	const qreal penWidth = smallestSize / 8.0;
 	painter.setPen(QPen(penBrush, penWidth));
 	QRectF r(penWidth / 2.0, penWidth / 2.0, size.width() - penWidth, size.height() - penWidth);
-    if (shape == Rectangular) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if (shape == Rectangular) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		painter.drawRect(r);
-    } else { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	} else { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		painter.drawEllipse(r);
 	}
 	painter.end();

@@ -21,7 +21,7 @@
 #include "commanddialog.h"
 
 CommandDialog::CommandDialog(QWidget *parent, Qt::WindowFlags f) : QDialog (parent){
-    std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	resize( 180,50 );
 	setMinimumSize( 180, 50 );
 	setMaximumSize( 180, 50 );
@@ -38,13 +38,13 @@ CommandDialog::CommandDialog(QWidget *parent, Qt::WindowFlags f) : QDialog (pare
 }
 
 CommandDialog::~CommandDialog() {
-    std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	deleteLater();
 }
 
 void CommandDialog::keyPressEvent(QKeyEvent *ke) {
-    std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    ke->accept();
+	std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	ke->accept();
 	switch(ke->key()) {
 		case QKeyEvent::Enter:   ;
 		//////////////////////////////////////////////

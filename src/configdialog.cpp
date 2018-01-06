@@ -1,7 +1,7 @@
 /***************************************************************************
 						  configdialog.cpp  -  description
 							 -------------------
-	begin                : Fri Jan 26 2001
+	begin	            : Fri Jan 26 2001
 	copyright            : (C) 2001 by Lars Schnake
 	email                : lschnak@suse.de
 
@@ -38,7 +38,7 @@ ConfigDialog::ConfigDialog(QWidget *parent, Qt::WindowFlags f) : QDialog(parent)
 	setMinimumSize( 500, 340 );
 	setMaximumSize( 500, 340 );
 
-    std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
+	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 
 	widgetstack= new QStackedWidget(this);
 	widgetstack->setFrameStyle(QFrame::Sunken | QFrame::Box);
@@ -47,7 +47,7 @@ ConfigDialog::ConfigDialog(QWidget *parent, Qt::WindowFlags f) : QDialog(parent)
 	widgetstack->setGeometry( 130, 10, 360, 290 );
 
  // ************************ port settings GUI ********************************
-    std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
+	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 	personal_CheckBox_cmsg = new QCheckBox(personal_top);
 	personal_CheckBox_cmsg->setText( i18n(QString("set \"connect message\"")) );
 	personal_CheckBox_cmsg->setGeometry( 120, 150, 150, 20 );
@@ -55,9 +55,9 @@ ConfigDialog::ConfigDialog(QWidget *parent, Qt::WindowFlags f) : QDialog(parent)
 	personal_MultiLineEdit_ctext->setGeometry( 120, 170, 230, 100 );
 
 	connect( personal_CheckBox_cmsg, SIGNAL(clicked()), this, SLOT( update_widgets()) );
-    std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
-  widgetstack->addWidget(personal_top);
-    std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
+	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
+	widgetstack->addWidget(personal_top);
+	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 	this->createBoxWidget();
 	this->createLogOutWidget();
 	this->createLogInWidget();
@@ -68,7 +68,7 @@ ConfigDialog::ConfigDialog(QWidget *parent, Qt::WindowFlags f) : QDialog(parent)
 }
 
 void ConfigDialog::createListBox() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
+	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 	QListWidget* ListBox = new QListWidget( this);
 	ListBox->setGeometry( 10, 10, 110, 290 );
 	ListBox->setMinimumSize( 110, 290 );
@@ -89,7 +89,7 @@ void ConfigDialog::createListBox() { std::cout << __FILE__ << __FUNCTION__ << __
 }
 
 void ConfigDialog::createButtons() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
+	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 	QPushButton *OkButton = new QPushButton( "OkButton", this );
 	OkButton->setGeometry( 285, 310, 90, 20 );
 	OkButton->setMinimumSize( 90, 20 );
@@ -115,7 +115,7 @@ void ConfigDialog::createButtons() { std::cout << __FILE__ << __FUNCTION__ << __
 }
 
 void ConfigDialog::createRadioButtons() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
+	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 
 	port_ButtonGroup_1 = new QButtonGroup( port_top );
 	port_ButtonGroup_1->setExclusive( true );
@@ -169,7 +169,7 @@ void ConfigDialog::createRadioButtons() { std::cout << __FILE__ << __FUNCTION__ 
 }
 
 void ConfigDialog::createLabels() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
+	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 	QLabel* port_Label_3;
 	port_Label_3 = new QLabel( port_top);
 	port_Label_3->setGeometry( 220, 20, 100, 30 );
@@ -182,7 +182,7 @@ void ConfigDialog::createLabels() { std::cout << __FILE__ << __FUNCTION__ << __L
 	port_Label_3->setText( i18n( "port speed") );
 	port_Label_3->setMargin( -1 );
 
-    std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
+	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 
 	port_ComboBox_speed = new QComboBox(port_top);
 	port_ComboBox_speed->setGeometry( 200, 50, 100, 30 );
@@ -256,7 +256,7 @@ std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 }
 
 void ConfigDialog::createLineEdits() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
+	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 	port_LineEdit_dev = new QLineEdit( port_top );
 	port_LineEdit_dev->setGeometry( 55, 140, 75, 20 );
 	port_LineEdit_dev->setMinimumSize( 0, 0 );
@@ -308,7 +308,7 @@ void ConfigDialog::createLineEdits() { std::cout << __FILE__ << __FUNCTION__ << 
 }
 
 void ConfigDialog::createLogOutWidget() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
+	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 	QWidget * logout_top = new QWidget();
 	logout_CheckBox_cmsg = new QCheckBox(logout_top);
 	logout_CheckBox_cmsg->setText( i18n("set \"away message\"") );
@@ -329,7 +329,7 @@ void ConfigDialog::createLogOutWidget() { std::cout << __FILE__ << __FUNCTION__ 
 }
 
 void ConfigDialog::createLogInWidget() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
+	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 	QWidget * login_top = new QWidget();
 	login_CheckBox_script = new QCheckBox(login_top);
 	login_CheckBox_script->setText( i18n("use personal login script") );
@@ -344,8 +344,8 @@ void ConfigDialog::createLogInWidget() { std::cout << __FILE__ << __FUNCTION__ <
 }
 
 void ConfigDialog::selectwidget( QListWidgetItem * lbi) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
-    if (lbi == NULL){ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
+	if (lbi == NULL){ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		return;
 	}
 	if (lbi->text() == "PORT")  widgetstack->setCurrentIndex(0);
@@ -360,7 +360,7 @@ void ConfigDialog::selectwidget( QListWidgetItem * lbi) { std::cout << __FILE__ 
 }
 
 void ConfigDialog::createFixTextWidget() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
+	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 	/*QWidget * fixtext_top = new QWidget(0);
 
 	list.clear();
@@ -368,7 +368,7 @@ void ConfigDialog::createFixTextWidget() { std::cout << __FILE__ << __FUNCTION__
 
 	QBoxLayout *layout = new QBoxLayout(QBoxLayout::TopToBottom, fixtext_top);
 	QString number;
-    for ( int i = 1 ; i <= 8; i++ ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	for ( int i = 1 ; i <= 8; i++ ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		number.setNum(i);
 		FixTextPicker *tp = new FixTextPicker(fixtext_top);
 		tp->setNumlabelText( number + ".");
@@ -472,13 +472,13 @@ void ConfigDialog::writeconfig() { std::cout << __FILE__ << __FUNCTION__ << __LI
 //  FixTextPicker  *FixDummy;
 //	QString num;
 //  for ( int i = 0; i < list.size(); ++i )   { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-//      FixDummy = &list[i];
-//    //FixDummy=list.first(); FixDummy != 0; FixDummy=list.next()
+//	  FixDummy = &list[i];
+//	//FixDummy=list.first(); FixDummy != 0; FixDummy=list.next()
 
-//      FixTextPicker *next = &list[i+1];
-//        //TODO
-//        //configdata.setFixLabel( FixDummy->editlabel->text(), num );
-//        //configdata.setFixPath( FixDummy->editpath->text(), num );
+//	  FixTextPicker *next = &list[i+1];
+//		//TODO
+//		//configdata.setFixLabel( FixDummy->editlabel->text(), num );
+//		//configdata.setFixPath( FixDummy->editpath->text(), num );
 
 
 //  }
@@ -486,18 +486,18 @@ void ConfigDialog::writeconfig() { std::cout << __FILE__ << __FUNCTION__ << __LI
 }
 
 void ConfigDialog::chooseFile() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-//    QString s( QFileDialog::getOpenFileName(this, QString::null, "" ) );
+//	QString s( QFileDialog::getOpenFileName(this, QString::null, "" ) );
 //  if ( s.isEmpty() )
-//        return;
+//		return;
 
-////    for (int i = 0; i < oblist.size(); ++i) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-////        if (oblist[i] == (QObject *) sender()) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-////            break;
-////        }
-////    }
-//    int i  = 0; // TODO
-//    //TODO
-//    FixTextPicker * FixDummy = &list[i];
+////	for (int i = 0; i < oblist.size(); ++i) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+////		if (oblist[i] == (QObject *) sender()) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+////			break;
+////		}
+////	}
+//	int i  = 0; // TODO
+//	//TODO
+//	FixTextPicker * FixDummy = &list[i];
 //	QString num;
 //	num.setNum( i + 1 );
 
@@ -508,7 +508,7 @@ void ConfigDialog::chooseFile() { std::cout << __FILE__ << __FUNCTION__ << __LIN
 
 void ConfigDialog::chooseLogoutFile() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	QString s( QFileDialog::getOpenFileName(this, QString::null, "" ) );
-    if ( s.isEmpty() ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if ( s.isEmpty() ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		return;
 	}
 	logout_LineEdit_path->setText(s);
@@ -516,7 +516,7 @@ void ConfigDialog::chooseLogoutFile() { std::cout << __FILE__ << __FUNCTION__ <<
 
 void ConfigDialog::chooseLoginFile() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	QString s( QFileDialog::getOpenFileName(this, QString::null, "" ) );
-    if ( s.isEmpty() ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if ( s.isEmpty() ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		return;
 	}
 	login_LineEdit_path->setText(s);
