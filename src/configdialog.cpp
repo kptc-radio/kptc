@@ -392,21 +392,46 @@ void ConfigDialog::createBoxWidget() { std::cout << __FILE__ << __FUNCTION__ << 
 
 void ConfigDialog::resetwidgets() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	QString port = configdata.getPort();
-	if ( port == "/dev/ttyS0" ) port_RadioButton1->setChecked( true );
-	else if ( port == "/dev/ttyS1" ) port_RadioButton2->setChecked( true );
-	else if ( port == "/dev/ttyS2" ) port_RadioButton3->setChecked( true );
-	else if ( port == "/dev/ttyS3" ) port_RadioButton4->setChecked( true );
-	else  port_RadioButton5->setChecked( true );
+	if ( port == "/dev/ttyS0" ) {
+		port_RadioButton1->setChecked( true );
+	}
+	else if ( port == "/dev/ttyS1" ) {
+		port_RadioButton2->setChecked( true );
+	}
+	else if ( port == "/dev/ttyS2" ) {
+		port_RadioButton3->setChecked( true );
+	}
+	else if ( port == "/dev/ttyS3" ) {
+		port_RadioButton4->setChecked( true );
+	}
+	else  {
+		port_RadioButton5->setChecked( true );
+	}
 	port_LineEdit_dev->setText(configdata.getEditPort());
 
 	QString portspeed = configdata.getPortSpeed();
 
-	if ( portspeed == "9600" ) port_ComboBox_speed->setCurrentIndex(0);
-	else if ( portspeed == "19200" ) port_ComboBox_speed->setCurrentIndex(1);
-	else if ( portspeed == "38400" ) port_ComboBox_speed->setCurrentIndex(2);
-	else if ( portspeed == "57600" ) port_ComboBox_speed->setCurrentIndex(3);
-	else if ( portspeed == "115200" ) port_ComboBox_speed->setCurrentIndex(4);
-	else  port_ComboBox_speed->setCurrentIndex(4);
+	int selectedIndex = 4;
+	switch (portspeed) {
+		case 9600:
+			selectedIndex = 0;
+			break;
+		case 19200:
+			selectedIndex = 1;
+			break;
+		case 38400:
+			selectedIndex = 2;
+			break;
+		case 57600:
+			selectedIndex = 3;
+			break;
+		case 115200:
+			selectedIndex = 4;
+			break;
+		default:
+			selectedIndex = 4;
+	}
+	port_ComboBox_speed->setCurrentIndex(selectedIndex);
 
 	// reset personal widget
 	personal_LineEdit_call->setText(configdata.getCall());
