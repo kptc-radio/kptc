@@ -116,7 +116,7 @@ class Kptc : public QMainWindow
 		void initializePopUpMenues();
 		void initializeStatusBar();
 		void initializeMenuBar();
-		bool isEndline(char c);
+		bool isendline(char c);
 
 	public slots:
 		void parseModemOut(unsigned char);

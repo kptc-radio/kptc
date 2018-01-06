@@ -16,10 +16,10 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
+#include <iostream>
 #include "updatedialog.h"
 
-UpdateDialog::UpdateDialog(QWidget *parent,  Qt::WindowFlags f) : QDialog(parent) {
+UpdateDialog::UpdateDialog(QWidget *parent,  Qt::WindowFlags f) : QDialog(parent) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	updaterunning = false;
 	update = new Update();
 
@@ -56,7 +56,7 @@ UpdateDialog::UpdateDialog(QWidget *parent,  Qt::WindowFlags f) : QDialog(parent
 	QObject::connect (update, SIGNAL (message(QString)), this, SLOT ( updateMessage(QString)));
 }
 
-void UpdateDialog::myfileDialog() {
+void UpdateDialog::myfileDialog() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	QString filename = QFileDialog::getOpenFileName( this, QString::null,
 								 "*.pt*\n*.pt2\n*.pte\n*",
 								  tr("choose new Firmware:") );
@@ -65,7 +65,7 @@ void UpdateDialog::myfileDialog() {
 	lineedit->setText(filename);
 }
 
-void UpdateDialog::initUpdate() {
+void UpdateDialog::initUpdate() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	updaterunning = true;
 	QObject::disconnect (cancelbutton, SIGNAL (clicked()), this, SLOT ( reject()));
 	QObject::disconnect (choosebutton, SIGNAL (clicked()), this, SLOT ( fileDialog()));
@@ -80,14 +80,14 @@ void UpdateDialog::initUpdate() {
 	updaterunning = false;
 }
 
-void UpdateDialog::updateMessage(QString text) {
+void UpdateDialog::updateMessage(QString text) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	infolabel->setText(text);
 }
 
 void UpdateDialog::closeEvent( QCloseEvent* ce )
-{
-	if (!updaterunning) { ce->accept(); return; }
-	else { ce->ignore();}
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if (!updaterunning) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;ce->accept(); return; }
+	else { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;ce->ignore();}
 }
 
-UpdateDialog::~UpdateDialog() {}
+UpdateDialog::~UpdateDialog() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;}

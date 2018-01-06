@@ -1,20 +1,20 @@
 /***************************************************************************
 						  main.cpp  -  description
 							 -------------------
-	begin                : Wed Feb 14 2001
-	copyright            : (C) 2001 by Lars Schnake
-	email                : mail@lars-schnake.de
+	begin				: Wed Feb 14 2001
+	copyright			: (C) 2001 by Lars Schnake
+	email				: mail@lars-schnake.de
 
 	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de )
  ***************************************************************************/
 
 /***************************************************************************
- *                                                                         *
+ *																		 *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
+ *   the Free Software Foundation; either version 2 of the License, or	 *
+ *   (at your option) any later version.								   *
+ *																		 *
  ***************************************************************************/
 
 #include <QtWidgets/QMainWindow>
@@ -22,12 +22,14 @@
 #include <QtWidgets/QApplication>
 #include <QGuiApplication>
 
+#include <iostream>
+
 #include "kptc.h"
 
 static const char *description = ("Kptc - User Interface for the SCS-PTC-II");
 
 int main(int argc, char *argv[])
-{
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	QApplication app(argc, argv);
 	app.setApplicationName("Kptc");
 	QGuiApplication::setApplicationName("Kptc");

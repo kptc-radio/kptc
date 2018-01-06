@@ -1,25 +1,26 @@
 /***************************************************************************
 						  modebuttons.cpp  -  description
 							 -------------------
-	begin                : Wed Mar 7 2001
-	copyright            : (C) 2001 by Lars Schnake
-	email                : lschnak@suse.de
+	begin				: Wed Mar 7 2001
+	copyright			: (C) 2001 by Lars Schnake
+	email				: lschnak@suse.de
 
 	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de )
  ***************************************************************************/
 
 /***************************************************************************
- *                                                                         *
+ *																		 *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
+ *   the Free Software Foundation; either version 2 of the License, or	 *
+ *   (at your option) any later version.								   *
+ *																		 *
  ***************************************************************************/
 
+#include <iostream>
 #include "modebuttons.h"
 
-ModeButtons::ModeButtons(QWidget *parent ) : QObject(parent) {
+ModeButtons::ModeButtons(QWidget *parent ) : QObject(parent) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	buttongroup = new QButtonGroup(parent);
 	pactorButton = new QPushButton("Pactor", parent);
 	amtorButton = new QPushButton("Amtor", parent);
@@ -34,6 +35,6 @@ ModeButtons::ModeButtons(QWidget *parent ) : QObject(parent) {
 	buttongroup->setExclusive(true);
 // TODO Make buttons to togglebuttons?
 }
-ModeButtons::~ModeButtons() {
+ModeButtons::~ModeButtons() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	buttongroup->deleteLater();
 }

@@ -18,8 +18,9 @@
  ***************************************************************************/
 
 #include "cqdialog.h"
+#include <iostream>
 
-CQDialog::CQDialog( QWidget *parent, ModeCommander  *_modecommander) : QObject( parent) {
+CQDialog::CQDialog( QWidget *parent, ModeCommander  *_modecommander) : QObject( parent) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	modecommander = _modecommander;
 	TabDialog = new QTabWidget();
 	TabDialog->setWindowTitle("CQ");
@@ -49,7 +50,7 @@ CQDialog::CQDialog( QWidget *parent, ModeCommander  *_modecommander) : QObject( 
 	connect ( TabDialog, SIGNAL ( tabBarClicked(int)  ), this, SLOT (selectTab(int)) );
 }
 
-void CQDialog::openDialog(  ) {
+void CQDialog::openDialog(  ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	CQText_Pactor->setText(configdata.getCQPactor());
 	CQText_Amtor->setText(configdata.getCQAmtor());
 	CQText_RTTY->setText(configdata.getCQRTTY());
@@ -69,7 +70,7 @@ void CQDialog::openDialog(  ) {
 }
 
 
-void CQDialog::saveText() {
+void CQDialog::saveText() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	configdata.setCQPactor( CQText_Pactor->toPlainText());
 	configdata.setCQAmtor( CQText_Amtor->toPlainText());
 	configdata.setCQRTTY( CQText_RTTY->toPlainText());
@@ -78,44 +79,44 @@ void CQDialog::saveText() {
 
 }
 
-void CQDialog::selectTab(int Tab) {
+void CQDialog::selectTab(int Tab) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	currenttab = static_cast<Tabs>(Tab);
 	//qDebug ()<<"CQDialog-currenttab: "<< Tab ;
 }
 
-void CQDialog::startCall() {
+void CQDialog::startCall() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	////qDebug() <<"CQDialog:startCall";
 
 	QString qs;
-	if ( currenttab == Tabs::Pactor) { //"Pactor"
+    if ( currenttab == Tabs::Pactor) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;//"Pactor"
 		modecommander->changetoPactor();
 		modecommander->Unproto();
 		qs = qs = this->processString(CQText_Pactor);
 		Modem::modem->writeLine(qs);
 		modecommander->QRT();
 	}
-	else if ( currenttab == Tabs::Amtor) { //"Amtor"
+    else if ( currenttab == Tabs::Amtor) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;//"Amtor"
 		modecommander->changetoAmtor();
 		modecommander->FEC();
 		qs = qs = this->processString(CQText_Amtor);
 		Modem::modem->writeLine(qs);
 		modecommander->QRT();
 	}
-	else if ( currenttab == Tabs::RTTY ) { //"RTTY"
+    else if ( currenttab == Tabs::RTTY ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;//"RTTY"
 		modecommander->changetoRTTY();
 		modecommander->Changeover();
 		qs = this->processString(CQText_RTTY);
 		Modem::modem->writeLine(qs);
 		modecommander->QRT();
 	}
-	else if ( currenttab == Tabs::PSK31 ) { //"PSK31"
+    else if ( currenttab == Tabs::PSK31 ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;//"PSK31"
 		modecommander->changetoPSK31();
 		modecommander->Changeover();
 		qs = this->processString(CQText_PSK31);
 		Modem::modem->writeLine(qs);
 		modecommander->QRT();
 	}
-	else if ( currenttab == Tabs::CW ) { //"CW"
+    else if ( currenttab == Tabs::CW ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;//"CW"
 		modecommander->changetoCW();
 		qs = this->processString(CQText_CW);
 		sleep(1);
@@ -124,10 +125,10 @@ void CQDialog::startCall() {
 
 }
 
-QString CQDialog::processString(QTextEdit *edit) {
+QString CQDialog::processString(QTextEdit *edit) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	QString string = edit->toPlainText();
 	string.replace( QRegExp("\n"), "\r" );
 	return configdata.parseMacroText(string);
 }
 
-CQDialog::~CQDialog() {}
+CQDialog::~CQDialog() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;}

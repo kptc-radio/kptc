@@ -16,10 +16,10 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
+#include <iostream>
 #include "fixtextpicker.h"
 
-FixTextPicker::FixTextPicker(QWidget *parent ) : QWidget(parent) {
+FixTextPicker::FixTextPicker(QWidget *parent ) : QWidget(parent) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	choosebutton = new QPushButton( tr("choose..."), this );
 	editpath = new QLineEdit(this);
 	editlabel = new QLineEdit(this);
@@ -31,4 +31,4 @@ FixTextPicker::FixTextPicker(QWidget *parent ) : QWidget(parent) {
 	layout->addWidget( editpath );
 	layout->addWidget( choosebutton );
 }
-FixTextPicker::~FixTextPicker() {}
+FixTextPicker::~FixTextPicker() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;}

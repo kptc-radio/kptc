@@ -43,9 +43,9 @@ class KLed : public QWidget
 	Q_PROPERTY( int darkFactor READ darkFactor WRITE setDarkFactor )
 
 	public:
-		enum State { Off, On };
-		enum Shape { Rectangular, Circular };
-		enum Look  { Flat, Raised, Sunken };
+        enum State {Off, On };
+        enum Shape {Rectangular, Circular };
+        enum Look  {Flat, Raised, Sunken };
 
 		explicit KLed( QWidget *parent = 0 );
 		explicit KLed( const QColor &color, QWidget *parent = 0 );

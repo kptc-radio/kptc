@@ -23,11 +23,12 @@
  */
 
 #include "kled.h"
+#include <iostream>
 
 class KLed::Private
 {
 	public:
-		Private() : darkFactor( 300 ), state( On ), look( Raised ), shape( Circular ) {}
+        Private() : darkFactor( 300 ), state( On ), look( Raised ), shape( Circular ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;}
 
 		int darkFactor;
 		QColor color;
@@ -43,18 +44,18 @@ class KLed::Private
 
 
 KLed::KLed( QWidget *parent ) : QWidget( parent ), d( new Private )
-{
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	setColor( Qt::green );
 }
 
 
 KLed::KLed( const QColor& color, QWidget *parent ) : QWidget( parent ), d( new Private )
-{
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	setColor( color );
 }
 
 KLed::KLed( const QColor& color, State state, Look look, Shape shape, QWidget *parent ) : QWidget( parent ), d( new Private )
-{
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	d->state = (state == Off ? Off : On);
 	d->look = look;
 	d->shape = shape;
@@ -62,15 +63,15 @@ KLed::KLed( const QColor& color, State state, Look look, Shape shape, QWidget *p
 	}
 
 KLed::~KLed()
-{
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	delete d;
 }
 
 void KLed::paintEvent( QPaintEvent* )
-{
-	switch( d->shape ) {
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+    switch( d->shape ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		case Rectangular:
-			switch ( d->look ) {
+            switch ( d->look ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 				case Sunken:
 					paintRectFrame( false );
 					break;
@@ -83,7 +84,7 @@ void KLed::paintEvent( QPaintEvent* )
 			}
 			break;
 		case Circular:
-			switch ( d->look ) {
+            switch ( d->look ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 				case Flat:
 					paintFlat();
 					break;
@@ -99,7 +100,7 @@ void KLed::paintEvent( QPaintEvent* )
 }
 
 int KLed::KLedWidth() const
-{
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	// Make sure the KLed is round!
 	int size = qMin(width(), height());
 
@@ -110,8 +111,8 @@ int KLed::KLedWidth() const
 }
 
 bool KLed::paintCachedPixmap()
-{
-	if (d->cachedPixmap[d->state].isNull()) {
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+    if (d->cachedPixmap[d->state].isNull()) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		return false;
 	}
 	QPainter painter(this);
@@ -120,53 +121,53 @@ bool KLed::paintCachedPixmap()
 }
 
 void KLed::paintFlat()
-{
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	paintKLed(Circular, Flat);
 }
 
 void KLed::paintRaised()
-{
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	paintKLed(Circular, Raised);
 }
 
 void KLed::paintSunken()
-{
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	paintKLed(Circular, Sunken);
 }
 
 void KLed::paintRect()
-{
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	paintKLed(Rectangular, Flat);
 }
 
 void KLed::paintRectFrame( bool raised )
-{
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	paintKLed(Rectangular, raised ? Raised : Sunken);
 }
 
 KLed::State KLed::state() const
-{
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	return d->state;
 }
 
 KLed::Shape KLed::shape() const
-{
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	return d->shape;
 }
 
 QColor KLed::color() const
-{
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	return d->color;
 }
 
 KLed::Look KLed::look() const
-{
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	return d->look;
 }
 
 void KLed::setState( State state )
-{
-	if ( d->state == state) {
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+    if ( d->state == state) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		return;
 	}
 	d->state = (state == Off ? Off : On);
@@ -174,8 +175,8 @@ void KLed::setState( State state )
 }
 
 void KLed::setShape( Shape shape )
-{
-	if ( d->shape == shape ) {
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+    if ( d->shape == shape ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		return;
 	}
 
@@ -184,8 +185,8 @@ void KLed::setShape( Shape shape )
 }
 
 void KLed::setColor( const QColor &color )
-{
-	if ( d->color == color ) {
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+    if ( d->color == color ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		return;
 	}
 	d->color = color;
@@ -193,8 +194,8 @@ void KLed::setColor( const QColor &color )
 	}
 
 void KLed::setDarkFactor( int darkFactor )
-{
-	if ( d->darkFactor == darkFactor ) {
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+    if ( d->darkFactor == darkFactor ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	 return;
 	}
 	d->darkFactor = darkFactor;
@@ -202,13 +203,13 @@ void KLed::setDarkFactor( int darkFactor )
 }
 
 int KLed::darkFactor() const
-{
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	return d->darkFactor;
 }
 
 void KLed::setLook( Look look )
-{
-	if ( d->look == look) {
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+    if ( d->look == look) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	 return;
 	}
 
@@ -217,28 +218,28 @@ void KLed::setLook( Look look )
 }
 
 void KLed::toggle()
-{
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	d->state = (d->state == On ? Off : On);
 	updateCachedPixmap();
 }
 
 void KLed::on()
-{
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	setState( On );
 }
 
 void KLed::off()
-{
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	setState( Off );
 }
 
 void KLed::resizeEvent( QResizeEvent * )
-{
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	updateCachedPixmap();
 }
 
 QSize KLed::sizeHint() const
-{
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	QStyleOption option;
 	option.initFrom(this);
 	int iconSize = style()->pixelMetric(QStyle::PM_SmallIconSize, &option, this);
@@ -246,25 +247,25 @@ QSize KLed::sizeHint() const
 }
 
 QSize KLed::minimumSizeHint() const
-{
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	return QSize( 16, 16 );
 }
 
 void KLed::updateCachedPixmap()
-{
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	d->cachedPixmap[Off] = QPixmap();
 	d->cachedPixmap[On] = QPixmap();
 	update();
 }
 
 void KLed::paintKLed(Shape shape, Look look)
-{
-	if (paintCachedPixmap()) {
+{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+    if (paintCachedPixmap()) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		 return;
 	}
 
 	QSize size(width() - 2, height() - 2);
-	if (shape == Circular) {
+    if (shape == Circular) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		const int width = KLedWidth();
 		size = QSize(width, width);
 	}
@@ -283,7 +284,7 @@ void KLed::paintKLed(Shape shape, Look look)
 
 	QConicalGradient borderGradient(center, look == Sunken ? 90 : -90);
 	QColor borderColor = palette().color(QPalette::Dark);
-	if (d->state == On) {
+    if (d->state == On) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		QColor glowOverlay = fillColor;
 		glowOverlay.setAlpha(80);
 		//borderColor = KColorUtils::overlayColors(borderColor, glowOverlay);
@@ -299,9 +300,9 @@ void KLed::paintKLed(Shape shape, Look look)
 	const qreal penWidth = smallestSize / 8.0;
 	painter.setPen(QPen(penBrush, penWidth));
 	QRectF r(penWidth / 2.0, penWidth / 2.0, size.width() - penWidth, size.height() - penWidth);
-	if (shape == Rectangular) {
+    if (shape == Rectangular) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		painter.drawRect(r);
-	} else {
+    } else { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		painter.drawEllipse(r);
 	}
 	painter.end();

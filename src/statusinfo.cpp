@@ -16,11 +16,11 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
+#include <iostream>
 
 #include "statusinfo.h"
 
-StatusInfo::StatusInfo(QWidget *parent) : QWidget(parent) {
+StatusInfo::StatusInfo(QWidget *parent) : QWidget(parent) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 
 	this->setFont(QFont("courier",10,QFont::Normal));
 setMinimumSize( 400, 20 );
@@ -82,5 +82,5 @@ setMinimumSize( 400, 20 );
 	layout->addWidget (call);
 
 }
-StatusInfo::~StatusInfo(){
+StatusInfo::~StatusInfo(){ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 }
