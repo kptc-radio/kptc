@@ -24,13 +24,13 @@ ConfigMachine::ConfigMachine(QWidget *_top) : top(_top) { std::cout << __FILE__ 
 
 void ConfigMachine::doconfig(){ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	Modem::modem->closetty();
-    if ( ! Modem::modem->opentty() ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if ( ! Modem::modem->opentty() ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 
 	// todo errorhandling !
 	}
 
 	Modem::modem->startNotifier();
-    //qDebug << Modem::modem->modemMessage()<< endl;
+	//qDebug << Modem::modem->modemMessage()<< endl;
 
 	Modem::modem->closetty();
 
@@ -58,17 +58,23 @@ void ConfigMachine::doconfig(){ std::cout << __FILE__ << __FUNCTION__ << __LINE_
 	//Modem::modem->send_esc();
 	Modem::modem->writeLine(qs);
 
-	if ( configdata.isCMsg() )  Modem::modem->writeLine( "cmsg 1");
-	else Modem::modem->writeLine( "cmsg 0");
+	if ( configdata.isCMsg() ) {
+		Modem::modem->writeLine( "cmsg 1");
+	}
+	else {
+		Modem::modem->writeLine( "cmsg 0");
+	}
 
 	QString cmsg = configdata.getCMsg();
 	cmsg = cmsg.replace( QRegExp("\n"), "#" );
 	cmsg = configdata.parseMacroText ( cmsg );
-	if (cmsg !="")  Modem::modem->writeLine( "ctext " + cmsg );
+	if (cmsg !="") {
+		Modem::modem->writeLine( "ctext " + cmsg );
+	}
 }
 
 void ConfigMachine::logout() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    if ( configdata.isAwayMsg() ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if ( configdata.isAwayMsg() ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		QString ctext = configdata.getAwayMsg();
 		ctext = configdata.parseMacroText( ctext );
 		ctext = ctext.replace( QRegExp("\n"), "#" );
@@ -81,35 +87,35 @@ void ConfigMachine::logout() { std::cout << __FILE__ << __FUNCTION__ << __LINE__
 	Modem::modem->send_esc();
 	Modem::modem->writeLine("term 0"); // terminal setup
 
-    if ( configdata.isLogoutScript() ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if ( configdata.isLogoutScript() ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 
-	QString qpath = configdata.getLogoutPath();
-	QFile file ( qpath );
-    if ( ! file.open (QIODevice::ReadOnly)) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-		QMessageBox::critical( top, "",
-("Cannot open your personal logout script file !\n Error by opening \"" + qpath +"\""  ) );	 // error by opening text file
-	}
-    else { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-        while (!file.atEnd()) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-			QString buffer = file.readLine(1024);
-			Modem::modem->writeLine( QString(buffer) );
+		QString qpath = configdata.getLogoutPath();
+		QFile file ( qpath );
+		if ( ! file.open (QIODevice::ReadOnly)) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+			QMessageBox::critical( top, "",
+	("Cannot open your personal logout script file !\n Error by opening \"" + qpath +"\""  ) );	 // error by opening text file
 		}
-		file.close() ;
+		else { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+			while (!file.atEnd()) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+				QString buffer = file.readLine(1024);
+				Modem::modem->writeLine( QString(buffer) );
+			}
+			file.close() ;
 			Modem::modem->writeLine("");
 		}
 	}
 }
 
 void ConfigMachine::login() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-    if ( configdata.isLoginScript() ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if ( configdata.isLoginScript() ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		QString qpath = configdata.getLoginPath();
 		QFile file ( qpath );
-        if ( ! file.open (QIODevice::ReadOnly)) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+		if ( ! file.open (QIODevice::ReadOnly)) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 			QMessageBox::critical( top, "",
 			("Cannot open your personal login script file !\n Error by opening \"" + qpath +"\""  ) );	 // error by opening text file
 		}
-        else { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-            while (!file.atEnd()) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+		else { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+			while (!file.atEnd()) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 				QByteArray buffer = file.readLine(1024 );
 				Modem::modem->writeLine( QString(buffer) );
 			}

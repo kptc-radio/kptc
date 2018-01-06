@@ -127,12 +127,12 @@ QString ConfigData::getCall(){std::cout << __FILE__ << __FUNCTION__ << __LINE__ 
 }
 
 void ConfigData::setSelCall( QString call ){std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
- this->setValue(Group::PERSONAL, "SELCALL", call);
+	this->setValue(Group::PERSONAL, "SELCALL", call);
 }
 
 
 QString ConfigData::getSelCall(){std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-return this->getValue(Group::PERSONAL, "SELCALL", "DTUX");
+	return this->getValue(Group::PERSONAL, "SELCALL", "DTUX");
 }
 
 
@@ -183,7 +183,7 @@ QString ConfigData::getCQPactor() {std::cout << __FILE__ << __FUNCTION__ << __LI
 }
 
 void ConfigData::setCQAmtor( QString qtext ) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-   this->setValue(Group::CQTEXT, "AMTOR", qtext);
+	this->setValue(Group::CQTEXT, "AMTOR", qtext);
 }
 
 QString ConfigData::getCQAmtor() {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
