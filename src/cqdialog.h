@@ -20,6 +20,7 @@
 #ifndef CQDIALOG_H
 #define CQDIALOG_H
 
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QPushButton>

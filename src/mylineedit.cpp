@@ -123,8 +123,13 @@ void MyLineEdit::insertChar(unsigned char c) { std::cout << __FILE__ << __FUNCTI
 	myinsert(QChar(c));
 }
 
-void MyLineEdit::myinsert( QString ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
- //TODO
+void MyLineEdit::myinsert( QString qs) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+//Experimentell!!!!!
+	int pos = this->cursorPosition();
+	QString old = this->text();
+	old.insert(pos, qs);
+	this->setText(old);
+//TODO
 	/* // get cursor position
   int line, col;
   getCursorPosition( &line, &col );

@@ -27,10 +27,10 @@ CQDialog::CQDialog( QWidget *parent, ModeCommander  *_modecommander) : QObject( 
 
 	//TODO implement buttons in the widget
 
-//    TabDialog->setOkButton( tr("CALL C&Q"));
-//    //TabDialog->setApplyButton( tr("CALL C&Q"));
-//    TabDialog->setDefaultButton( tr("&Save"));
-//    TabDialog->setCancelButton( tr("&Cancel"));
+TabDialog->addTab(new QPushButton(TabDialog), tr("CALL C&Q")); //okay
+TabDialog->addTab(new QPushButton(TabDialog), tr("CALL C&Q")); //apply
+TabDialog->addTab(new QPushButton(TabDialog), tr("&Save")); //save
+TabDialog->addTab(new QPushButton(TabDialog), tr("&Cancel")); //cancel
 
 	CQText_Pactor = new QTextEdit("Pactor-text", TabDialog);
 	CQText_Amtor = new QTextEdit("Amtor-text", TabDialog);
@@ -45,8 +45,8 @@ CQDialog::CQDialog( QWidget *parent, ModeCommander  *_modecommander) : QObject( 
 	TabDialog->addTab( CQText_CW, "CW");
 
    //TODO
-  //connect ( TabDialog, SIGNAL ( applyButtonPressed () ), this, SLOT (startCall()) );
-  //connect ( TabDialog, SIGNAL ( defaultButtonPressed () ), this, SLOT (saveText()) );
+connect ( TabDialog, SIGNAL ( applyButtonPressed () ), this, SLOT (startCall()) );
+connect ( TabDialog, SIGNAL ( defaultButtonPressed () ), this, SLOT (saveText()) );
 	connect ( TabDialog, SIGNAL ( tabBarClicked(int)  ), this, SLOT (selectTab(int)) );
 }
 

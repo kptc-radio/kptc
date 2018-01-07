@@ -1,7 +1,7 @@
 /***************************************************************************
 						  configdialog.cpp  -  description
 							 -------------------
-	begin	            : Fri Jan 26 2001
+	begin                : Fri Jan 26 2001
 	copyright            : (C) 2001 by Lars Schnake
 	email                : lschnak@suse.de
 
@@ -24,8 +24,6 @@
 #define i18n
 
 ConfigDialog::ConfigDialog(QWidget *parent, Qt::WindowFlags f) : QDialog(parent){ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-
-
 	port_top = new QWidget();
 
 	this->createListBox();
@@ -63,7 +61,7 @@ ConfigDialog::ConfigDialog(QWidget *parent, Qt::WindowFlags f) : QDialog(parent)
 	this->createLogInWidget();
 
 // final :
-	//widgetstack->setCurrentIndex(0);
+	widgetstack->setCurrentIndex(0);
 	resetwidgets();
 }
 
@@ -90,82 +88,59 @@ void ConfigDialog::createListBox() { std::cout << __FILE__ << __FUNCTION__ << __
 
 void ConfigDialog::createButtons() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
-	QPushButton *OkButton = new QPushButton( "OkButton", this );
-	OkButton->setGeometry( 285, 310, 90, 20 );
-	OkButton->setMinimumSize( 90, 20 );
-	OkButton->setMaximumSize( 90, 20 );
-	OkButton->setFocusPolicy( Qt::TabFocus );
-	OkButton->setText( i18n( "Ok") );
-	OkButton->setAutoRepeat( false );
-	OkButton->setDefault( false );
-	OkButton->setAutoDefault( false );
+	QPushButton *OkButton = this->createButton( "OkButton", QRect(285, 310, 90, 20), "Ok" );
 
-	QPushButton* CancelButton = new QPushButton("CancelButton", this );
-	CancelButton->setGeometry( 395, 310, 90, 20 );
-	CancelButton->setMinimumSize( 90, 20 );
-	CancelButton->setMaximumSize( 90, 20 );
-	CancelButton->setFocusPolicy( Qt::TabFocus );
-	CancelButton->setText( i18n("Cancel") );
-	CancelButton->setAutoRepeat( false );
-	CancelButton->setDefault( false );
-	CancelButton->setAutoDefault( false );
+	QPushButton* CancelButton = this->createButton("CancelButton", QRect(395, 310, 90, 20), "Cancel");
 
 	QObject::connect (CancelButton, SIGNAL (clicked()), this, SLOT ( reject()));
 	QObject::connect (OkButton, SIGNAL(clicked(bool) ), this, SLOT ( writeconfig()));
 }
 
+QPushButton *ConfigDialog::createButton(QString text, const QRect dimensions, QString text2) {
+	QPushButton* button = new QPushButton(text, this );
+	button->setGeometry(dimensions);
+	button->setMinimumSize( 90, 20 );
+	button->setMaximumSize( 90, 20 );
+	button->setFocusPolicy( Qt::TabFocus );
+	button->setText( i18n(text2) );
+	button->setAutoRepeat( false );
+	button->setDefault( false );
+	button->setAutoDefault( false );
+	return button;
+}
+
 void ConfigDialog::createRadioButtons() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 
-	port_ButtonGroup_1 = new QButtonGroup( port_top );
-	port_ButtonGroup_1->setExclusive( true );
+	port_ButtonGroup = new QButtonGroup( port_top );
+	port_ButtonGroup->setExclusive( true );
 
-	port_RadioButton1 = new QRadioButton();
-	port_ButtonGroup_1->addButton(port_RadioButton1);
-	port_RadioButton1->setGeometry( 15, 20, 100, 20 );
-	port_RadioButton1->setMinimumSize( 0, 0 );
-	port_RadioButton1->setMaximumSize( 32767, 32767 );
-	port_RadioButton1->setFocusPolicy( Qt::TabFocus );
-	port_RadioButton1->setText( "ttyS0 (com 1)" );
-	port_RadioButton1->setAutoRepeat( false );
-	port_RadioButton1->setChecked( false );
+	port_RadioButton1 = this->createRadioButton( "ttyS0 (com 1)", QRect(15, 20, 100, 20));
+	port_ButtonGroup->addButton(port_RadioButton1);
 
-	port_RadioButton2 = new QRadioButton();
-	port_ButtonGroup_1->addButton(port_RadioButton2);
-	port_RadioButton2->setGeometry( 15, 45, 100, 20 );
-	port_RadioButton2->setMinimumSize( 0, 0 );
-	port_RadioButton2->setMaximumSize( 32767, 32767 );
-	port_RadioButton2->setFocusPolicy( Qt::TabFocus );
-	port_RadioButton2->setText( "ttyS1 (com 2)" );
-	port_RadioButton2->setAutoRepeat( false );
-	port_RadioButton2->setChecked( false );
+	port_RadioButton2 = this->createRadioButton("ttyS1 (com 2)", QRect(15, 45, 100, 20));
+	port_ButtonGroup->addButton(port_RadioButton2);
 
-	port_RadioButton3 = new QRadioButton();
-	port_ButtonGroup_1 ->addButton(port_RadioButton3);
-	port_RadioButton3->setGeometry( 15, 70, 100, 20 );
-	port_RadioButton3->setMinimumSize( 0, 0 );
-	port_RadioButton3->setMaximumSize( 32767, 32767 );
-	port_RadioButton3->setFocusPolicy( Qt::TabFocus );
-	port_RadioButton3->setText( "ttyS2 (com 3)" );
-	port_RadioButton3->setChecked( false );
+	port_RadioButton3 = this->createRadioButton("ttyS2 (com 3)", QRect(15, 70, 100, 20));
+	port_ButtonGroup->addButton(port_RadioButton3);
 
-	port_RadioButton4 = new QRadioButton();
-	port_ButtonGroup_1->addButton(port_RadioButton4);
-	port_RadioButton4->setGeometry( 15, 95, 100, 20 );
-	port_RadioButton4->setMinimumSize( 0, 0 );
-	port_RadioButton4->setMaximumSize( 32767, 32767 );
-	port_RadioButton4->setFocusPolicy( Qt::TabFocus );
-	port_RadioButton4->setText( "ttyS3 (com 4)" );
-	port_RadioButton4->setAutoRepeat( false );
-	port_RadioButton4->setChecked( false );
+	port_RadioButton4 = this->createRadioButton("ttyS3 (com 4)", QRect(15, 95, 100, 20));
+	port_ButtonGroup->addButton(port_RadioButton4);
 
-	port_RadioButton5 = new QRadioButton();
-	port_ButtonGroup_1 ->addButton(port_RadioButton5);
-	port_RadioButton5->setGeometry( 15, 120, 100, 20 );
-	port_RadioButton5->setMinimumSize( 0, 0 );
-	port_RadioButton5->setMaximumSize( 32767, 32767 );
-	port_RadioButton5->setFocusPolicy( Qt::TabFocus );
-	port_RadioButton5->setChecked( false );
+	port_RadioButton5 = this->createRadioButton("", QRect(15, 120, 100, 20 ));
+	port_ButtonGroup->addButton(port_RadioButton5);
+
+}
+
+QRadioButton *ConfigDialog::createRadioButton(QString text, QRect dimensions) {
+	QRadioButton *radiobuttom = new QRadioButton();
+	radiobuttom->setGeometry(dimensions);
+	radiobuttom->setMinimumSize( 0, 0 );
+	radiobuttom->setMaximumSize( 32767, 32767 );
+	radiobuttom->setFocusPolicy( Qt::TabFocus );
+	radiobuttom->setText(text);
+	radiobuttom->setChecked( false );
+	return radiobuttom;
 }
 
 void ConfigDialog::createLabels() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
@@ -197,114 +172,62 @@ void ConfigDialog::createLabels() { std::cout << __FILE__ << __FUNCTION__ << __L
 	port_ComboBox_speed->setMaxCount( 10 );
 	port_ComboBox_speed->setAutoCompletion( false );
 
-	port_ButtonGroup_1->addButton(port_RadioButton1 );
-	port_ButtonGroup_1->addButton( port_RadioButton2 );
-	port_ButtonGroup_1->addButton( port_RadioButton3 );
-	port_ButtonGroup_1->addButton( port_RadioButton4 );
+	port_ButtonGroup->addButton(port_RadioButton1 );
+	port_ButtonGroup->addButton( port_RadioButton2 );
+	port_ButtonGroup->addButton( port_RadioButton3 );
+	port_ButtonGroup->addButton( port_RadioButton4 );
 std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
-	connect( port_ButtonGroup_1, SIGNAL(buttonClicked(int) ), this, SLOT( update_widgets()) );
+	connect( port_ButtonGroup, SIGNAL(buttonClicked(int) ), this, SLOT( update_widgets()) );
 std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 //BUG
-	//widgetstack->addWidget(port_top);
 std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
 	personal_top = new QWidget();
-std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
-	QLabel* personal_Label_8;
-	personal_Label_8 = new QLabel( personal_top);
-	personal_Label_8->setGeometry( 40, 110, 100, 20 );
-	personal_Label_8->setMinimumSize( 0, 0 );
-	personal_Label_8->setMaximumSize( 32767, 32767 );
-	personal_Label_8->setFocusPolicy( Qt::NoFocus );
-	personal_Label_8->setFrameStyle( 0 );
-	personal_Label_8->setLineWidth( 1 );
-	personal_Label_8->setMidLineWidth( 0 );
-	personal_Label_8->setText( "SELCALL:" );
-	personal_Label_8->setMargin( -1 );
-std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
-	QLabel* personal_Label_7;
-	personal_Label_7 = new QLabel( personal_top );
-	personal_Label_7->setGeometry( 40, 80, 100, 20 );
-	personal_Label_7->setMinimumSize( 0, 0 );
-	personal_Label_7->setMaximumSize( 32767, 32767 );
-	personal_Label_7->setFocusPolicy( Qt::NoFocus );
-	personal_Label_7->setFrameStyle( 0 );
-	personal_Label_7->setLineWidth( 1 );
-	personal_Label_7->setMidLineWidth( 0 );
-	personal_Label_7->setText( "CALL:" );
-	personal_Label_7->setMargin( -1 );
+//widgetstack->addWidget(port_top);
+/*	QLabel* personal_Label_8 = */this->createPersonalLabel("SELCALL:", QRect(40, 110, 100, 20), true);
+/*	QLabel* personal_Label_7 =*/ this->createPersonalLabel("CALL:" , QRect( 40, 80, 100, 20), true);
+/*	QLabel* personal_Label_qth=*/  this->createPersonalLabel("QTH:", QRect(40, 50, 100, 20));
+/*	QLabel* personal_Label_6= */ this->createPersonalLabel("Name:", QRect(40, 20, 100, 20), true);
+}
 
-	QLabel* personal_Label_qth;
-	personal_Label_qth = new QLabel( personal_top);
-	personal_Label_qth->setGeometry( 40, 50, 100, 20 );
-	personal_Label_qth->setFrameStyle( 0 );
-	personal_Label_qth->setLineWidth( 1 );
-	personal_Label_qth->setMidLineWidth( 0 );
-	personal_Label_qth->setText( "QTH:" );
-	personal_Label_8->setMargin( -1 );
-
-	QLabel* personal_Label_6;
-	personal_Label_6 = new QLabel( personal_top );
-	personal_Label_6->setGeometry( 40, 20, 100, 20 );
-	personal_Label_6->setMinimumSize( 0, 0 );
-	personal_Label_6->setMaximumSize( 32767, 32767 );
-	personal_Label_6->setFocusPolicy( Qt::NoFocus );
-	personal_Label_6->setFrameStyle( 0 );
-	personal_Label_6->setLineWidth( 1 );
-	personal_Label_6->setMidLineWidth( 0 );
-	personal_Label_6->setText( i18n("Name:") );
-	personal_Label_6->setMargin( -1 );
+QLabel *ConfigDialog::createPersonalLabel(QString text, QRect dimension, bool nofocus) {
+	QLabel *label = new QLabel( personal_top );
+	label->setGeometry(dimension);
+	label->setMinimumSize( 0, 0 );
+	label->setMaximumSize( 32767, 32767 );
+	if (nofocus) {
+		label->setFocusPolicy( Qt::NoFocus );
+	}
+	label->setFrameStyle( 0 );
+	label->setLineWidth( 1 );
+	label->setMidLineWidth( 0 );
+	label->setText( i18n(text) );
+	label->setMargin( -1 );
+	return label;
 }
 
 void ConfigDialog::createLineEdits() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
-	port_LineEdit_dev = new QLineEdit( port_top );
-	port_LineEdit_dev->setGeometry( 55, 140, 75, 20 );
-	port_LineEdit_dev->setMinimumSize( 0, 0 );
-	port_LineEdit_dev->setMaximumSize( 32767, 32767 );
-	port_LineEdit_dev->setFocusPolicy( Qt::StrongFocus );
-	port_LineEdit_dev->setText( "/dev/ttyS11" );
-	port_LineEdit_dev->setMaxLength( 20 );
-	port_LineEdit_dev->setFrame( QLineEdit::Normal );
-	port_LineEdit_dev->setFrame( true );
 
-	personal_LineEdit_name = new QLineEdit( personal_top);
-	personal_LineEdit_name->setGeometry( 120, 20, 80, 20 );
-	personal_LineEdit_name->setMinimumSize( 0, 0 );
-	personal_LineEdit_name->setMaximumSize( 32767, 32767 );
-	personal_LineEdit_name->setFocusPolicy( Qt::StrongFocus );
-	personal_LineEdit_name->setText( "TUX" );
-	personal_LineEdit_name->setMaxLength( 20 );
-	personal_LineEdit_name->setFrame( QLineEdit::Normal );
-	personal_LineEdit_name->setFrame( true );
+	port_LineEdit_dev = this->createLineEdit(port_top, "/dev/ttyS11", QRect(55, 140, 75, 20), 20);
+	personal_LineEdit_name = this->createLineEdit(personal_top, "TUX",  QRect(120, 20, 80, 20), 20);
+	personal_LineEdit_qth = this->createLineEdit(personal_top, "Nürnberg", QRect(120, 50, 80, 20), false);
+	personal_LineEdit_call = this->createLineEdit( personal_top, "DK0TUX",  QRect(120, 80, 80, 20), 12);
+	personal_LineEdit_selcall = this->createLineEdit(personal_top, "DTUX", QRect(120, 110, 80, 20), 4);
+}
 
-	personal_LineEdit_qth = new QLineEdit( personal_top);
-	personal_LineEdit_qth->setGeometry( 120, 50, 80, 20 );
-	personal_LineEdit_qth->setMinimumSize( 0, 0 );
-	personal_LineEdit_qth->setMaximumSize( 32767, 32767 );
-	personal_LineEdit_qth->setText( "Nürnberg" );
-	personal_LineEdit_qth->setMaxLength( 30 );
-	personal_LineEdit_qth->setFrame( QLineEdit::Normal );
-	personal_LineEdit_qth->setFrame( true );
-
-	personal_LineEdit_call = new QLineEdit( personal_top );
-	personal_LineEdit_call->setGeometry( 120, 80, 80, 20 );
-	personal_LineEdit_call->setMinimumSize( 0, 0 );
-	personal_LineEdit_call->setMaximumSize( 32767, 32767 );
-	personal_LineEdit_call->setFocusPolicy( Qt::StrongFocus );
-	personal_LineEdit_call->setText( "DK0TUX" );
-	personal_LineEdit_call->setMaxLength( 12 );
-	personal_LineEdit_call->setFrame( QLineEdit::Normal );
-	personal_LineEdit_call->setFrame( true );
-
-	personal_LineEdit_selcall = new QLineEdit( personal_top );
-	personal_LineEdit_selcall->setGeometry( 120, 110, 80, 20 );
-	personal_LineEdit_selcall->setMinimumSize( 0, 0 );
-	personal_LineEdit_selcall->setMaximumSize( 32767, 32767 );
-	personal_LineEdit_selcall->setFocusPolicy( Qt::StrongFocus );
-	personal_LineEdit_selcall->setText( "DTUX" );
-	personal_LineEdit_selcall->setMaxLength( 4 );
-	personal_LineEdit_selcall->setFrame( QLineEdit::Normal );
-	personal_LineEdit_selcall->setFrame( true );
+QLineEdit *ConfigDialog::createLineEdit(QWidget *parent, QString text, QRect dimensions, int maxLength, bool strongfocus) {
+	QLineEdit *edit = new QLineEdit( parent );
+	edit->setGeometry( dimensions );
+	edit->setMinimumSize( 0, 0 );
+	edit->setMaximumSize( 32767, 32767 );
+	if (strongfocus) {
+		edit->setFocusPolicy( Qt::StrongFocus );
+	}
+	edit->setText(text);
+	edit->setMaxLength( maxLength );
+	edit->setFrame( QLineEdit::Normal );
+	edit->setFrame( true );
+	return edit;
 }
 
 void ConfigDialog::createLogOutWidget() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
@@ -348,21 +271,24 @@ void ConfigDialog::selectwidget( QListWidgetItem * lbi) { std::cout << __FILE__ 
 	if (lbi == NULL){ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		return;
 	}
-	if (lbi->text() == "PORT")  widgetstack->setCurrentIndex(0);
-	else if (lbi->text() == "PERSONAL")  widgetstack->setCurrentIndex(1);
-	else if (lbi->text() == "LOGOUT")  widgetstack->setCurrentIndex(2);
-	else if (lbi->text() == "FIX-TEXT")  widgetstack->setCurrentIndex(3);
-	else if (lbi->text() == "BOX")  widgetstack->setCurrentIndex(4);
-	else if (lbi->text() == "LOGIN") widgetstack->setCurrentIndex(5);
-	else  widgetstack->setCurrentIndex(4);
+	std::array<QString, 6> possibleTextes = {"PORT", "PERSONAL", "LOGOUT", "FIX-TEXT", "BOX", "LOGIN"};
+	int selectedIndex = 4;
+		std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
+	for (int i = 0; i < 6; ++i) {
+		if (lbi->text() == possibleTextes[i]) {
+			selectedIndex = i;
+			break;
+		}
+	}
+		std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
+	widgetstack->setCurrentIndex(selectedIndex);
 	// else
 	 //qDebug () <<"item: "<< lbi->text();
 }
 
 void ConfigDialog::createFixTextWidget() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
-	/*QWidget * fixtext_top = new QWidget(0);
-
+	QWidget * fixtext_top = new QWidget(0);
 	list.clear();
 	oblist.clear();
 
@@ -371,15 +297,16 @@ void ConfigDialog::createFixTextWidget() { std::cout << __FILE__ << __FUNCTION__
 	for ( int i = 1 ; i <= 8; i++ ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		number.setNum(i);
 		FixTextPicker *tp = new FixTextPicker(fixtext_top);
-		tp->setNumlabelText( number + ".");
+		//TODO
+		//tp->setNumlabelText( number + ".");
 		layout->addWidget( tp );
 		list.append( tp );
-		oblist.append( *tp->choosebutton );
-		connect ( tp->choosebutton, SIGNAL (clicked()), this, SLOT ( chooseFile()));
+		oblist.append( tp->getChooseButtom() );
+		connect ( tp->getChooseButtom(), SIGNAL (clicked()), this, SLOT ( chooseFile()));
 	}
 		layout->activate();
 		widgetstack->addWidget(fixtext_top);
-		*/
+
 }
 
 void ConfigDialog::createBoxWidget() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
@@ -411,26 +338,16 @@ void ConfigDialog::resetwidgets() { std::cout << __FILE__ << __FUNCTION__ << __L
 
 	QString portspeed = configdata.getPortSpeed();
 
+	std::array<int, 5> speeds = {9600, 19200, 38400, 57600,115200};
 	int selectedIndex = 4;
-	switch (portspeed) {
-		case 9600:
-			selectedIndex = 0;
+	int speed = portspeed.toInt();
+	for (int i = 0; i < 5; ++i) {
+		if (speed == speeds[i]) {
+			selectedIndex = i;
 			break;
-		case 19200:
-			selectedIndex = 1;
-			break;
-		case 38400:
-			selectedIndex = 2;
-			break;
-		case 57600:
-			selectedIndex = 3;
-			break;
-		case 115200:
-			selectedIndex = 4;
-			break;
-		default:
-			selectedIndex = 4;
+		}
 	}
+
 	port_ComboBox_speed->setCurrentIndex(selectedIndex);
 
 	// reset personal widget
@@ -494,26 +411,28 @@ void ConfigDialog::writeconfig() { std::cout << __FILE__ << __FUNCTION__ << __LI
 	configdata.setQTH(  personal_LineEdit_qth->text() );
 
 	// fixtext
-//  FixTextPicker  *FixDummy;
-//	QString num;
-//  for ( int i = 0; i < list.size(); ++i )   { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-//	  FixDummy = &list[i];
-//	//FixDummy=list.first(); FixDummy != 0; FixDummy=list.next()
+FixTextPicker  *FixDummy;
+QString num;
+for ( int i = 0; i < list.size(); ++i )   { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	FixDummy = list[i];
+//	FixDummy=list.first(); FixDummy != 0; FixDummy=list.next();
 
-//	  FixTextPicker *next = &list[i+1];
-//		//TODO
-//		//configdata.setFixLabel( FixDummy->editlabel->text(), num );
-//		//configdata.setFixPath( FixDummy->editpath->text(), num );
+	  FixTextPicker *next = list[i+1];
+		//TODO
+//		configdata.setFixLabel( FixDummy->editlabel->text(), num );
+//		configdata.setFixPath( FixDummy->editpath->text(), num );
 
 
-//  }
+}
 	accept();
 }
 
 void ConfigDialog::chooseFile() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-//	QString s( QFileDialog::getOpenFileName(this, QString::null, "" ) );
-//  if ( s.isEmpty() )
-//		return;
+
+QString s( QFileDialog::getOpenFileName(this, QString::null, "" ) );
+	  if ( s.isEmpty() ) {
+		return;
+	}
 
 ////	for (int i = 0; i < oblist.size(); ++i) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 ////		if (oblist[i] == (QObject *) sender()) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
@@ -547,7 +466,6 @@ void ConfigDialog::chooseLoginFile() { std::cout << __FILE__ << __FUNCTION__ << 
 	login_LineEdit_path->setText(s);
 }
 
-
 void ConfigDialog::update_widgets() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	port_LineEdit_dev->setEnabled( port_RadioButton5->isChecked() );
 	personal_MultiLineEdit_ctext->setEnabled(  personal_CheckBox_cmsg->isChecked() );
@@ -555,7 +473,6 @@ void ConfigDialog::update_widgets() { std::cout << __FILE__ << __FUNCTION__ << _
 	logout_LineEdit_path->setEnabled( logout_CheckBox_script->isChecked() );
 	login_LineEdit_path->setEnabled(  login_CheckBox_script->isChecked() );
 }
-
 
 ConfigDialog::~ConfigDialog(){ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	deleteLater();

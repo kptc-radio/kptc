@@ -41,6 +41,7 @@
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QDialog>
 #include <vector>
+#include <array>
 
 #include "configdata.h"
 #include "configmachine.h"
@@ -76,8 +77,8 @@ class ConfigDialog : public QDialog  {
 		QCheckBox *personal_CheckBox_cmsg ;
 		QTextEdit *logout_MultiLineEdit_ctext;
 		QCheckBox *logout_CheckBox_cmsg ;
-		//QList <FixTextPicker> list;
-		QList <QObject> oblist;
+		QList <FixTextPicker *> list;
+		QList <QObject*> oblist;
 		QLineEdit *logout_LineEdit_path;
 		QCheckBox *logout_CheckBox_script;
 		QPushButton *logout_PushButton_choosescript;
@@ -86,13 +87,17 @@ class ConfigDialog : public QDialog  {
 		QPushButton *login_PushButton_choosescript;
 		QWidget *port_top;
 		QWidget *personal_top;
-		QButtonGroup *port_ButtonGroup_1;
+		QButtonGroup *port_ButtonGroup;
 
 		void createListBox();
 		void createButtons();
+		QPushButton *createButton(QString text, const QRect dimensions, QString text2);
 		void createRadioButtons();
+		QRadioButton *createRadioButton(QString text, QRect dimensions);
 		void createLabels();
+		QLabel *createPersonalLabel(QString text, QRect dimension, bool nofocus = false);
 		void createLineEdits();
+		QLineEdit *createLineEdit(QWidget *parent, QString text, QRect dimensions, int maxLength, bool strongfocus = true);
 		void createLogInWidget();
 		void createLogOutWidget();
 		void createFixTextWidget();

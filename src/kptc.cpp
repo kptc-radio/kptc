@@ -257,7 +257,7 @@ void Kptc::initializeStatusBar() { std::cout << __FILE__ << __FUNCTION__ << __LI
 	sendled->setColor(QColor("#CC0000b")); //red
 	sendled->off();
 
-	//statusBar()->setInsertOrder( KStatusBar::RightToLeft );
+	//statusBar()->setInsertOrder( KStatusBar::RightToLeft );	//
 	//statusBar()->insertWidget(sendled, sendled->width(),1);
 	statusBar()->addPermanentWidget(sendled, 1);
 

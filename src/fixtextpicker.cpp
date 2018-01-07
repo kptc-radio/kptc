@@ -31,4 +31,10 @@ FixTextPicker::FixTextPicker(QWidget *parent ) : QWidget(parent) { std::cout << 
 	layout->addWidget( editpath );
 	layout->addWidget( choosebutton );
 }
+
+QPushButton *FixTextPicker::getChooseButtom() {
+	//Igitt!
+	return this->choosebutton;
+}
+
 FixTextPicker::~FixTextPicker() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;}

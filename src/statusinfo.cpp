@@ -77,7 +77,7 @@ setMinimumSize( 400, 20 );
 	layout->addWidget (prompt);
 	layout->addWidget (mode);
 	layout->addWidget (status);
-  layout->addWidget (statusmessage,1);
+	layout->addWidget (statusmessage,1);
 	layout->addStretch(1);
 	layout->addWidget (call);
 

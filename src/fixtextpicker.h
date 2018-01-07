@@ -38,6 +38,7 @@ class FixTextPicker : public QWidget  {
 
 		FixTextPicker( QWidget *parent=0 );
 		~FixTextPicker();
+		QPushButton *getChooseButtom();
 
 	private:
 		QPushButton *choosebutton;
