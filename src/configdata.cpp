@@ -22,7 +22,7 @@
 
 ConfigData configdata;
 
-QString ConfigData::getGroupName(Group group)
+QString ConfigData::getGroupName(Group group) const
 {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	switch (group) {
 		case  Group::PORT:
@@ -42,7 +42,7 @@ QString ConfigData::getGroupName(Group group)
 	}
 }
 
-QString ConfigData::boolToString(bool value) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+QString ConfigData::boolToString(bool value) const {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	if (value) {
 		return "TRUE";
 	}
@@ -56,7 +56,7 @@ void ConfigData::setValue(Group group, QString key, QString value) {std::cout <<
 	this->settings->endGroup();
 }
 
-QString ConfigData::getValue(Group group, QString key, QString defaultvalue) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+QString ConfigData::getValue(Group group, QString key, QString defaultvalue) const {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;this->settings->beginGroup(this->getGroupName(group));
 	QString data = (QString) this->settings->value(key, defaultvalue).toString();
 	this->settings->endGroup();

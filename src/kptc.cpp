@@ -123,7 +123,7 @@ Kptc::Kptc(QWidget *parent) : QMainWindow()
 
 	QMessageBox::information( this, (QString(tr("Thank you for installing Kptc !\n")) +
 	QString("This is a Ham Radio software for the SCS-PTC-II\nRemember: This sofware is still beta !\n\n") +
-	QString("Connect the PTC to your computer\nand switch it on now.\nThen let´s continue with some configurations.\n") +
+	QString("Connect the PTC to your computer\nand switch it on now.\nThen let?s continue with some configurations.\n") +
 	QString("Have Fun ! 73 de Lars DL3YFC")), QString(tr("Welcome to Kptc !")));
 
 	ConfigDialog configdialog ;

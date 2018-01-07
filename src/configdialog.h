@@ -57,7 +57,7 @@ class ConfigDialog : public QDialog  {
 
 	public:
 
-		ConfigDialog(QWidget *parent=0, Qt::WindowFlags f=0);
+		ConfigDialog(QWidget *parent=0);
 		~ConfigDialog();
 
 	private:
@@ -87,21 +87,40 @@ class ConfigDialog : public QDialog  {
 		QPushButton *login_PushButton_choosescript;
 		QWidget *port_top;
 		QWidget *personal_top;
+		QWidget *box_top;
+		QWidget *logout_top;
+		QWidget *login_top;
+		QWidget *fixtext_top;
+		QWidget *packet_top;
 		QButtonGroup *port_ButtonGroup;
 
-		void createListBox();
+		void initLeftsiteEntries();
+		void createTopWidgets();
+		void initWidgetStack();
 		void createButtons();
 		QPushButton *createButton(QString text, const QRect dimensions, QString text2);
-		void createRadioButtons();
+		void createPortSelectionRadioButtons();
 		QRadioButton *createRadioButton(QString text, QRect dimensions);
-		void createLabels();
+		void createPortLabel();
 		QLabel *createPersonalLabel(QString text, QRect dimension, bool nofocus = false);
-		void createLineEdits();
+		void createPersonalWidget();
+		void createPersonalMessageArea();
+		void createPortWidget();
+		void createPersonalLabels();
+		void createPortLineEdits();
 		QLineEdit *createLineEdit(QWidget *parent, QString text, QRect dimensions, int maxLength, bool strongfocus = true);
+		void createPacketWidget();
 		void createLogInWidget();
 		void createLogOutWidget();
 		void createFixTextWidget();
 		void createBoxWidget();
+		void createSpeedComboBox();
+		void resetDeviceSelection();
+		void resetPortSpeed();
+		void resetPersonalWidget();
+		void resetLogOutWidget();
+		void resetLogInWidget();
+		void resetFixTextWidget();
 
 	private slots:
 		void resetwidgets();

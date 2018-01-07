@@ -89,11 +89,11 @@ class ConfigData {
 		enum class Group {PORT, PERSONAL, GENERAL, LOGOUT, CQTEXT, FIXTEXT, LOGIN};
 		QSettings *settings;
 
-		QString getGroupName(Group group);
+		QString getGroupName(Group group) const;
 		void setValue(Group group, QString key, QString value);
-		QString getValue(Group group, QString key, QString defaultvalue);
+		QString getValue(Group group, QString key, QString defaultvalue) const;
 		bool stringIsTrue (const QString &string);
-		QString boolToString(bool value);
+		QString boolToString(bool value) const;
 
 };
 
