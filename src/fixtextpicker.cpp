@@ -37,4 +37,8 @@ QPushButton *FixTextPicker::getChooseButtom() {
 	return this->choosebutton;
 }
 
+QLabel *FixTextPicker::getNumLabel() {
+	return this->numlabel;
+}
+
 FixTextPicker::~FixTextPicker() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;}

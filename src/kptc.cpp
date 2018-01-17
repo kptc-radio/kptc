@@ -63,13 +63,9 @@ Kptc::Kptc(QWidget *parent) : QMainWindow()
 	this->modetoolbar = new QToolBar(this);
 
 	this->expandToolBar(" | Pactor | ", "changetoPactor", modecommander, modetoolbar);
-
 	this->expandToolBar(" | Amtor |", "changetoAmtor", modecommander, modetoolbar);
-
 	this->expandToolBar(" | RTTY | ", "changetoRTTY", modecommander, modetoolbar);
-
 	this->expandToolBar(" | PSK31 | ", "changetoPSK31", modecommander, modetoolbar);
-
 	this->expandToolBar(" | CW | ", "changetoCW", modecommander, modetoolbar);
 
 	///////////////////////////////////////////////////////////////////////////////
@@ -145,6 +141,10 @@ Kptc::Kptc(QWidget *parent) : QMainWindow()
 	//qDebug() << Modem::modem->modemMessage();
 	if ( ! bModemOk) QMessageBox::information( this,
 		tr("Cannot open modem device !"), "Kptc" );
+
+	this->initializeMenuBar();
+	this->initializeToolBar();
+	this->initializePopUpMenues();
 }
 
 void Kptc::initializeToolBar() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
@@ -221,35 +221,31 @@ void Kptc::initializePopUpMenues() { std::cout << __FILE__ << __FUNCTION__ << __
 	//clearwindow->insertItem (tr("&edit window"), this, SLOT(clearEditWindow()));
 	//->insertItem (tr("&clear window"), clearwindow );
 
-	QString about =
-			tr("Kptc 0.2\n"
-				 "user interface for the SCS-PTC-II\n\n"
-				 "(C) 2001 Lars Schnake\nmail@lars-schnake.de\n"
-				 );
+	QString about = tr("Kptc 0.2\n user interface for the SCS-PTC-II\n\n (C) 2001 Lars Schnake\nmail@lars-schnake.de\n");
 
 	QMenu *helpmenu = new QMenu();
 	helpmenu->setTitle(about);
 
 		fixmenu = new QMenu ;
 
-		QString s;
+		QString number;
 	for ( int i = 1; i <= 8; i++ ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 
-	  s.setNum(i);
+	  number.setNum(i);
 
-	  //QAction *actionSendText = new QAction(+ "&" + s + ". " + configdata.getFixLabel( s ), fixmenu);
+	  QAction *actionSendText = new QAction(+ "&" + number + ". " + configdata.getFixLabel( number ), fixmenu);
 
-		//connect(actionSendText, SIGNAL(triggered(bool)),this, SLOT (sendFixText( int )) );
+	connect(actionSendText, SIGNAL(triggered(bool)),this, SLOT (sendFixText( int )) );
 
-	   // actionSendText->setShortcut(QKeySequence(Qt::CTRL, Qt::Key_F1, i));
+	 actionSendText->setShortcut(QKeySequence(Qt::CTRL, Qt::Key_F1, i));
 
-	  //fixmenu->addAction(actionSendText);
+	 fixmenu->addAction(actionSendText);
 
 //	  fixmenu->insertItem ( "&" + s + ". " + configdata.getFixLabel( s ),
 //			  this, SLOT (sendFixText( int )), CTRL + SHIFT + (Key_F1 +(i)) , i);
 //			((fixmenu->setItemParameter ( i, i);
 
-		}
+	}
 }
 
 void Kptc::initializeStatusBar() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
@@ -259,24 +255,24 @@ void Kptc::initializeStatusBar() { std::cout << __FILE__ << __FUNCTION__ << __LI
 
 	//statusBar()->setInsertOrder( KStatusBar::RightToLeft );	//
 	//statusBar()->insertWidget(sendled, sendled->width(),1);
+	statusBar()->insertWidget(1, sendled, sendled->width());
 	statusBar()->addPermanentWidget(sendled, 1);
 
-//statusinfo = new StatusInfo(statusBar());
-statusinfo = new StatusInfo((QWidget *) statusBar());
+	statusinfo = new StatusInfo((QWidget *) statusBar());
 	statusBar()->addWidget(statusinfo);
-statusinfo->show();
+	statusinfo->show();
 }
 
 void Kptc::initializeMenuBar() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-	QMenuBar *menu = new QMenuBar( this );
-	QMenu *fileMenu = new QMenu(tr( "&File" ), menu);
-	menu->addMenu(fileMenu);
-	QMenu *actionMenu = new QMenu(tr( "&Actions" ), menu);
-	menu->addMenu(actionMenu);
-	QMenu *fixmenuMenu = new QMenu( tr( "Fi&xtext" ), menu);
-	menu->addMenu(fixmenuMenu);
-	QMenu *optionMenu = new QMenu(tr("&Options"), menu);
-	menu->addMenu(optionMenu);
+	//QMenuBar *menu = new QMenuBar( this );
+	QMenu *fileMenu = new QMenu(tr( "&File" ), this->menuBar());
+	this->menuBar()->addMenu(fileMenu);
+	QMenu *actionMenu = new QMenu(tr( "&Actions" ), this->menuBar());
+	menuBar()->addMenu(actionMenu);
+	QMenu *fixmenuMenu = new QMenu( tr( "Fi&xtext" ), menuBar());
+	menuBar()->addMenu(fixmenuMenu);
+	QMenu *optionMenu = new QMenu(tr("&Options"), menuBar());
+	menuBar()->addMenu(optionMenu);
 }
 
 void Kptc::parseModemOut(unsigned char c) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
@@ -317,14 +313,13 @@ void Kptc::parseModemOut(unsigned char c) { std::cout << __FILE__ << __FUNCTION_
 //			if (currentterm == 3) termoutput->setNewLineColor(QColor("#FF3333"));   // echo //red
 //			else termoutput->setNewLineColor(QColor("#336600"));			  // rx
 
-//			termoutput->appendChar(c);#
-			//TODO
+			termoutput->append(QString(c));
 			show();
 		}
 		else if (currentterm == 1) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 
 			//termoutput->setNewLineColor(QColor("#000000")); //black
-		//termoutput->appendChar(c);
+			termoutput->append(QString(c));
 			if (this->isendline(c)) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 
 				if (statusmessage.contains("*** ") == 1 ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
@@ -375,11 +370,11 @@ void Kptc :: useconfigmachine(){ std::cout << __FILE__ << __FUNCTION__ << __LINE
 	statusinfo->call->setText(configdata.getCall() + " (" + configdata.getSelCall() + ") ");
 	updateStatusBar();
 
-	QString s;
+	QString number;
 	fixmenu->clear();
 	for ( int i = 1; i <= 8; i++ ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-		s.setNum(i);
-		QAction *action = new QAction("&" + s + ". " + configdata.getFixLabel( s ), fixmenu);
+		number.setNum(i);
+		QAction *action = new QAction("&" + number + ". " + configdata.getFixLabel( number ), fixmenu);
 		connect(action, SIGNAL(triggered(bool)), this, SLOT (sendFixText(int)));
 		action->setShortcut(QKeySequence(Qt::Key_Shift, Qt::Key_F1 + i, i));
 		fixmenu->addAction(action);
@@ -667,5 +662,5 @@ bool Kptc::queryClose() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << 
 }
 
 Kptc::~Kptc(){ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-	//TODO
+	deleteLater();
 }

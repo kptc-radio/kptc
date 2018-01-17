@@ -291,7 +291,7 @@ void ConfigDialog::selectwidget( QListWidgetItem * lbi) { std::cout << __FILE__ 
 	std::array<QString, 7> possibleTextes = {"PORT", "PERSONAL", "FIX-TEXT", "PACKET", "BOX",  "LOGIN", "LOGOUT"};
 	int selectedIndex = 4;
 		std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
-	for (int i = 0; i < 7; ++i) {
+	for (auto i = 0; i < possibleTextes.size(); ++i) {
 		if (lbi->text() == possibleTextes[i]) {
 			selectedIndex = i;
 			break;
@@ -315,6 +315,7 @@ void ConfigDialog::createFixTextWidget() { std::cout << __FILE__ << __FUNCTION__
 		number.setNum(i);
 		FixTextPicker *tp = new FixTextPicker(fixtext_top);
 		//TODO
+		tp->getNumLabel()->setText(number + ".");
 		//tp->setNumlabelText( number + ".");
 		layout->addWidget( tp );
 		list.append( tp );
@@ -368,7 +369,7 @@ void ConfigDialog::resetPortSpeed() {
 	constexpr std::array<int, 5> speeds = {9600, 19200, 38400, 57600,115200};
 	int selectedIndex = 4;
 	int speed = portspeed.toInt();
-	for (int i = 0; i < 5; ++i) {
+	for (auto i = 0; i < speeds.size(); ++i) {
 		if (speed == speeds[i]) {
 			selectedIndex = i;
 			break;
@@ -439,7 +440,7 @@ void ConfigDialog::writeconfig() { std::cout << __FILE__ << __FUNCTION__ << __LI
 	// fixtext
 	FixTextPicker  *FixDummy;
 	QString num;
-	for ( int i = 0; i < list.size(); ++i )   { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	for ( auto i = 0; i < list.size(); ++i )   { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 		FixDummy = list[i];
 	//	FixDummy=list.first(); FixDummy != 0; FixDummy=list.next();
 
