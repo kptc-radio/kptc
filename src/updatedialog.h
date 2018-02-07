@@ -42,7 +42,7 @@ class UpdateDialog : public QDialog  {
 	Q_OBJECT
 
 	public:
-		UpdateDialog(QWidget *parent=0, Qt::WindowFlags f=0);
+		UpdateDialog(QWidget *parent=0);
 		~UpdateDialog();
 
 	private:

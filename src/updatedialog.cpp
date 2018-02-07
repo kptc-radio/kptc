@@ -19,7 +19,7 @@
 #include <iostream>
 #include "updatedialog.h"
 
-UpdateDialog::UpdateDialog(QWidget *parent,  Qt::WindowFlags f) : QDialog(parent) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+UpdateDialog::UpdateDialog(QWidget *parent) : QDialog(parent) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	updaterunning = false;
 	update = new Update();
 
