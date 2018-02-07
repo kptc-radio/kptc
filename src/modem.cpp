@@ -6,7 +6,7 @@
 	copyright            : (C) 2001 by Lars Schnake
 													based on Bernd Johannes Wuebben´s version for (Kppp)
 	email                : mail@lars-schnake.de
-	Changed by Sebastian Martin Dicke
+	Changed slightly by Sebastian Martin Dicke
  ***************************************************************************/
 
 #include "modem.h"
