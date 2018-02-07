@@ -18,7 +18,7 @@
 
 Modem *Modem::modem = 0;
 
-Modem::Modem() : modem_is_locked(false), qdev(""), modemfd(-1), sn(0L), data_mode(false), dataMask(0xFF)
+Modem::Modem() : modem_is_locked(false), modemfd(-1),  dataMask(0xFF), data_mode(false), sn(0L), qdev("")
 { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	assert(modem == 0);
 	modem = this;
