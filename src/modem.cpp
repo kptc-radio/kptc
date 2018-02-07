@@ -17,7 +17,6 @@
 #define LF_PATH			 "/var/lock"
 #define LF_PREFIX			 "LCK	"
 
-
 #ifndef max
 	#define max(a,b) (((a) > (b)) ? (a) : (b))
 #endif
@@ -33,7 +32,6 @@ Modem::Modem() :
 	data_mode(false),
 	dataMask(0xFF)
 
-
 {
 	assert(modem==0);
 	modem = this;
@@ -41,18 +39,15 @@ Modem::Modem() :
 	qdev = "";
 }
 
-
 Modem::~Modem() {
 	modem = 0;
 }
-
 
 speed_t Modem::modemspeed() {
 	// convert the string modem speed to a t_speed type
 	// to set the modem.	The constants here should all be ifdef'd because
 	// other systems may not have them
  int i = configdata.getPortSpeed().toInt()/100;
-
 	switch(i) {
 	case 24:
 	return B2400;
@@ -106,20 +101,14 @@ bool Modem::opentty() {
 		errmsg = /*i18n*/("Error by device locking");
 		return false;
 	}
-
-
-
 	//	int flags;
 	modemfd = open(qdev.toStdString().c_str(), O_RDWR | O_NOCTTY );
 	if(modemfd	<0) {
-	errmsg = /*i18n*/("Sorry, can't open modem.");
-	return false;
+		errmsg = /*i18n*/("Sorry, can't open modem.");
+		return false;
 	}
-
-
 	tcdrain (modemfd);
 	tcflush (modemfd, TCIOFLUSH);
-
 	if(tcgetattr(modemfd, &tty) < 0){
 	// this helps in some cases
 	tcsendbreak(modemfd, 0);
@@ -131,92 +120,74 @@ bool Modem::opentty() {
 		return false;
 	}
 	}
-
 	memset(&initial_tty,'\0',sizeof(initial_tty));
-
 	initial_tty = tty;
-
 	tty.c_cc[VMIN] = 0; // nonblocking
 	tty.c_cc[VTIME] = 0;
 	tty.c_oflag = 0;
 	tty.c_lflag = 0;
-
 	tty.c_cflag &= ~(CSIZE | CSTOPB | PARENB);
 	tty.c_cflag |= CS8 | CREAD;
 	tty.c_cflag |= CLOCAL;					 // ignore modem status lines
 	tty.c_iflag = IGNBRK | IGNPAR /* | ISTRIP */ ;
 	tty.c_lflag &= ~ICANON;					// non-canonical mode
 	tty.c_lflag &= ~(ECHO|ECHOE|ECHOK|ECHOKE);
-
-
-
 	cfsetospeed(&tty, modemspeed());
 	cfsetispeed(&tty, modemspeed());
-
 	tcdrain(modemfd);
-
 	if(tcsetattr(modemfd, TCSANOW, &tty) < 0){
-	errmsg = /*i18n*/("Sorry, the modem is busy.");
-	::close(modemfd);
-	modemfd=-1;
-	return false;
+		errmsg = /*i18n*/("Sorry, the modem is busy.");
+		::close(modemfd);
+		modemfd=-1;
+		return false;
 	}
-
 	errmsg = /*i18n*/("Modem Ready.");
 	return true;
 }
 
-
 bool Modem::closetty() {
 	if(modemfd >=0 ) {
-	stop();
-	/* discard data not read or transmitted */
-	tcflush(modemfd, TCIOFLUSH);
-
-	if(tcsetattr(modemfd, TCSANOW, &initial_tty) < 0){
-		errmsg = /*i18n*/("Can't restore tty settings: tcsetattr()\n");
+		stop();
+		/* discard data not read or transmitted */
+		tcflush(modemfd, TCIOFLUSH);
+		if(tcsetattr(modemfd, TCSANOW, &initial_tty) < 0){
+			errmsg = /*i18n*/("Can't restore tty settings: tcsetattr()\n");
+			::close(modemfd);
+			modemfd = -1;
+			return false;
+		}
 		::close(modemfd);
 		modemfd = -1;
-		return false;
 	}
-	::close(modemfd);
-	modemfd = -1;
+	if ( unlock_device() == false )	{
+		errmsg = /*i18n*/("cannot unlock device !"); return false;
 	}
-
-	if ( unlock_device() == false )	{ errmsg = /*i18n*/("cannot unlock device !"); return false; }
-
 	return true;
 }
-
-
 
 void Modem::readtty(int) {
 	char buffer[50];
 	unsigned char c;
 	int len;
-
 	// read data in chunks of up to 50 bytes
 	if((len = ::read(modemfd, buffer, 50)) > 0) {
 	// split buffer into single characters for further processing
-	for(int i = 0; i < len; i++) {
-		c = buffer[i] & dataMask;
-		emit charWaiting(c);
-	}
+		for(int i = 0; i < len; i++) {
+			c = buffer[i] & dataMask;
+			emit charWaiting(c);
+		}
 	}
 }
-
 
 void Modem::notify(const QObject *receiver, const char *member) {
 	connect(this, SIGNAL(charWaiting(unsigned char)), receiver, member);
 	startNotifier();
 }
 
-
 void Modem::stop() {
 	disconnect(SIGNAL(charWaiting(unsigned char)));
 	stopNotifier();
 }
-
 
 void Modem::startNotifier() {
 	if(modemfd >= 0) {
@@ -225,56 +196,43 @@ void Modem::startNotifier() {
 			connect(sn, SIGNAL(activated(int)), SLOT(readtty(int)));
 			qDebug() << "QSocketNotifier started!" << endl;
 		} else {
-
-		sn->setEnabled(true);
+			sn->setEnabled(true);
 		}
 	}
 }
 
-
 void Modem::stopNotifier() {
 	if(sn != 0) {
-	sn->setEnabled(false);
-	disconnect(sn);
-	delete sn;
-	sn = 0;
-	qDebug() << "QSocketNotifier stopped!" << endl;
+		sn->setEnabled(false);
+		disconnect(sn);
+		delete sn;
+		sn = 0;
+		qDebug() << "QSocketNotifier stopped!" << endl;
 	}
 }
-
 
 bool Modem::writeChar(unsigned char c) {
 	return write(modemfd, &c, 1) == 1;
 }
 
-
 bool Modem::writeLine(QString data) {
-
 	auto buf = data.toStdString().c_str();
 	write(modemfd, buf, strlen(buf));
-
 	//Let's send an "enter"
 	write(modemfd, "\r", 1);
-
-
-
 	return true;
 }
 
 void Modem::send_esc(){
 
-	char esc = 27;
+char esc = 27;
 	writeChar( esc );
-
-
-
 }
 
 bool Modem :: lock_device()
 {
 	char * device;
 	device = (char *) qdev.toStdString().data();
-
 	char	lckf[128];
 	int	lfh;
 	pid_t	lckpid;
@@ -284,7 +242,6 @@ bool Modem :: lock_device()
 	struct stat buf;
 	devicename = strrchr(device, '/');
 	sprintf(lckf, "%s/%s%s", LF_PATH, LF_PREFIX, (devicename ? (devicename + 1) : device));
-
 	/*
 	 * Check if there's already a LCK	* file
 	 */
@@ -318,8 +275,6 @@ bool Modem :: lock_device()
 			return false;
 		}
 	}
-
-
 	if ((lfh = open(lckf, O_WRONLY | O_CREAT | O_EXCL,	S_IWRITE | S_IREAD | S_IRGRP | S_IROTH)) < 0) {
 		qDebug() << "Cannot create lockfile. Sorry." << endl;
 		return false;
@@ -327,42 +282,28 @@ bool Modem :: lock_device()
 	sprintf(lckpidstr, "%10d\n", getpid());
 	write(lfh, lckpidstr, strlen(lckpidstr));
 	close(lfh);
-
 		modem_is_locked = true;
-
 	return true;
-
 }
-
 
 bool Modem :: unlock_device()
 {
-
 	if(! modem_is_locked	&& qdev=="") { qDebug() << "confused by unlock device, sorry !"<< endl;return false; }
-
 	char *device;
-
 	device = (char *) qdev.toStdString().c_str();
 	char	lckf[128];
 	char	*devicename;
-
 	devicename = strrchr(device, '/');
 	sprintf(lckf, "%s/%s%s", LF_PATH, LF_PREFIX, (devicename ? (devicename + 1) : device));
-
 	if (unlink(lckf)) {
 		qDebug() << "Unable to unlink lock file: " << lckf << endl;
 		return false;
 	}
-
 	return true;
 }
 
-
-
 int Modem::getFD() {
-
-return modemfd;
-
+	return modemfd;
 }
 
 /*
@@ -370,14 +311,11 @@ return modemfd;
  */
 int Modem::rs232_read( void *bp, int maxlen)
 {
-
 	fd_set		set;
 	struct timeval	timeout;
 	int		Max;
 	int		endloop;
 	int		res;
-
-
 	Max = 0;
 	endloop = 0;
 	do {
@@ -395,18 +333,11 @@ int Modem::rs232_read( void *bp, int maxlen)
 			exit(10);
 		} else {
 			Max += read(modemfd, bp, maxlen);
-
 		}
 	} while ((Max < maxlen) && !endloop);
-
 	return res;
 }
-
-
-
 
 const QString Modem::modemMessage() {
 	return errmsg;
 }
-
-
