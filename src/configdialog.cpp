@@ -291,7 +291,7 @@ void ConfigDialog::selectwidget( QListWidgetItem * lbi) { std::cout << __FILE__ 
 	std::array<QString, 7> possibleTextes = {"PORT", "PERSONAL", "FIX-TEXT", "PACKET", "BOX",  "LOGIN", "LOGOUT"};
 	int selectedIndex = 4;
 		std::cout << __FUNCTION__ << " " << __LINE__ << std::endl;
-	for (auto i = 0; i < possibleTextes.size(); ++i) {
+	for (auto i = 0u; i < possibleTextes.size(); ++i) {
 		if (lbi->text() == possibleTextes[i]) {
 			selectedIndex = i;
 			break;
@@ -369,7 +369,7 @@ void ConfigDialog::resetPortSpeed() {
 	constexpr std::array<int, 5> speeds = {9600, 19200, 38400, 57600,115200};
 	int selectedIndex = 4;
 	int speed = portspeed.toInt();
-	for (auto i = 0; i < speeds.size(); ++i) {
+	for (size_t i = 0; i < speeds.size(); ++i) {
 		if (speed == speeds[i]) {
 			selectedIndex = i;
 			break;
