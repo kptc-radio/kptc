@@ -115,7 +115,7 @@ int Update::runUpdate(QString qsfilename )
 		//qDebug() << "Update: same or newer time stamp";
 		switch( QMessageBox::warning( updatewidget, "Kptc", tr("The current firmware has the same or a newer time stamp!\n"
 		"Do you whant to proceed or quit the update ?\n"),
-		tr("Proceed"), tr("Quit"), 0, 0, 1 )) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+		tr("Proceed"), tr("Quit"), 0, 0, 1 )) {
 			case 1: // Quit or Escape
 			// exit
 			Modem::modem->send_esc();
@@ -188,11 +188,11 @@ int Update::runUpdate(QString qsfilename )
 int Update::GetFlash(char ManCode, char DevId, FLASH *Flash)
 { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	int Result;
-	switch((unsigned char)ManCode) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	switch((unsigned char)ManCode) {
 		/* AMD Flash wird zwar erkannt aber für Programmierung nicht unterstützt */
 		case 0x01:
 			Flash->Manufacturer = "AMD";
-			switch((unsigned char)DevId) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+			switch((unsigned char)DevId) {
 				case 0xa4:
 					Flash->Type = "Am29F040";
 					Flash->usSectSize = 65535;

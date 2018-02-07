@@ -49,7 +49,7 @@ void MyLineEdit::setPrompt(QString prompt) { std::cout << __FILE__ << __FUNCTION
 void MyLineEdit::keyPressEvent(QKeyEvent *ke) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	auto it = commandlist.begin();
 	ke->accept();
-	switch ( ke->key() ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	switch ( ke->key() ) {
 		case Qt::Key_Left:
 			if (!commandmode) return;
 			if (cursorPosition()<= promptlength) return;
