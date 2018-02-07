@@ -35,7 +35,7 @@ speed_t Modem::modemspeed() { std::cout << __FILE__ << __FUNCTION__ << __LINE__ 
 	// other systems may not have them
 	const int i = configdata.getPortSpeed().toInt();
 
-	switch(i) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+    switch(i) {
 		case 2400:
 			return B2400;
 			break;
