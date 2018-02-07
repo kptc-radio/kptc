@@ -350,7 +350,7 @@ void Kptc :: sendline(QString qs) { std::cout << __FILE__ << __FUNCTION__ << __L
 }
 
 void Kptc :: sendchar(unsigned char c){ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-	if (Modem::modem->writeChar(c));
+	if (Modem::modem->writeChar(c));//TODO Why?
 }
 
 void Kptc :: echoText(QString qtext) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
