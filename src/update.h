@@ -35,8 +35,8 @@
 
 constexpr int MAX_SECT_SIZE = 512;
 
-#define ACK '\006'
-#define ESC '\033'
+constexpr char ack ='\006';
+constexpr char esc = '\033';
 
 /**PTC Firmware Update
 	*based on the update tool from Peter Mack, changes by Lars Schnake
