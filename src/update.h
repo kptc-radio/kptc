@@ -39,8 +39,8 @@ constexpr char ack ='\006';
 constexpr char esc = '\033';
 
 /**PTC Firmware Update
-	*based on the update tool from Peter Mack, changes by Lars Schnake
-  *@author Peter Mack / Lars Schnake
+	*based on the update tool from Peter Mack, changes by Lars Schnake and Sebastian Martin Dicke
+  *@author Peter Mack / Lars Schnake / Sebastian Martin Dicke
   */
 
 /*
@@ -101,8 +101,7 @@ class Update : public QObject  {
 
 		Update(QWidget *mywidget=0);
 		~Update();
-
-
+v
 	private:
 		QWidget *updatewidget;
 		time_t convtime(FDTIME);
