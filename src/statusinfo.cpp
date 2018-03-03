@@ -22,40 +22,40 @@
 
 StatusInfo::StatusInfo(QWidget *parent) : QWidget(parent) {
 
-	this->setFont(QFont("courier",10,QFont::Normal));
+	this->setFont(QFont("courier", 10, QFont::Normal));
 setMinimumSize( 400, 20 );
 
 //TODO
 	led = new KLed( QColor("#FF0000"), this);
-	led->setGeometry ( 2, 2, 16, 16);
-	led->setFixedSize(18,18);
+	led->setGeometry (2, 2, 16, 16);
+	led->setFixedSize(18, 18);
 	led->off();
 	led->setToolTip(tr("SEND-LED"));
 	led->setWhatsThis(tr("The Send LED show the direction\nof the information flow.\nOn means: sending text\noff means: receiving text"));
 
 	send = new QLabel(this);
-	send->setGeometry( 20, 0, 30, 20 );
-	send->setFixedSize(30,20);
+	send->setGeometry(20, 0, 30, 20 );
+	send->setFixedSize(30, 20);
 	send->setText("SEND");
 
 	prompt = new QLabel(this);
-	prompt->setGeometry( 50, 0, 80, 20 );
-	prompt->setFixedSize(80,20);
+	prompt->setGeometry(50, 0, 80, 20 );
+	prompt->setFixedSize(80, 20);
 	prompt->setFrameStyle(QFrame::Sunken | QFrame::Box);
 	prompt->setToolTip(tr("prompt"));
 	prompt->setWhatsThis(tr("Here is the current prompt showen."));
 
 	mode = new QLabel(this);
-	mode->setGeometry( 130, 0, 80, 20 );
-	mode->setFixedSize(80,20);
+	mode->setGeometry(130, 0, 80, 20);
+	mode->setFixedSize(80, 20);
 	mode->setFrameStyle(QFrame::Sunken | QFrame::Box);
 	mode->setText("NO RESPONSE !");
 	mode->setToolTip(tr("mode"));
 	mode->setWhatsThis(tr("Here are information about\nthe current mode showen."));
 
 	status = new QLabel(this);
-	status->setGeometry( 210, 0, 80, 20 );
-	status->setFixedSize(80,20);
+	status->setGeometry(210, 0, 80, 20);
+	status->setFixedSize(80, 20);
 	status->setFrameStyle(QFrame::Sunken | QFrame::Box);
 	status->setToolTip(tr("status"));
 	status->setWhatsThis( tr("Here are some status information showen."));
@@ -72,12 +72,12 @@ setMinimumSize( 400, 20 );
 	call->setWhatsThis(tr("This is your call and your Amtor Selcall\nhow you have entered it in the config dialog"));
 	QHBoxLayout layout(this);
 
-	layout.addWidget (led);
-	layout.addWidget (send);
-	layout.addWidget (prompt);
-	layout.addWidget (mode);
-	layout.addWidget (status);
-	layout.addWidget (statusmessage,1);
+	layout.addWidget(led);
+	layout.addWidget(send);
+	layout.addWidget(prompt);
+	layout.addWidget(mode);
+	layout.addWidget(status);
+	layout.addWidget(statusmessage,1);
 	layout.addStretch(1);
 	layout.addWidget (call);
 
