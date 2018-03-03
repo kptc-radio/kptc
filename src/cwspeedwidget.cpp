@@ -61,5 +61,5 @@ void CWSpeedWidget::change() {
 	accept();
 }
 
-CWSpeedWidget::~CWSpeedWidget(){
+CWSpeedWidget::~CWSpeedWidget() {
 }

@@ -88,35 +88,35 @@ void CQDialog::startCall() {
 	////qDebug() <<"CQDialog:startCall";
 
 	QString qs;
-	if ( currenttab == Tabs::Pactor) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;//"Pactor"
+	if ( currenttab == Tabs::Pactor) {//"Pactor"
 		modecommander->changetoPactor();
 		modecommander->Unproto();
 		qs = qs = this->processString(CQText_Pactor);
 		Modem::modem->writeLine(qs);
 		modecommander->QRT();
 	}
-	else if ( currenttab == Tabs::Amtor) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;//"Amtor"
+	else if ( currenttab == Tabs::Amtor) {//"Amtor"
 		modecommander->changetoAmtor();
 		modecommander->FEC();
 		qs = qs = this->processString(CQText_Amtor);
 		Modem::modem->writeLine(qs);
 		modecommander->QRT();
 	}
-	else if ( currenttab == Tabs::RTTY ) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;//"RTTY"
+	else if ( currenttab == Tabs::RTTY ) {//"RTTY"
 		modecommander->changetoRTTY();
 		modecommander->Changeover();
 		qs = this->processString(CQText_RTTY);
 		Modem::modem->writeLine(qs);
 		modecommander->QRT();
 	}
-	else if ( currenttab == Tabs::PSK31 ) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;//"PSK31"
+	else if ( currenttab == Tabs::PSK31 ) {//"PSK31"
 		modecommander->changetoPSK31();
 		modecommander->Changeover();
 		qs = this->processString(CQText_PSK31);
 		Modem::modem->writeLine(qs);
 		modecommander->QRT();
 	}
-	else if ( currenttab == Tabs::CW ) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;//"CW"
+	else if ( currenttab == Tabs::CW ) {//"CW"
 		modecommander->changetoCW();
 		qs = this->processString(CQText_CW);
 		sleep(1);
@@ -127,7 +127,7 @@ void CQDialog::startCall() {
 
 QString CQDialog::processString(QTextEdit *edit) {
 	QString string = edit->toPlainText();
-	string.replace( QRegExp("\n"), "\r" );
+	string.replace( QRegExp("\n"), "\r");
 	return configdata.parseMacroText(string);
 }
 

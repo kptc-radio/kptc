@@ -85,11 +85,11 @@ void UpdateDialog::updateMessage(QString text) {
 
 void UpdateDialog::closeEvent( QCloseEvent* ce )
 {
-	if (!updaterunning) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if (!updaterunning) {
 		ce->accept();
 		return;
 	}
-	else {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	else {
 		ce->ignore();
 	}
 }

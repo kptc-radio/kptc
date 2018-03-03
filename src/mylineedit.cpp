@@ -20,7 +20,7 @@
 #include "mylineedit.h"
 #include <iostream>
 
-MyLineEdit::MyLineEdit(QWidget *parent) : QLineEdit(parent){
+MyLineEdit::MyLineEdit(QWidget *parent) : QLineEdit(parent) {
 	this->setFont(QFont("courier",12,QFont::Normal));
 	setReadOnly (false);
 	setMinimumSize( 400, 30 );
@@ -74,7 +74,7 @@ void MyLineEdit::keyPressEvent(QKeyEvent *ke) {
 			return;
 		case Qt::Key_Down:
 			if (commandmode) {
-				if ( *(it) == "" )
+				if ( *(it) == "")
 					return;
 				QString pnext;
 				pnext = *(it++);
@@ -96,7 +96,7 @@ void MyLineEdit::keyPressEvent(QKeyEvent *ke) {
 				qtext = qtext.trimmed();
 				sendit(qtext);
 				commandlist.last();
-			if (qtext != "") {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;commandlist.removeOne(*(it)); commandlist.append(QString(qtext)); commandlist.append(QString(""));}
+			if (qtext != "") {commandlist.removeOne(*(it)); commandlist.append(QString(qtext)); commandlist.append(QString(""));}
 			if (commandlist.count() > 10 ) commandlist.removeFirst();
 					commandlist.last();
 				}
@@ -147,5 +147,5 @@ void MyLineEdit::focusOutEvent ( QFocusEvent * ev )
 }
 
 
-MyLineEdit::~MyLineEdit(){
+MyLineEdit::~MyLineEdit() {
 }

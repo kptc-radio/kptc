@@ -22,7 +22,7 @@
 
 ConfigMachine::ConfigMachine(QWidget *_top) : top(_top) {}
 
-void ConfigMachine::doconfig(){
+void ConfigMachine::doconfig() {
 	Modem::modem->closetty();
 	if ( ! Modem::modem->opentty() ) {
 
@@ -59,17 +59,17 @@ void ConfigMachine::doconfig(){
 	Modem::modem->writeLine(qs);
 
 	if ( configdata.isCMsg() ) {
-		Modem::modem->writeLine( "cmsg 1");
+		Modem::modem->writeLine("cmsg 1");
 	}
 	else {
-		Modem::modem->writeLine( "cmsg 0");
+		Modem::modem->writeLine("cmsg 0");
 	}
 
 	QString cmsg = configdata.getCMsg();
-	cmsg = cmsg.replace( QRegExp("\n"), "#" );
+	cmsg = cmsg.replace( QRegExp("\n"), "#");
 	cmsg = configdata.parseMacroText ( cmsg );
 	if (cmsg !="") {
-		Modem::modem->writeLine( "ctext " + cmsg );
+		Modem::modem->writeLine("ctext " + cmsg );
 	}
 }
 
@@ -77,7 +77,7 @@ void ConfigMachine::logout() {
 	if ( configdata.isAwayMsg() ) {
 		QString ctext = configdata.getAwayMsg();
 		ctext = configdata.parseMacroText( ctext );
-		ctext = ctext.replace( QRegExp("\n"), "#" );
+		ctext = ctext.replace( QRegExp("\n"), "#");
 		ctext.prepend("cte ");
 		ctext.append("\r");
 		Modem::modem->send_esc();
@@ -125,5 +125,5 @@ void ConfigMachine::login() {
 	}
 }
 
-ConfigMachine::~ConfigMachine(){
+ConfigMachine::~ConfigMachine() {
 }

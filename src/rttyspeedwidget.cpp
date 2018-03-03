@@ -20,7 +20,7 @@
 #include "rttyspeedwidget.h"
 #include <iostream>
 
-RTTYSpeedWidget::RTTYSpeedWidget(QWidget *parent) : QDialog(parent){
+RTTYSpeedWidget::RTTYSpeedWidget(QWidget *parent) : QDialog(parent) {
 	setWindowTitle(tr("RTTY BAUDE RATE"));
 	resize( 200,80 );
 	setMinimumSize( 200, 80 );
@@ -62,5 +62,5 @@ void RTTYSpeedWidget::change() {
 	accept();
 }
 
-RTTYSpeedWidget::~RTTYSpeedWidget(){
+RTTYSpeedWidget::~RTTYSpeedWidget() {
 }

@@ -30,25 +30,25 @@ Kptc::Kptc(QWidget *parent) : QMainWindow()
 
 	//TODO
 
-	this->resize( 650, 450 );
+	this->resize(650, 450);
 
 	this->lefttoolbar = new QToolBar("", this);
-	currentterm=1;
+	currentterm = 1;
 	bPromptInfoFollows = false;
 
 	modecommander = new ModeCommander(this);
 	cqdialog = new CQDialog(this,  modecommander);
 
-		////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////
 
 	this->initializePopUpMenues();
 
-		/////////////////////////////////////////////////////////////////////////////
-		// Toolbar for changing the mods:
+	/////////////////////////////////////////////////////////////////////////////
+	// Toolbar for changing the mods:
 
-		/*
+	/*
 
-	KToolBarRadioGroup *moderadiogroup = new KToolBarRadioGroup(modetoolbar,"modradiogroup");
+1	KToolBarRadioGroup *moderadiogroup = new KToolBarRadioGroup(modetoolbar,"modradiogroup");
 	modetoolbar->setToggle(1);
 	modetoolbar->setToggle(2);
 	modetoolbar->setToggle(3);
@@ -91,8 +91,8 @@ Kptc::Kptc(QWidget *parent) : QMainWindow()
 	// modebuttons in splitter window instead of modetoolbar ?! :
 	// modebuttons = new ModeButtons(splitter);
 
-//  termoutput = new MyTermout(splitter);
-//	termoutput->setFont(QFont("courier",12,QFont::Normal));
+	//  termoutput = new MyTermout(splitter);
+	//	termoutput->setFont(QFont("courier",12,QFont::Normal));
 	textedit = new MyLineEdit(splitter);
 	textedit->notify(this, SLOT(sendchar(unsigned char)));
 
@@ -110,13 +110,13 @@ Kptc::Kptc(QWidget *parent) : QMainWindow()
 	configmachine = new ConfigMachine(this);
 
 	// Modem :
-	(void)new Modem;
+	(void) new Modem;
 		//TODO possible memory leak
 	bool bModemOk = false;
 
 	//setAutoSaveSettings();
 
-	if ( configdata.firststart() ) {
+	if (configdata.firststart()) {
 		QMessageBox::information(this, (QString(tr("Thank you for installing Kptc !\n")) +
 		QString("This is a Ham Radio software for the SCS-PTC-II\nRemember: This sofware is still beta !\n\n") +
 		QString("Connect the PTC to your computer\nand switch it on now.\nThen let?s continue with some configurations.\n") +
@@ -140,8 +140,8 @@ Kptc::Kptc(QWidget *parent) : QMainWindow()
 		configmachine->login();
 	//qDebug() << Modem::modem->modemMessage();
 	if (!bModemOk) {
-				QMessageBox::information( this,
-		tr("Cannot open modem device !"), "Kptc" );
+				QMessageBox::information(this,
+		tr("Cannot open modem device !"), "Kptc");
 	}
 
 	this->initializeMenuBar();
@@ -176,33 +176,33 @@ void Kptc::initializePopUpMenues() {
 
 	QMenu *actionmenu = new QMenu ;
 
-	QAction *reload = new QAction(tr( "Change&over"), actionmenu);
+	QAction *reload = new QAction(tr("Change&over"), actionmenu);
 	reload->setShortcut(QKeySequence(Qt::CTRL, 'Y'));
 	connect(reload, SIGNAL(triggered(bool)), this, SLOT(initchangeover()));
 	actionmenu->addAction(reload);
 
-	QAction *exit = new QAction(tr( "QR&T"), actionmenu);
+	QAction *exit = new QAction(tr("QR&T"), actionmenu);
 	exit->setShortcut(QKeySequence(Qt::CTRL, 'D'));
 	connect(exit, SIGNAL(triggered(bool)), this, SLOT(initQRT()));
 	actionmenu->addAction(exit);
 
-	QAction *stop = new QAction(tr( "&Stand by"), actionmenu);
+	QAction *stop = new QAction(tr("&Stand by"), actionmenu);
 	stop->setShortcut(QKeySequence(Qt::CTRL, 'S'));
 	connect(stop, SIGNAL(triggered(bool)), this, SLOT(Standby()));
 	actionmenu->addAction(stop);
 
-	QAction *konqueror = new QAction(tr( "&CQ..."), actionmenu);
+	QAction *konqueror = new QAction(tr("&CQ..."), actionmenu);
 	konqueror->setShortcut(QKeySequence(Qt::CTRL, 'Q'));
 	connect(konqueror, SIGNAL(triggered(bool)), this, SLOT(openDialog()));
 	actionmenu->addAction(konqueror);
 
-	QAction *command = new QAction(tr( "&Command..."), actionmenu);
+	QAction *command = new QAction(tr("&Command..."), actionmenu);
 	command->setShortcut(QKeySequence(Qt::CTRL, 19)); //Ctrl + Esc
 	connect(command, SIGNAL(triggered(bool)), this, SLOT(openCommandDialog()));
 	actionmenu->addAction(command);
 
 	QMenu *optionmenu = new QMenu();
-	QAction *configure = new QAction(tr( "&Config..." ), optionmenu);
+	QAction *configure = new QAction(tr("&Config..."), optionmenu);
 	optionmenu->addAction(configure);
 	connect(configure, SIGNAL(triggered(bool)), this, SLOT(openconfigdialog()));
 
@@ -230,7 +230,7 @@ void Kptc::initializePopUpMenues() {
 
 		fixmenu = new QMenu ;
 
-		QString number;
+	QString number;
 	for (int i = 1; i <= 8; i++) {
 		number.setNum(i);
 		QAction *actionSendText = new QAction(+ "&" + number + ". " + configdata.getFixLabel( number ), fixmenu);
@@ -239,7 +239,7 @@ void Kptc::initializePopUpMenues() {
 		actionSendText->setShortcut(QKeySequence(Qt::CTRL, Qt::Key_F1, i));
 
 		fixmenu->addAction(actionSendText);
-		//	  fixmenu->insertItem ( "&" + s + ". " + configdata.getFixLabel( s ),
+		//	  fixmenu->insertItem ("&" + s + ". " + configdata.getFixLabel( s ),
 		//			  this, SLOT (sendFixText( int )), CTRL + SHIFT + (Key_F1 +(i)) , i);
 		//			((fixmenu->setItemParameter ( i, i);
 
@@ -262,12 +262,12 @@ void Kptc::initializeStatusBar() {
 }
 
 void Kptc::initializeMenuBar() {
-	QMenuBar *menu = new QMenuBar( this );
-	QMenu *fileMenu = new QMenu(tr( "&File" ), this->menuBar());
+	QMenuBar *menu = new QMenuBar(this);
+	QMenu *fileMenu = new QMenu(tr("&File"), this->menuBar());
 	this->menuBar()->addMenu(fileMenu);
-	QMenu *actionMenu = new QMenu(tr( "&Actions" ), this->menuBar());
+	QMenu *actionMenu = new QMenu(tr("&Actions"), this->menuBar());
 	menuBar()->addMenu(actionMenu);
-	QMenu *fixmenuMenu = new QMenu( tr( "Fi&xtext" ), menuBar());
+	QMenu *fixmenuMenu = new QMenu( tr("Fi&xtext"), menuBar());
 	menuBar()->addMenu(fixmenuMenu);
 	QMenu *optionMenu = new QMenu(tr("&Options"), menuBar());
 	menuBar()->addMenu(optionMenu);
@@ -301,28 +301,30 @@ void Kptc::parseModemOut(unsigned char c) {
 			}
 		}
 	}
-	else if ((int)c == 3 ) { currentterm = 3;   }	// delayed echo
-	else if ((int)c == 2 ) { currentterm = 2;   }	// rx
-	else if ((int)c == 1 ) { currentterm = 1;   }	// prompt , errors , ...
+	else if ((int)c == 3 ) {
+			currentterm = 3;
+	}	// delayed echo
+	else if ((int)c == 2 ) {
+			currentterm = 2;
+	}	// rx
+	else if ((int)c == 1 ) {
+			currentterm = 1;
+	}	// prompt , errors , ...
 	else if ((int)c == 7 ) ; // klingeling :-) , changeover bell, do some ring ring here !?
 	else {
 		if ((currentterm == 2) || (currentterm == 3)) {
 //			if (currentterm == 3) termoutput->setNewLineColor(QColor("#FF3333"));   // echo //red
 //			else termoutput->setNewLineColor(QColor("#336600"));			  // rx
-
 			termoutput->append(QString(c));
 			show();
 		}
 		else if (currentterm == 1) {
-
 			//termoutput->setNewLineColor(QColor("#000000")); //black
 			termoutput->append(QString(c));
 			if (this->isendline(c)) {
-
 				if (statusmessage.contains("*** ") == 1 ) {
-
 					if (statusmessage.contains("CONNECTED") || statusmessage.contains("CALLING")) {
-						statusmessage.replace( QRegExp("[*]"), "" );
+						statusmessage.replace( QRegExp("[*]"), "");
 						statusmessage = statusmessage.trimmed();
 						statusinfo->statusmessage->setText(statusmessage);
 					}
@@ -346,7 +348,7 @@ void Kptc :: sendline(QString qs) {
 	show();
 }
 
-void Kptc :: sendchar(unsigned char c){
+void Kptc :: sendchar(unsigned char c) {
 	if (Modem::modem->writeChar(c));//TODO Why?
 }
 
@@ -355,14 +357,14 @@ void Kptc :: echoText(QString qtext) {
 	termoutput->append(qtext);
 }
 
-void Kptc :: openconfigdialog(){
+void Kptc :: openconfigdialog() {
 	ConfigDialog configdialog ;
 	if (configdialog.exec() == QDialog::Accepted) {
 		useconfigmachine();
 	}
 }
 
-void Kptc :: useconfigmachine(){
+void Kptc :: useconfigmachine() {
 	configmachine->doconfig();
 	statusinfo->call->setText(configdata.getCall() + " (" + configdata.getSelCall() + ") ");
 	updateStatusBar();
@@ -385,7 +387,7 @@ void Kptc :: openCommandDialog() {
 }
 
 void Kptc :: clearTrafficWindow() {
-	//termoutput->repaint(false);
+	//termoutput->repaint();
 }
 
 void Kptc :: clearEditWindow() {
@@ -396,7 +398,7 @@ void Kptc :: clearEditWindow() {
 
 void Kptc :: showPactor() {
 	lefttoolbar->clear();
-	std::cout << __LINE__ << " " << __FUNCTION__ << std::endl;
+
 	this->expandToolBar("Stand by", "Standby", modecommander, lefttoolbar);
 	this->expandToolBar("QRT", "initQRT", this, lefttoolbar);
 	this->expandToolBar("changeover", "initchangeover", this, lefttoolbar);
@@ -410,7 +412,7 @@ void Kptc :: showPactor() {
 void Kptc :: showAmtor() {
 	//modebuttons->buttongroup->setButton(2);
 	lefttoolbar->clear();
-	std::cout << __LINE__ << " " << __FUNCTION__ << std::endl;
+
 	this->expandToolBar("Stand by", "Standby", modecommander, lefttoolbar);
 	this->expandToolBar("QRT", "initQRT", this, lefttoolbar);
 	this->expandToolBar("changeover", "initchangeover", this, lefttoolbar);
@@ -422,7 +424,7 @@ void Kptc :: showAmtor() {
 void Kptc :: showRTTY() {
 	// modetoolbar->toggleButton(3);
 	// ;
-	std::cout << __LINE__ << " " << __FUNCTION__ << std::endl;
+
 	lefttoolbar->clear();
 	this->expandToolBar(standby, "Standby", modecommander, lefttoolbar);
 	this->expandToolBar(qrt, "initQRT", this, lefttoolbar);
@@ -434,7 +436,7 @@ void Kptc :: showRTTY() {
 void Kptc :: showPSK31() {
 	//modetoolbar->toggleButton(4);
 	//modebuttons->buttongroup->setButton(4);
-	std::cout << __LINE__ << " " << __FUNCTION__ << std::endl;
+
 	lefttoolbar->clear();
 	this->expandToolBar(standby, "Standby", modecommander, lefttoolbar);
 	this->expandToolBar(qrt, "initQRT", this, lefttoolbar);
@@ -445,7 +447,7 @@ void Kptc :: showPSK31() {
 void Kptc :: showCW() {
 	//modebuttons->buttongroup->setButton(5);
 	lefttoolbar->clear();
-	std::cout << __LINE__ << " " << __FUNCTION__ << std::endl;
+
 	this->expandToolBar(standby, "StandBy", modecommander, lefttoolbar);
 	this->expandToolBar(prescribe, "cwprescribe", modecommander, lefttoolbar);
 	this->expandToolBar(flush, "cwflush", modecommander, lefttoolbar);
@@ -520,7 +522,7 @@ void Kptc :: parsePrompt(const char c) {
 			modecommander->setcurrendmod("Pactor");
 		break;
 		default:
-			modecommander->setcurrendmod( "??????" );
+			modecommander->setcurrendmod("??????");
 	}
 
 	updateStatusBar();
@@ -601,7 +603,7 @@ void Kptc :: parseStatus(const char c) {
 	statusinfo->mode->setText(mode);
 
 	// read listen mode from status byte ??
-	if ( mode == "LISTEN" ) {
+	if ( mode == "LISTEN") {
 		modecommander->setListen(true);
 	}
 	else {
@@ -658,6 +660,6 @@ bool Kptc::queryClose() {
 	return true;
 }
 
-Kptc::~Kptc(){
+Kptc::~Kptc() {
 	deleteLater();
 }

@@ -82,5 +82,5 @@ setMinimumSize( 400, 20 );
 	layout->addWidget (call);
 
 }
-StatusInfo::~StatusInfo(){
+StatusInfo::~StatusInfo() {
 }

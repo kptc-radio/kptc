@@ -50,28 +50,24 @@ QString ConfigData::boolToString(bool value) const {
 }
 
 void ConfigData::setValue(Group group, const QString &key ,const QString &value) {
-	std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	this->settings->beginGroup(this->getGroupName(group));
 	this->settings->setValue(key, value);
 	this->settings->endGroup();
 }
 
 QString ConfigData::getValue(Group group,const QString &key,const QString &defaultvalue) const {
-	std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;this->settings->beginGroup(this->getGroupName(group));
+	this->settings->beginGroup(this->getGroupName(group));
 	QString data = (QString) this->settings->value(key, defaultvalue).toString();
 	this->settings->endGroup();
 	return data;
 }
 
 bool ConfigData::stringIsTrue(const QString &string) {
-	std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	return string == "TRUE";
 }
 
 ConfigData::ConfigData()
 {
-
-	std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	this->settings = new QSettings("kptc", "kptc");
 }
 
@@ -108,7 +104,7 @@ QString ConfigData::getEditPort() {
 }
 
 void ConfigData::setPortSpeed(const QString &speed) {
-	if (speed != 0L){
+	if (speed != 0L) {
 		this->setValue(Group::PORT, "PORTSPEED", speed);
 	}
 }
@@ -117,21 +113,21 @@ QString ConfigData::getPortSpeed() {
 	return this->getValue(Group::PORT,  "PORTSPEED", "38400");
 }
 
-void ConfigData::setCall(const QString &call ){
+void ConfigData::setCall(const QString &call ) {
 	this->setValue(Group::PERSONAL, "CALL", call);
 }
 
 
-QString ConfigData::getCall(){
+QString ConfigData::getCall() {
 	return this->getValue(Group::PERSONAL,  "CALL", "DK0TUX");
 }
 
-void ConfigData::setSelCall(const QString &call ){
+void ConfigData::setSelCall(const QString &call ) {
 	this->setValue(Group::PERSONAL, "SELCALL", call);
 }
 
 
-QString ConfigData::getSelCall(){
+QString ConfigData::getSelCall() {
 	return this->getValue(Group::PERSONAL, "SELCALL", "DTUX");
 }
 
@@ -233,7 +229,7 @@ void ConfigData::setName(const QString &name ) {
 	this->setValue(Group::PERSONAL, "NAME", name);
 }
 
-QString ConfigData::getName(){
+QString ConfigData::getName() {
 	return this->getValue(Group::PERSONAL, "NAME", "Tux");
 }
 
@@ -241,7 +237,7 @@ void ConfigData::setQTH(const QString &name ) {
 	this->setValue(Group::PERSONAL, "QTH", name);
 }
 
-QString ConfigData::getQTH(){
+QString ConfigData::getQTH() {
 	return this->getValue(Group::PERSONAL, "QTH", "Antarctic");
 }
 

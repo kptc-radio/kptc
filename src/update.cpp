@@ -19,14 +19,14 @@
 #include <iostream>
 #include "update.h"
 
-Update::Update(QWidget *mywidget ) : QObject() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+Update::Update(QWidget *mywidget ) : QObject() {
 	updatewidget = mywidget;
 }
 
-Update::~Update() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;}
+Update::~Update() { }
 
 int Update::runUpdate(QString qsfilename )
-{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+{
 
 	char Buffer[MAX_SECT_SIZE];
 	char ch;
@@ -48,7 +48,7 @@ int Update::runUpdate(QString qsfilename )
 
 	hFile = open((const char *)qsfilename.data(), O_RDONLY);
 
-	if(-1 == hFile) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if(-1 == hFile) {
 		QMessageBox::warning( updatewidget, "Kptc", tr("ERROR: opening file : ") + qsfilename );
 		//fprintf(stderr, "ERROR: opening file: %s\n", (const char *)qsfilename.data());
 		return -1;
@@ -72,7 +72,7 @@ int Update::runUpdate(QString qsfilename )
 	Modem::modem->rs232_read(&DevId, 1);
 	Modem::modem->rs232_read(&FlashStamp, 4);
 
-	if (GetFlash(ManCode, DevId, &Flash) != 0) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if (GetFlash(ManCode, DevId, &Flash) != 0) {
 			QMessageBox::warning( updatewidget, "Kptc", tr("ERROR: receiving Flash information !") );
 		// fprintf(stderr, "ERROR: receiving Flash information!\n");
 		Modem::modem->send_esc();	/* send ESC */
@@ -84,7 +84,7 @@ int Update::runUpdate(QString qsfilename )
 
 	FlashFree = Flash.ulFlashSize - 16384 - Flash.usSectSize;
 
-	if(Flash.usSectSize == 0) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if(Flash.usSectSize == 0) {
 		QMessageBox::warning( updatewidget, "Kptc", tr("ERROR: wrong sector size !") );
 		//fprintf(stderr, "ERROR: wrong sector size!\n");
 		Modem::modem->send_esc();	/* send ESC */
@@ -94,11 +94,11 @@ int Update::runUpdate(QString qsfilename )
 
 	Sectors = FileLength / Flash.usSectSize;
 
-	if(FileLength % Flash.usSectSize) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if(FileLength % Flash.usSectSize) {
 		Sectors++;
 	}
 
-	if(FileLength > FlashFree) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if(FileLength > FlashFree) {
 			QMessageBox::warning( updatewidget, "Kptc", tr("ERROR: File too large !\nFile should not be longer than ") + FlashFree + QString(" bytes.") );
 		//fprintf(stderr, "ERROR: File too large!\n       File should not be longer than %ld bytes.\n", FlashFree);
 		Modem::modem->send_esc();	/* send ESC */
@@ -106,12 +106,12 @@ int Update::runUpdate(QString qsfilename )
 		return -1;
 	}
 
-	if(FlashStamp.day == 0 || FlashStamp.month == 0 || (FlashStamp.day == 0x1f && FlashStamp.month == 0xf && FlashStamp.year == 0x7f)) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if(FlashStamp.day == 0 || FlashStamp.month == 0 || (FlashStamp.day == 0x1f && FlashStamp.month == 0xf && FlashStamp.year == 0x7f)) {
 	QMessageBox::warning( updatewidget, "Kptc", tr("WARNING: Invalid Flash time stamp.\nPossibly no firmware installed.\n Update will proceed.") );
 		//fprintf(stderr, "WARNING: Invalid Flash time stamp.\n         Possibly no firmware installed.\n\n");
 	}
 
-	if ( convtime(FileStamp) <= convtime(FlashStamp)) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if ( convtime(FileStamp) <= convtime(FlashStamp)) {
 		//qDebug() << "Update: same or newer time stamp";
 		switch( QMessageBox::warning( updatewidget, "Kptc", tr("The current firmware has the same or a newer time stamp!\n"
 		"Do you whant to proceed or quit the update ?\n"),
@@ -135,7 +135,7 @@ int Update::runUpdate(QString qsfilename )
 
 	Modem::modem->rs232_read(&ch, 1);
 
-	if (ch != ACK) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if (ch != ACK) {
 			QMessageBox::warning( updatewidget, "Kptc", tr("ERROR: Handshake failed !") );
 		//fprintf(stderr, "\a\aERROR: Handshake failed!\n");
 		Modem::modem->send_esc();	/* send ESC */
@@ -148,9 +148,9 @@ int Update::runUpdate(QString qsfilename )
 //		kapp->processEvents();
 	lseek(hFile, 0, SEEK_SET);
 
-	do { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	do {
 		BytesRead = read(hFile, &Buffer, Flash.usSectSize);
-		if(BytesRead < Flash.usSectSize) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+		if(BytesRead < Flash.usSectSize) {
 			memset(Buffer+BytesRead, 0, Flash.usSectSize-BytesRead);
 		}
 		write(Modem::modem->getFD(), &Buffer, Flash.usSectSize);
@@ -158,7 +158,7 @@ int Update::runUpdate(QString qsfilename )
 		SectorsWritten++;
 
 		Modem::modem->rs232_read(&ch, 1);
-		if (ch != ACK) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+		if (ch != ACK) {
 			QMessageBox::warning( updatewidget, "Kptc", tr("ERROR: Handshake failed !") );
 			//fprintf(stderr, "\a\aERROR: Handshake failed!\n");
 			Modem::modem->send_esc();	/* send ESC */
@@ -186,7 +186,7 @@ int Update::runUpdate(QString qsfilename )
 }
 
 int Update::GetFlash(char ManCode, char DevId, FLASH *Flash)
-{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+{
 	int Result;
 	switch((unsigned char)ManCode) {
 		/* AMD Flash wird zwar erkannt aber für Programmierung nicht unterstützt */
@@ -210,7 +210,7 @@ int Update::GetFlash(char ManCode, char DevId, FLASH *Flash)
 
 		case 0x1f:
 			Flash->Manufacturer = "Atmel";
-			switch((unsigned char)DevId) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+			switch((unsigned char)DevId) {
 				case 0x5d:
 					Flash->Type = "AT29C512";
 					Flash->usSectSize = 128;
@@ -263,7 +263,7 @@ int Update::GetFlash(char ManCode, char DevId, FLASH *Flash)
 }
 
 time_t Update::convtime(FDTIME PTC_Time)
-{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+{
 	struct tm	btime;
 
 	btime.tm_sec = PTC_Time.twosecs * 2;
@@ -280,7 +280,7 @@ time_t Update::convtime(FDTIME PTC_Time)
 }
 
 int Update::readflush(int handle)
-{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+{
 	fd_set		set;
 	struct timeval	timeout;
 	int		Max;
@@ -290,21 +290,21 @@ int Update::readflush(int handle)
 
 	Max = 0;
 	endloop = 0;
-	do { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	do {
 		timeout.tv_sec = 0;
 		timeout.tv_usec = 100000; /* 0.1 seconds */
 
 		FD_ZERO(&set);
 		FD_SET(handle, &set);
 		res = select(FD_SETSIZE, &set, NULL, NULL, &timeout);
-		if (0 == res) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+		if (0 == res) {
 			//fprintf(stderr, "ERROR: timed out!\n");
 			endloop = 1;
-		} else if (-1 == res) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+		} else if (-1 == res) {
 			perror("rs232_read select");
 			//exit(10);
 			return -1;
-		} else { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+		} else {
 			Max += read(handle, &tmp, 1);
 
 		}

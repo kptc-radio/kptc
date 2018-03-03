@@ -22,7 +22,7 @@
 
 ModeCommander::ModeCommander(QObject *parent ) : blisten(false), QObject(parent) {}
 
-ModeCommander::~ModeCommander(){}
+ModeCommander::~ModeCommander() {}
 
 QString ModeCommander::currendmod() {
 	return qscurrendmod;
@@ -36,42 +36,42 @@ void ModeCommander::setcurrendmod( QString _qscurrendmod )
 void ModeCommander::changetoPactor() {
 	Standby() ;
 	Modem::modem->send_esc();
-	Modem::modem->writeLine( "PT" );
+	Modem::modem->writeLine("PT");
 }
 
 void ModeCommander::changetoAmtor() {
 	Standby() ;
 	Modem::modem->send_esc();
-	Modem::modem->writeLine( "Amtor" );
+	Modem::modem->writeLine("Amtor");
 }
 
 void ModeCommander::changetoAmtorMon() {
 	Standby()	;
 	Modem::modem->send_esc();
-	Modem::modem->writeLine( "Amtor" );
+	Modem::modem->writeLine("Amtor");
 }
 
 void ModeCommander::changetoRTTY() {
 	Standby();
 	Modem::modem->send_esc();
-	Modem::modem->writeLine( "Baudot" );
+	Modem::modem->writeLine("Baudot");
 }
 
 void ModeCommander::changetoPSK31() {
 	Standby() ;
 	Modem::modem->send_esc();
-	Modem::modem->writeLine( "PSKTerm" );
+	Modem::modem->writeLine("PSKTerm");
 }
 
 void ModeCommander::changetoCW() {
 	Standby() ;
 	Modem::modem->send_esc();
-	Modem::modem->writeLine( "cwt" );
+	Modem::modem->writeLine("cwt");
 }
 
 void ModeCommander::Standby() {
 	Modem::modem->send_esc();
-	Modem::modem->writeLine( "dd" );
+	Modem::modem->writeLine("dd");
 }
 
 void ModeCommander::Changeover() {
@@ -87,18 +87,18 @@ void ModeCommander::QRT() {
 
 void ModeCommander::Unproto() {
 	Modem::modem->send_esc();
-	Modem::modem->writeLine( "Unproto" );
+	Modem::modem->writeLine("Unproto");
 }
 
 
 void ModeCommander::Listen() {
 	Modem::modem->send_esc();
 	if ( !blisten ) {
-		Modem::modem->writeLine( "l 1" );
+		Modem::modem->writeLine("l 1");
 		blisten = true;
 	}
 	else {
-		Modem::modem->writeLine( "l 0" );
+		Modem::modem->writeLine("l 0");
 		blisten = false;
 	}
 }
@@ -112,12 +112,12 @@ void ModeCommander::setListen(bool _blisten) {
 
 void ModeCommander::Monitor() {
 	Modem::modem->send_esc();
-	Modem::modem->writeLine( "mon" );
+	Modem::modem->writeLine("mon");
 }
 
 void ModeCommander::FEC() {
 	Modem::modem->send_esc();
-	Modem::modem->writeLine( "fec" );
+	Modem::modem->writeLine("fec");
 }
 
 void ModeCommander::cwprescribe() {
