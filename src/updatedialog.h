@@ -42,7 +42,7 @@ class UpdateDialog : public QDialog  {
 	Q_OBJECT
 
 	public:
-		UpdateDialog(QWidget *parent=0);
+		UpdateDialog(QWidget *parent = 0);
 		~UpdateDialog();
 
 	private:
@@ -57,7 +57,7 @@ class UpdateDialog : public QDialog  {
 
 	protected:
 
-		void closeEvent( QCloseEvent* );
+		void closeEvent( QCloseEvent*);
 
 	private slots:
 
