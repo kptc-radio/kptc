@@ -23,7 +23,7 @@
 ConfigData configdata;
 
 QString ConfigData::getGroupName(Group group) const
-{std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+{
 	switch (group) {
 		case  Group::PORT:
 			return "PORT";
@@ -42,44 +42,44 @@ QString ConfigData::getGroupName(Group group) const
 	}
 }
 
-QString ConfigData::boolToString(bool value) const {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+QString ConfigData::boolToString(bool value) const {
 	if (value) {
 		return "TRUE";
 	}
 	return "FALSE";
 }
 
-void ConfigData::setValue(Group group, const QString &key ,const QString &value) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ConfigData::setValue(Group group, const QString &key ,const QString &value) {
 	std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	this->settings->beginGroup(this->getGroupName(group));
 	this->settings->setValue(key, value);
 	this->settings->endGroup();
 }
 
-QString ConfigData::getValue(Group group,const QString &key,const QString &defaultvalue) const {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+QString ConfigData::getValue(Group group,const QString &key,const QString &defaultvalue) const {
 	std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;this->settings->beginGroup(this->getGroupName(group));
 	QString data = (QString) this->settings->value(key, defaultvalue).toString();
 	this->settings->endGroup();
 	return data;
 }
 
-bool ConfigData::stringIsTrue(const QString &string) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+bool ConfigData::stringIsTrue(const QString &string) {
 	std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	return string == "TRUE";
 }
 
 ConfigData::ConfigData()
-{std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+{
 
 	std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
 	this->settings = new QSettings("kptc", "kptc");
 }
 
-ConfigData::~ConfigData() {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+ConfigData::~ConfigData() {
 	this->settings->deleteLater();
 }
 
-QString ConfigData::parseMacroText(QString text) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+QString ConfigData::parseMacroText(QString text) {
 	text.replace(QRegExp("%MYCALL%"), configdata.getCall());
 	text.replace(QRegExp("%MYSELCALL%"), configdata.getSelCall());
 	text.replace(QRegExp("%MYQTH%"), configdata.getQTH());
@@ -89,195 +89,195 @@ QString ConfigData::parseMacroText(QString text) {std::cout << __FILE__ << __FUN
 
 // change and read keys
 
-void ConfigData::setPort(const QString &dev) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-	if (dev != 0L) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ConfigData::setPort(const QString &dev) {
+	if (dev != 0L) {
 		this->setValue(Group::PORT, "PORTDEVICE", dev);
 	}
 }
 
-QString ConfigData::getPort() {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+QString ConfigData::getPort() {
 	return this->getValue(Group::PORT, "PORTDEVICE", "/dev/ttyS0");
 }
 
-void ConfigData::setEditPort(const QString &dev) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ConfigData::setEditPort(const QString &dev) {
 	this->setValue(Group::PORT, "PORTDEVICE_EDIT", dev);
 }
 
-QString ConfigData::getEditPort() {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+QString ConfigData::getEditPort() {
 	return this->getValue(Group::PORT, "PORTDEVICE_EDIT", "/dev/ttyS11");
 }
 
-void ConfigData::setPortSpeed(const QString &speed) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-	if (speed != 0L){std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ConfigData::setPortSpeed(const QString &speed) {
+	if (speed != 0L){
 		this->setValue(Group::PORT, "PORTSPEED", speed);
 	}
 }
 
-QString ConfigData::getPortSpeed() {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+QString ConfigData::getPortSpeed() {
 	return this->getValue(Group::PORT,  "PORTSPEED", "38400");
 }
 
-void ConfigData::setCall(const QString &call ){std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ConfigData::setCall(const QString &call ){
 	this->setValue(Group::PERSONAL, "CALL", call);
 }
 
 
-QString ConfigData::getCall(){std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+QString ConfigData::getCall(){
 	return this->getValue(Group::PERSONAL,  "CALL", "DK0TUX");
 }
 
-void ConfigData::setSelCall(const QString &call ){std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ConfigData::setSelCall(const QString &call ){
 	this->setValue(Group::PERSONAL, "SELCALL", call);
 }
 
 
-QString ConfigData::getSelCall(){std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+QString ConfigData::getSelCall(){
 	return this->getValue(Group::PERSONAL, "SELCALL", "DTUX");
 }
 
 
-void ConfigData::setfirststart( bool  first) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ConfigData::setfirststart( bool  first) {
 	if (!first) this->setValue(Group::GENERAL, "FIRSTSTART", "FALSE");
 }
 
-bool ConfigData::firststart() {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+bool ConfigData::firststart() {
 	QString s=  this->getValue(Group::GENERAL, "FIRSTSTART", "TRUE");
 	//qDebug () << "configdata::firststart() - entry:" << s;
 	return this->stringIsTrue(s);
 }
 
-void ConfigData::setAwayMsg(bool set,const QString &msg) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ConfigData::setAwayMsg(bool set,const QString &msg) {
 	this->setValue(Group::LOGOUT, "USEAWAYMSG", this->boolToString(set));
 	this->setValue(Group::LOGOUT, "AWAYMSG", msg);
 }
 
-bool ConfigData::isAwayMsg() {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+bool ConfigData::isAwayMsg() {
 	QString s= this->getValue(Group::LOGOUT, "USEAWAYMSG", "TRUE");
 	return this->stringIsTrue(s);
 }
 
-QString ConfigData::getAwayMsg() {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+QString ConfigData::getAwayMsg() {
 	return this->getValue(Group::LOGOUT, "AWAYMSG", "Here is %MYCALL% from %MYQTH%,\n\ncurrently terminal is not active!\n\n73 de %MYNAME%.");
 }
 /////
-void ConfigData::setCMsg(bool set,const QString &msg) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ConfigData::setCMsg(bool set,const QString &msg) {
 	this->setValue(Group::PERSONAL, "USECMSG", this->boolToString(set));
 	this->setValue(Group::PERSONAL, "CMSG", msg);
 }
 
-bool ConfigData::isCMsg() {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+bool ConfigData::isCMsg() {
 	QString s= this->getValue(Group::PERSONAL, "USECMSG", "TRUE");
 	return this->stringIsTrue(s);
 }
 
-QString ConfigData::getCMsg() {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+QString ConfigData::getCMsg() {
 	return this->getValue(Group::PERSONAL, "CMSG", "Here is %MYCALL% from %MYQTH%!");
 }
 
-void ConfigData::setCQPactor(const QString &qtext ) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ConfigData::setCQPactor(const QString &qtext ) {
 	this->setValue(Group::CQTEXT, "PACTOR", qtext );
 }
 
-QString ConfigData::getCQPactor() {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+QString ConfigData::getCQPactor() {
 	return this->getValue(Group::CQTEXT, "PACTOR", "CQ CQ CQ de %MYCALL%\nCQ CQ CQ de %MYCALL%\nCQ CQ CQ de %MYCALL%\npse K\n");
 }
 
-void ConfigData::setCQAmtor(const QString &qtext ) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ConfigData::setCQAmtor(const QString &qtext ) {
 	this->setValue(Group::CQTEXT, "AMTOR", qtext);
 }
 
-QString ConfigData::getCQAmtor() {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+QString ConfigData::getCQAmtor() {
 	return this->getValue(Group::CQTEXT, "AMTOR", "CQ CQ CQ de %MYCALL%\nCQ CQ CQ de %MYCALL%\nCQ CQ CQ de %MYCALL%\npse K\n");
 }
 
-void ConfigData::setCQRTTY(const QString &qtext ) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ConfigData::setCQRTTY(const QString &qtext ) {
 	this->setValue(Group::CQTEXT, "RTTY", qtext );
 }
 
-QString ConfigData::getCQRTTY() {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+QString ConfigData::getCQRTTY() {
 	return this->getValue(Group::CQTEXT, "RTTY", "ryryryryryry\nCQ CQ CQ de %MYSELCALL%\nCQ CQ CQ de %MYSELCALL%\npse K\n");
 }
-void ConfigData::setCQPSK31(const QString &qtext ) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ConfigData::setCQPSK31(const QString &qtext ) {
 	this->setValue(Group::CQTEXT, "PSK31", qtext );
 }
 
-QString ConfigData::getCQPSK31() {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+QString ConfigData::getCQPSK31() {
 	return this->getValue(Group::CQTEXT, "PSK31", "CQ CQ CQ de %MYCALL%\nCQ CQ CQ de %MYCALL%\nCQ CQ CQ de %MYCALL%\npse K\n");
 }
 
-void ConfigData::setCQCW(const QString &qtext ) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ConfigData::setCQCW(const QString &qtext ) {
 	this->setValue(Group::CQTEXT, "CW", qtext );
 }
 
-QString ConfigData::getCQCW() {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+QString ConfigData::getCQCW() {
 	return this->getValue(Group::CQTEXT, "CW", "cq cq cq de %MYCALL%\ncq cq cq de %MYCALL%\npse k\n");
 }
 
-void ConfigData::setFixLabel(const QString &label,const QString &number) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ConfigData::setFixLabel(const QString &label,const QString &number) {
 	this->setValue(Group::FIXTEXT, number, label);
 }
 
-QString ConfigData::getFixLabel (const QString &number ) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+QString ConfigData::getFixLabel (const QString &number ) {
 	return this->getValue(Group::FIXTEXT, number, "TEXT NR. " + number );
 }
 
-void ConfigData::setFixPath(const QString &path,const QString &number) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ConfigData::setFixPath(const QString &path,const QString &number) {
 	this->setValue(Group::FIXTEXT, number + "PATH", path );
 }
 
-QString ConfigData::getFixPath (const QString &number ) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+QString ConfigData::getFixPath (const QString &number ) {
 	return this->getValue(Group::FIXTEXT, number + "PATH", "");
 }
 
-void ConfigData::setName(const QString &name ) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ConfigData::setName(const QString &name ) {
 	this->setValue(Group::PERSONAL, "NAME", name);
 }
 
-QString ConfigData::getName(){std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+QString ConfigData::getName(){
 	return this->getValue(Group::PERSONAL, "NAME", "Tux");
 }
 
-void ConfigData::setQTH(const QString &name ) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ConfigData::setQTH(const QString &name ) {
 	this->setValue(Group::PERSONAL, "QTH", name);
 }
 
-QString ConfigData::getQTH(){std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+QString ConfigData::getQTH(){
 	return this->getValue(Group::PERSONAL, "QTH", "Antarctic");
 }
 
-void ConfigData::setLogoutPath(const QString &path) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ConfigData::setLogoutPath(const QString &path) {
 	this->setValue(Group::LOGOUT, "PATH", path);
 }
 
-QString ConfigData::getLogoutPath () {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+QString ConfigData::getLogoutPath () {
 	return this->getValue(Group::LOGOUT, "PATH", "");
 }
 
 
-void ConfigData::setLoginPath(const QString &path) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ConfigData::setLoginPath(const QString &path) {
 	this->setValue(Group::LOGIN,  "PATH", path);
 }
 
-QString ConfigData::getLoginPath () {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+QString ConfigData::getLoginPath () {
 	return this->getValue(Group::LOGIN, "PATH", "");
 }
 
-void ConfigData::setLogoutScript( bool set ) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ConfigData::setLogoutScript( bool set ) {
 	QString qset = this->boolToString(set);
 	this->setValue(Group::LOGOUT,  "LOGOUTSCRIPT", qset);
 }
 
-bool ConfigData::isLogoutScript() {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+bool ConfigData::isLogoutScript() {
 	QString temp = this->getValue(Group::LOGOUT, "LOGOUTSCRIPT", "FALSE");
 	return this->stringIsTrue(temp);
 }
 
-void ConfigData::setLoginScript( bool set ) {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ConfigData::setLoginScript( bool set ) {
 	QString qset = this->boolToString(set);
 	this->setValue(Group::LOGIN,  "LOGINSCRIPT", qset);
 }
 
-bool ConfigData::isLoginScript() {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+bool ConfigData::isLoginScript() {
 	QString temp = this->getValue(Group::LOGIN, "LOGINSCRIPT", "FALSE");
 	return this->stringIsTrue(temp);
 }
