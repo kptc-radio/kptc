@@ -14,8 +14,8 @@
 #include <QDebug>
 
 //	defaults for UUCP style lock files :
-#define LF_PATH			 "/var/lock"
-#define LF_PREFIX			 "LCK	"
+#define LF_PATH "/var/lock"
+#define LF_PREFIX "LCK	"
 
 #ifndef max
 	#define max(a,b) (((a) > (b)) ? (a) : (b))
