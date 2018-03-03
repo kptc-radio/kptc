@@ -22,6 +22,12 @@
 
 ConfigData configdata;
 
+
+ConfigData::ConfigData()
+{
+	this->settings = new QSettings("kptc", "kptc");
+}
+
 QString ConfigData::getGroupName(Group group) const
 {
 	switch (group) {
@@ -64,11 +70,6 @@ QString ConfigData::getValue(Group group,const QString &key,const QString &defau
 
 bool ConfigData::stringIsTrue(const QString &string) {
 	return string == "TRUE";
-}
-
-ConfigData::ConfigData()
-{
-	this->settings = new QSettings("kptc", "kptc");
 }
 
 ConfigData::~ConfigData() {
