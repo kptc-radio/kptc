@@ -224,21 +224,20 @@ bool Modem::writeLine(QString data) {
 }
 
 void Modem::send_esc(){
-
-char esc = 27;
+	constexpr char esc = 27;
 	writeChar( esc );
 }
 
 bool Modem :: lock_device()
 {
-	char * device;
+	char *device;
 	device = (char *) qdev.toStdString().data();
-	char	lckf[128];
-	int	lfh;
-	pid_t	lckpid;
-	char	*devicename;
-	char	lckpidstr[20];
-	int	nb;
+	char lckf[128];
+	int lfh;
+	pid_t lckpid;
+	char *devicename;
+	char lckpidstr[20];
+	int nb;
 	struct stat buf;
 	devicename = strrchr(device, '/');
 	sprintf(lckf, "%s/%s%s", LF_PATH, LF_PREFIX, (devicename ? (devicename + 1) : device));
@@ -291,8 +290,8 @@ bool Modem :: unlock_device()
 	if(! modem_is_locked	&& qdev=="") { qDebug() << "confused by unlock device, sorry !"<< endl;return false; }
 	char *device;
 	device = (char *) qdev.toStdString().c_str();
-	char	lckf[128];
-	char	*devicename;
+	char lckf[128];
+	char *devicename;
 	devicename = strrchr(device, '/');
 	sprintf(lckf, "%s/%s%s", LF_PATH, LF_PREFIX, (devicename ? (devicename + 1) : device));
 	if (unlink(lckf)) {
@@ -311,11 +310,11 @@ int Modem::getFD() {
  */
 int Modem::rs232_read( void *bp, int maxlen)
 {
-	fd_set		set;
-	struct timeval	timeout;
-	int		Max;
-	int		endloop;
-	int		res;
+	fd_set set;
+	struct timeval timeout;
+	int  Max;
+	int endloop;
+	int res;
 	Max = 0;
 	endloop = 0;
 	do {
