@@ -83,14 +83,14 @@ void UpdateDialog::updateMessage(QString text) {
 	infolabel->setText(text);
 }
 
-void UpdateDialog::closeEvent( QCloseEvent* ce )
+void UpdateDialog::closeEvent( QCloseEvent* event )
 {
 	if (!updaterunning) {
-		ce->accept();
+		event->accept();
 		return;
 	}
 	else {
-		ce->ignore();
+		event->ignore();
 	}
 }
 
