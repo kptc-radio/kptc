@@ -312,10 +312,10 @@ int Modem::rs232_read( void *bp, int maxlen)
 {
 	fd_set set;
 	struct timeval timeout;
-	int  Max;
+	int  max;
 	int endloop;
 	int res;
-	Max = 0;
+	max = 0;
 	endloop = 0;
 	do {
 		timeout.tv_sec = 0;
@@ -331,9 +331,9 @@ int Modem::rs232_read( void *bp, int maxlen)
 			perror("rs232_read select");
 			exit(10);
 		} else {
-			Max += read(modemfd, bp, maxlen);
+			max += read(modemfd, bp, maxlen);
 		}
-	} while ((Max < maxlen) && !endloop);
+	} while ((max < maxlen) && !endloop);
 	return res;
 }
 
