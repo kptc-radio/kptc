@@ -101,7 +101,7 @@ class Update : public QObject  {
 
 		Update(QWidget *mywidget=0);
 		~Update();
-v
+
 	private:
 		QWidget *updatewidget;
 		time_t convtime(FDTIME);
