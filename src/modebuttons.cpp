@@ -20,7 +20,7 @@
 #include <iostream>
 #include "modebuttons.h"
 
-ModeButtons::ModeButtons(QWidget *parent ) : QObject(parent) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+ModeButtons::ModeButtons(QWidget *parent ) : QObject(parent) {
 	buttongroup = new QButtonGroup(parent);
 	pactorButton = new QPushButton("Pactor", parent);
 	amtorButton = new QPushButton("Amtor", parent);
@@ -35,6 +35,6 @@ ModeButtons::ModeButtons(QWidget *parent ) : QObject(parent) { std::cout << __FI
 	buttongroup->setExclusive(true);
 // TODO Make buttons to togglebuttons?
 }
-ModeButtons::~ModeButtons() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+ModeButtons::~ModeButtons() {
 	buttongroup->deleteLater();
 }

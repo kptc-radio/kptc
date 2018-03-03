@@ -29,7 +29,7 @@
 static const char *description = ("Kptc - User Interface for the SCS-PTC-II");
 
 int main(int argc, char *argv[])
-{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+{
 	QApplication app(argc, argv);
 	app.setApplicationName("Kptc");
 	QGuiApplication::setApplicationName("Kptc");

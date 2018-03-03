@@ -19,7 +19,7 @@
 #include <iostream>
 #include "cwspeedwidget.h"
 
-CWSpeedWidget::CWSpeedWidget(QWidget *parent) : QDialog(parent) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+CWSpeedWidget::CWSpeedWidget(QWidget *parent) : QDialog(parent) {
 	setWindowTitle(tr("cw tx speed"));
 	resize( 200,80 );
 	setMinimumSize( 200, 80 );
@@ -40,19 +40,19 @@ CWSpeedWidget::CWSpeedWidget(QWidget *parent) : QDialog(parent) { std::cout << _
 	connect(lineedit, SIGNAL(textChanged(const QString &)), this, SLOT(updateSlider(const QString &)));
 }
 
-void CWSpeedWidget::updateText(int i) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void CWSpeedWidget::updateText(int i) {
 	QString qi;
 	qi.setNum(i);
 	speed = i;
 	lineedit->setText(qi);
 }
 
-void CWSpeedWidget::updateSlider(const QString &qs) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void CWSpeedWidget::updateSlider(const QString &qs) {
 	speed = qs.toUInt();
 	slider->setValue(speed);
 }
 
-void CWSpeedWidget::change() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void CWSpeedWidget::change() {
 	QString qs;
 	qs.setNum(speed);
 	qs.prepend("cws ");
@@ -61,5 +61,5 @@ void CWSpeedWidget::change() { std::cout << __FILE__ << __FUNCTION__ << __LINE__
 	accept();
 }
 
-CWSpeedWidget::~CWSpeedWidget(){ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+CWSpeedWidget::~CWSpeedWidget(){
 }

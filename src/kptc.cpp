@@ -18,11 +18,12 @@
  ***************************************************************************/
 
 #include <iostream>
+#include <QDebug>
 
 #include "kptc.h"
 
 Kptc::Kptc(QWidget *parent) : QMainWindow()
-{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+{
 
 	setWindowTitle(tr("Kptc - the PTC-II for penguins "));
 	// connect( kapp, SIGNAL(shutDown()), this, SLOT(shutdown()) );
@@ -115,39 +116,40 @@ Kptc::Kptc(QWidget *parent) : QMainWindow()
 
 	//setAutoSaveSettings();
 
-	if ( configdata.firststart() ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if ( configdata.firststart() ) {
+		QMessageBox::information(this, (QString(tr("Thank you for installing Kptc !\n")) +
+		QString("This is a Ham Radio software for the SCS-PTC-II\nRemember: This sofware is still beta !\n\n") +
+		QString("Connect the PTC to your computer\nand switch it on now.\nThen let?s continue with some configurations.\n") +
+		QString("Have Fun ! 73 de Lars DL3YFC")), QString(tr("Welcome to Kptc !")));
 
-	QMessageBox::information( this, (QString(tr("Thank you for installing Kptc !\n")) +
-	QString("This is a Ham Radio software for the SCS-PTC-II\nRemember: This sofware is still beta !\n\n") +
-	QString("Connect the PTC to your computer\nand switch it on now.\nThen let?s continue with some configurations.\n") +
-	QString("Have Fun ! 73 de Lars DL3YFC")), QString(tr("Welcome to Kptc !")));
-
-	ConfigDialog configdialog ;
-	if (configdialog.exec()== QDialog::Accepted) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-		bModemOk = Modem::modem->opentty() ;
-		Modem::modem->notify(this, SLOT(parseModemOut(unsigned char)));
-		configdata.setfirststart( false );
-		useconfigmachine();
-		//lefttoolbar->setBarPos(KToolBar::Left);
+		ConfigDialog configdialog ;
+		if (configdialog.exec()== QDialog::Accepted) {
+			bModemOk = Modem::modem->opentty() ;
+			Modem::modem->notify(this, SLOT(parseModemOut(unsigned char)));
+			configdata.setfirststart( false );
+			useconfigmachine();
+			//lefttoolbar->setBarPos(KToolBar::Left);
 		}
 	}
-	else { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	else {
 
 	bModemOk = Modem::modem->opentty();
 		Modem::modem->notify(this, SLOT(parseModemOut(unsigned char)));
 		useconfigmachine();
-		}
+	}
 		configmachine->login();
 	//qDebug() << Modem::modem->modemMessage();
-	if ( ! bModemOk) QMessageBox::information( this,
+	if (!bModemOk) {
+				QMessageBox::information( this,
 		tr("Cannot open modem device !"), "Kptc" );
+	}
 
 	this->initializeMenuBar();
 	this->initializeToolBar();
 	this->initializePopUpMenues();
 }
 
-void Kptc::initializeToolBar() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void Kptc::initializeToolBar() {
 	modetoolbar = new QToolBar(this);
 	modebuttons = new ModeButtons(modetoolbar);
 
@@ -164,7 +166,7 @@ void Kptc::initializeToolBar() { std::cout << __FILE__ << __FUNCTION__ << __LINE
 	connect(modebuttons->cwButton, SIGNAL(clicked(bool)), modecommander,SLOT(changetoCW()));
 }
 
-void Kptc::initializePopUpMenues() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void Kptc::initializePopUpMenues() {
 	// Popup Menu:
 
 	QMenu *filemenu = new QMenu();
@@ -229,26 +231,22 @@ void Kptc::initializePopUpMenues() { std::cout << __FILE__ << __FUNCTION__ << __
 		fixmenu = new QMenu ;
 
 		QString number;
-	for ( int i = 1; i <= 8; i++ ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	for (int i = 1; i <= 8; i++) {
+		number.setNum(i);
+		QAction *actionSendText = new QAction(+ "&" + number + ". " + configdata.getFixLabel( number ), fixmenu);
+		connect(actionSendText, SIGNAL(triggered(bool)),this, SLOT (sendFixText( int )) );
 
-	  number.setNum(i);
+		actionSendText->setShortcut(QKeySequence(Qt::CTRL, Qt::Key_F1, i));
 
-	  QAction *actionSendText = new QAction(+ "&" + number + ". " + configdata.getFixLabel( number ), fixmenu);
-
-	connect(actionSendText, SIGNAL(triggered(bool)),this, SLOT (sendFixText( int )) );
-
-	 actionSendText->setShortcut(QKeySequence(Qt::CTRL, Qt::Key_F1, i));
-
-	 fixmenu->addAction(actionSendText);
-
-//	  fixmenu->insertItem ( "&" + s + ". " + configdata.getFixLabel( s ),
-//			  this, SLOT (sendFixText( int )), CTRL + SHIFT + (Key_F1 +(i)) , i);
-//			((fixmenu->setItemParameter ( i, i);
+		fixmenu->addAction(actionSendText);
+		//	  fixmenu->insertItem ( "&" + s + ". " + configdata.getFixLabel( s ),
+		//			  this, SLOT (sendFixText( int )), CTRL + SHIFT + (Key_F1 +(i)) , i);
+		//			((fixmenu->setItemParameter ( i, i);
 
 	}
 }
 
-void Kptc::initializeStatusBar() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void Kptc::initializeStatusBar() {
 	KLed *sendled = new KLed( statusBar() );
 	sendled->setColor(QColor("#CC0000b")); //red
 	sendled->off();
@@ -263,8 +261,8 @@ void Kptc::initializeStatusBar() { std::cout << __FILE__ << __FUNCTION__ << __LI
 	statusinfo->show();
 }
 
-void Kptc::initializeMenuBar() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-	//QMenuBar *menu = new QMenuBar( this );
+void Kptc::initializeMenuBar() {
+	QMenuBar *menu = new QMenuBar( this );
 	QMenu *fileMenu = new QMenu(tr( "&File" ), this->menuBar());
 	this->menuBar()->addMenu(fileMenu);
 	QMenu *actionMenu = new QMenu(tr( "&Actions" ), this->menuBar());
@@ -275,104 +273,103 @@ void Kptc::initializeMenuBar() { std::cout << __FILE__ << __FUNCTION__ << __LINE
 	menuBar()->addMenu(optionMenu);
 }
 
-void Kptc::parseModemOut(unsigned char c) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-
-	if ((int) c == 6)  //qDebug ()<< "Packet-STATUSINFO";
-	if (bStatusByteFollows) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void Kptc::parseModemOut(unsigned char c) {
+	if ((int) c == 6) {
+			qDebug ()<< "Packet-STATUSINFO";
+	}
+	if (bStatusByteFollows) {
 		bStatusByteFollows = false;
 		parseStatus( c );
 	}
-	else if ((int) c == 30 ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	else if ((int) c == 30 ) {
 		bStatusByteFollows = true;
 	}
-
-	else if (c == 4) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	else if (c == 4) {
 		bPromptInfoFollows = true; // command prompt info follows
 	}
-	else if (bPromptInfoFollows) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	else if (bPromptInfoFollows) {
 		parsePrompt( c );
 		  bPromptInfoFollows = false;
 		  parsePromptText = 20;
 	}
-	else if (parsePromptText > 0) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-	if ((int)c == 1) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl; parsePromptText = 0; currentterm = 1; textedit->setPrompt(prompt.trimmed()); prompt.clear();} // prompt end
-		else
-		{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	else if (parsePromptText > 0) {
+	if ((int)c == 1) { parsePromptText = 0; currentterm = 1; textedit->setPrompt(prompt.trimmed()); prompt.clear();} // prompt end
+		else {
 			parsePromptText--;
-			if (this->isendline(c)) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+			if (this->isendline(c)) {
 				prompt.append(c);
 			}
 		}
 	}
-	else if ((int)c == 3 ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl; currentterm = 3;   }	// delayed echo
-	else if ((int)c == 2 ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl; currentterm = 2;   }	// rx
-	else if ((int)c == 1 ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl; currentterm = 1;   }	// prompt , errors , ...
+	else if ((int)c == 3 ) { currentterm = 3;   }	// delayed echo
+	else if ((int)c == 2 ) { currentterm = 2;   }	// rx
+	else if ((int)c == 1 ) { currentterm = 1;   }	// prompt , errors , ...
 	else if ((int)c == 7 ) ; // klingeling :-) , changeover bell, do some ring ring here !?
-	else { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
-		if ((currentterm == 2) || (currentterm == 3)) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	else {
+		if ((currentterm == 2) || (currentterm == 3)) {
 //			if (currentterm == 3) termoutput->setNewLineColor(QColor("#FF3333"));   // echo //red
 //			else termoutput->setNewLineColor(QColor("#336600"));			  // rx
 
 			termoutput->append(QString(c));
 			show();
 		}
-		else if (currentterm == 1) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+		else if (currentterm == 1) {
 
 			//termoutput->setNewLineColor(QColor("#000000")); //black
 			termoutput->append(QString(c));
-			if (this->isendline(c)) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+			if (this->isendline(c)) {
 
-				if (statusmessage.contains("*** ") == 1 ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+				if (statusmessage.contains("*** ") == 1 ) {
 
-					if (statusmessage.contains("CONNECTED") || statusmessage.contains("CALLING")) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+					if (statusmessage.contains("CONNECTED") || statusmessage.contains("CALLING")) {
 						statusmessage.replace( QRegExp("[*]"), "" );
 						statusmessage = statusmessage.trimmed();
 						statusinfo->statusmessage->setText(statusmessage);
 					}
-					else if ( statusmessage.contains("STBY")) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+					else if ( statusmessage.contains("STBY")) {
 						statusinfo->statusmessage->setText("");
 					}
 				}
 				statusmessage = "";
 			}
-			else { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+			else {
 				statusmessage.append(c);
 			}
 		}
 	}
 }
 
-void Kptc :: sendline(QString qs) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void Kptc :: sendline(QString qs) {
 	Modem::modem->writeLine( qs );
 	termoutput->append(qs);
 	termoutput->append("\n");
 	show();
 }
 
-void Kptc :: sendchar(unsigned char c){ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void Kptc :: sendchar(unsigned char c){
 	if (Modem::modem->writeChar(c));//TODO Why?
 }
 
-void Kptc :: echoText(QString qtext) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void Kptc :: echoText(QString qtext) {
 	//	termoutput->setNewLineColor(QColor("#001933")); //darkblue
 	termoutput->append(qtext);
 }
 
-void Kptc :: openconfigdialog(){ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void Kptc :: openconfigdialog(){
 	ConfigDialog configdialog ;
-	if (configdialog.exec() == QDialog::Accepted) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if (configdialog.exec() == QDialog::Accepted) {
 		useconfigmachine();
 	}
 }
 
-void Kptc :: useconfigmachine(){ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void Kptc :: useconfigmachine(){
 	configmachine->doconfig();
 	statusinfo->call->setText(configdata.getCall() + " (" + configdata.getSelCall() + ") ");
 	updateStatusBar();
 
 	QString number;
 	fixmenu->clear();
-	for ( int i = 1; i <= 8; i++ ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	for ( int i = 1; i <= 8; i++ ) {
 		number.setNum(i);
 		QAction *action = new QAction("&" + number + ". " + configdata.getFixLabel( number ), fixmenu);
 		connect(action, SIGNAL(triggered(bool)), this, SLOT (sendFixText(int)));
@@ -381,23 +378,23 @@ void Kptc :: useconfigmachine(){ std::cout << __FILE__ << __FUNCTION__ << __LINE
 	}
 }
 
-void Kptc :: openCommandDialog() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void Kptc :: openCommandDialog() {
 		commanddialog.close();
 		commanddialog.show();
 		commanddialog.setFocus();
 }
 
-void Kptc :: clearTrafficWindow() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void Kptc :: clearTrafficWindow() {
 	//termoutput->repaint(false);
 }
 
-void Kptc :: clearEditWindow() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void Kptc :: clearEditWindow() {
 	textedit->clear();
 }
 
 //TODO Check which correct QObject has to been called
 
-void Kptc :: showPactor() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void Kptc :: showPactor() {
 	lefttoolbar->clear();
 	std::cout << __LINE__ << " " << __FUNCTION__ << std::endl;
 	this->expandToolBar("Stand by", "Standby", modecommander, lefttoolbar);
@@ -410,7 +407,7 @@ void Kptc :: showPactor() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  <
 //	lefttoolbar->setButton(6,modecommander->isListen());
 }
 
-void Kptc :: showAmtor() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void Kptc :: showAmtor() {
 	//modebuttons->buttongroup->setButton(2);
 	lefttoolbar->clear();
 	std::cout << __LINE__ << " " << __FUNCTION__ << std::endl;
@@ -422,7 +419,7 @@ void Kptc :: showAmtor() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  <<
 	this->expandToolBar("Monitor", "Monitor", modecommander, lefttoolbar);
 }
 
-void Kptc :: showRTTY() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void Kptc :: showRTTY() {
 	// modetoolbar->toggleButton(3);
 	// ;
 	std::cout << __LINE__ << " " << __FUNCTION__ << std::endl;
@@ -434,7 +431,7 @@ void Kptc :: showRTTY() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << 
 	this->expandToolBar(cqws, "openDialog", cqdialog, lefttoolbar);
 }
 
-void Kptc :: showPSK31() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void Kptc :: showPSK31() {
 	//modetoolbar->toggleButton(4);
 	//modebuttons->buttongroup->setButton(4);
 	std::cout << __LINE__ << " " << __FUNCTION__ << std::endl;
@@ -445,7 +442,7 @@ void Kptc :: showPSK31() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  <<
 	this->expandToolBar(cq, "openDialog", cqdialog, lefttoolbar);
 }
 
-void Kptc :: showCW() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void Kptc :: showCW() {
 	//modebuttons->buttongroup->setButton(5);
 	lefttoolbar->clear();
 	std::cout << __LINE__ << " " << __FUNCTION__ << std::endl;
@@ -459,34 +456,34 @@ void Kptc :: showCW() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << st
 	this->expandToolBar(cqws, "openDialog", cqdialog, lefttoolbar);
 }
 
-void Kptc::expandToolBar(QString text, char *slot, QObject *obj, QToolBar *bar) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void Kptc::expandToolBar(QString text, char *slot, QObject *obj, QToolBar *bar) {
 	QAction *temp = new QAction(text, this->lefttoolbar);
 	connect(temp, SIGNAL(triggered(bool)), obj, slot);
 	bar->addAction(temp);
 }
 
-void Kptc :: showcwspeeddialog() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void Kptc :: showcwspeeddialog() {
 	cwspeedwidget->close();
 	cwspeedwidget->show();
 }
 
-void Kptc :: showrttyspeeddialog() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void Kptc :: showrttyspeeddialog() {
 	rttyspeedwidget->close();
 	rttyspeedwidget->show();
 }
-void Kptc :: initchangeover() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void Kptc :: initchangeover() {
 	textedit->myinsert("[changeover]\n");
 	termoutput->append("\n[changeover]\n");
 	modecommander->Changeover();
 }
 
-void Kptc :: initQRT() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void Kptc :: initQRT() {
 	textedit->myinsert("[QRT]\n");
 	termoutput->append("\n[QRT]\n");
 	modecommander->QRT();
 }
 
-void Kptc :: updateStatusBar() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void Kptc :: updateStatusBar() {
 	statusinfo->prompt->setText(modecommander->currendmod());
 	if (modecommander->currendmod() == "cmd:")  showPactor();
 	else if (modecommander->currendmod() == "Amtor")  showAmtor();
@@ -497,7 +494,7 @@ void Kptc :: updateStatusBar() { std::cout << __FILE__ << __FUNCTION__ << __LINE
 	else showPactor();
 }
 
-bool Kptc::isendline(char c) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+bool Kptc::isendline(char c) {
 	return c == '\n' || c == '\r' ;
 }
 
@@ -529,12 +526,12 @@ void Kptc :: parsePrompt(const char c) {
 	updateStatusBar();
 }
 
-void Kptc :: parseStatus(const char c) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void Kptc :: parseStatus(const char c) {
 	// check DIRECTION bit ( SEND-LED )
-	if (( c & 0x08 ) > 0 ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if (( c & 0x08 ) > 0 ) {
 		statusinfo->led->on();
 	}
-	else { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	else {
 		statusinfo->led->off();
 	}
 
@@ -604,63 +601,63 @@ void Kptc :: parseStatus(const char c) { std::cout << __FILE__ << __FUNCTION__ <
 	statusinfo->mode->setText(mode);
 
 	// read listen mode from status byte ??
-	if ( mode == "LISTEN" ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if ( mode == "LISTEN" ) {
 		modecommander->setListen(true);
 	}
-	else { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	else {
 		modecommander->setListen(false);
 	}
 }
 
-void Kptc::sendFixText( int id ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void Kptc::sendFixText( int id ) {
 	QString qsid;
 	qsid.setNum( id );
 	QString filename = configdata.getFixPath(qsid);
 	QFile file ( filename );
-	if ( ! file.open (QIODevice::ReadOnly)) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if ( ! file.open (QIODevice::ReadOnly)) {
 		QMessageBox::critical( this, "",
 		("Cannot open fix text file !\n Error by opening \"" + filename +"\""  ) );	 // error by opening text file
 		return;
 	}
 	QString buffer;
 
-	while (!file.atEnd()) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	while (!file.atEnd()) {
 	buffer = file.readLine(1024);
 		Modem::modem->writeLine(buffer);
 	}
 	file.close() ;
 }
 
-void Kptc::openUpdateDialog() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void Kptc::openUpdateDialog() {
 	UpdateDialog updatedialog;
-	if (updatedialog.exec()==QDialog::Accepted) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if (updatedialog.exec()==QDialog::Accepted) {
 		Modem::modem->startNotifier();
 	}
 }
 
-void Kptc::shutdown() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void Kptc::shutdown() {
 	modecommander->changetoPactor();
 	sleep(1) ;
 	configmachine->logout();
-	if ( ! Modem::modem->closetty()) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if ( ! Modem::modem->closetty()) {
 		//qDebug () << Modem::modem->modemMessage();
 	}
 }
 
-void Kptc::closeEvent( QCloseEvent* ce ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void Kptc::closeEvent( QCloseEvent* ce ) {
 	emit shutdown();
 	ce->accept();
 }
 
-void Kptc::fileQuit() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void Kptc::fileQuit() {
 	close();
 }
 
-bool Kptc::queryClose() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+bool Kptc::queryClose() {
 	shutdown();
 	return true;
 }
 
-Kptc::~Kptc(){ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+Kptc::~Kptc(){
 	deleteLater();
 }

@@ -20,7 +20,7 @@
 #include "rttyspeedwidget.h"
 #include <iostream>
 
-RTTYSpeedWidget::RTTYSpeedWidget(QWidget *parent) : QDialog(parent){ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+RTTYSpeedWidget::RTTYSpeedWidget(QWidget *parent) : QDialog(parent){
 	setWindowTitle(tr("RTTY BAUDE RATE"));
 	resize( 200,80 );
 	setMinimumSize( 200, 80 );
@@ -41,19 +41,19 @@ RTTYSpeedWidget::RTTYSpeedWidget(QWidget *parent) : QDialog(parent){ std::cout <
 }
 
 
-void RTTYSpeedWidget::updateText(int i) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void RTTYSpeedWidget::updateText(int i) {
 	QString qi;
 	qi.setNum(i);
 	speed = i;
 	lineedit->setText(qi);
 }
 
-void RTTYSpeedWidget::updateSlider(const QString &qs) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void RTTYSpeedWidget::updateSlider(const QString &qs) {
 	speed = qs.toUInt();
 	slider->setValue(speed);
 }
 
-void RTTYSpeedWidget::change() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void RTTYSpeedWidget::change() {
 	QString qs;
 	qs.setNum(speed);
 	qs.prepend("bau ");
@@ -62,5 +62,5 @@ void RTTYSpeedWidget::change() { std::cout << __FILE__ << __FUNCTION__ << __LINE
 	accept();
 }
 
-RTTYSpeedWidget::~RTTYSpeedWidget(){ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+RTTYSpeedWidget::~RTTYSpeedWidget(){
 }

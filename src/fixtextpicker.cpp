@@ -19,7 +19,7 @@
 #include <iostream>
 #include "fixtextpicker.h"
 
-FixTextPicker::FixTextPicker(QWidget *parent ) : QWidget(parent) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+FixTextPicker::FixTextPicker(QWidget *parent ) : QWidget(parent) {
 	choosebutton = new QPushButton( tr("choose..."), this );
 	editpath = new QLineEdit(this);
 	editlabel = new QLineEdit(this);
@@ -41,4 +41,4 @@ QLabel *FixTextPicker::getNumLabel() {
 	return this->numlabel;
 }
 
-FixTextPicker::~FixTextPicker() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;}
+FixTextPicker::~FixTextPicker() {}

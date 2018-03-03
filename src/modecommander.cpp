@@ -20,128 +20,128 @@
 #include <iostream>
 #include "modecommander.h"
 
-ModeCommander::ModeCommander(QObject *parent ) : blisten(false), QObject(parent) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;}
+ModeCommander::ModeCommander(QObject *parent ) : blisten(false), QObject(parent) {}
 
-ModeCommander::~ModeCommander(){ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;}
+ModeCommander::~ModeCommander(){}
 
-QString ModeCommander::currendmod() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+QString ModeCommander::currendmod() {
 	return qscurrendmod;
 }
 
 void ModeCommander::setcurrendmod( QString _qscurrendmod )
-{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+{
 	qscurrendmod = _qscurrendmod;
 }
 
-void ModeCommander::changetoPactor() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ModeCommander::changetoPactor() {
 	Standby() ;
 	Modem::modem->send_esc();
 	Modem::modem->writeLine( "PT" );
 }
 
-void ModeCommander::changetoAmtor() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ModeCommander::changetoAmtor() {
 	Standby() ;
 	Modem::modem->send_esc();
 	Modem::modem->writeLine( "Amtor" );
 }
 
-void ModeCommander::changetoAmtorMon() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ModeCommander::changetoAmtorMon() {
 	Standby()	;
 	Modem::modem->send_esc();
 	Modem::modem->writeLine( "Amtor" );
 }
 
-void ModeCommander::changetoRTTY() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ModeCommander::changetoRTTY() {
 	Standby();
 	Modem::modem->send_esc();
 	Modem::modem->writeLine( "Baudot" );
 }
 
-void ModeCommander::changetoPSK31() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ModeCommander::changetoPSK31() {
 	Standby() ;
 	Modem::modem->send_esc();
 	Modem::modem->writeLine( "PSKTerm" );
 }
 
-void ModeCommander::changetoCW() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ModeCommander::changetoCW() {
 	Standby() ;
 	Modem::modem->send_esc();
 	Modem::modem->writeLine( "cwt" );
 }
 
-void ModeCommander::Standby() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ModeCommander::Standby() {
 	Modem::modem->send_esc();
 	Modem::modem->writeLine( "dd" );
 }
 
-void ModeCommander::Changeover() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ModeCommander::Changeover() {
 	char c = 25;
 	Modem::modem->writeChar( c );
 }
 
 
-void ModeCommander::QRT() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ModeCommander::QRT() {
 	char c = 4;
 	Modem::modem->writeChar( c );
 }
 
-void ModeCommander::Unproto() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ModeCommander::Unproto() {
 	Modem::modem->send_esc();
 	Modem::modem->writeLine( "Unproto" );
 }
 
 
-void ModeCommander::Listen() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ModeCommander::Listen() {
 	Modem::modem->send_esc();
-	if ( !blisten ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if ( !blisten ) {
 		Modem::modem->writeLine( "l 1" );
 		blisten = true;
 	}
-	else { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	else {
 		Modem::modem->writeLine( "l 0" );
 		blisten = false;
 	}
 }
 
-bool ModeCommander::isListen() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+bool ModeCommander::isListen() {
 	return blisten;
 }
 
-void ModeCommander::setListen(bool _blisten) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ModeCommander::setListen(bool _blisten) {
 	blisten = _blisten; }
 
-void ModeCommander::Monitor() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ModeCommander::Monitor() {
 	Modem::modem->send_esc();
 	Modem::modem->writeLine( "mon" );
 }
 
-void ModeCommander::FEC() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ModeCommander::FEC() {
 	Modem::modem->send_esc();
 	Modem::modem->writeLine( "fec" );
 }
 
-void ModeCommander::cwprescribe() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ModeCommander::cwprescribe() {
 	char c = 25; // CTRL + Key_Y
 	Modem::modem->writeChar( c );
 	sleep(1);
 	Modem::modem->writeChar( c );
 }
 
-void ModeCommander::cwflush() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ModeCommander::cwflush() {
 	char c = 25; // CTRL + Key_Y
 	Modem::modem->writeChar( c );
 }
 
-void ModeCommander::increaseCWSpeed() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ModeCommander::increaseCWSpeed() {
 	char c = 21;  // CTRL + Key_U
 	Modem::modem->writeChar( c );
 }
 
-void ModeCommander::decreaseCWSpeed() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ModeCommander::decreaseCWSpeed() {
 	char c = 4;  // CTRL + Key_D
 	Modem::modem->writeChar( c );
 }
 
-void ModeCommander::cwautospeed() { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void ModeCommander::cwautospeed() {
 	Modem::modem->writeChar( (char) 6 );	// CTRL + Key_F
 }

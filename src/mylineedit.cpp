@@ -20,7 +20,7 @@
 #include "mylineedit.h"
 #include <iostream>
 
-MyLineEdit::MyLineEdit(QWidget *parent) : QLineEdit(parent){ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+MyLineEdit::MyLineEdit(QWidget *parent) : QLineEdit(parent){
 	this->setFont(QFont("courier",12,QFont::Normal));
 	setReadOnly (false);
 	setMinimumSize( 400, 30 );
@@ -34,11 +34,11 @@ MyLineEdit::MyLineEdit(QWidget *parent) : QLineEdit(parent){ std::cout << __FILE
 	commandlist.append((""));
 }
 
-void MyLineEdit::notify(const QObject *receiver, const char *member) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void MyLineEdit::notify(const QObject *receiver, const char *member) {
 	connect(this, SIGNAL(sendit(unsigned char)), receiver, member);
 }
 
-void MyLineEdit::setPrompt(QString prompt) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void MyLineEdit::setPrompt(QString prompt) {
 	qsprompt = prompt;
 	setText( prompt );
 	promptlength = prompt.length();
@@ -46,7 +46,7 @@ void MyLineEdit::setPrompt(QString prompt) { std::cout << __FILE__ << __FUNCTION
 	else commandmode = true;
 }
 
-void MyLineEdit::keyPressEvent(QKeyEvent *ke) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void MyLineEdit::keyPressEvent(QKeyEvent *ke) {
 	auto it = commandlist.begin();
 	ke->accept();
 	switch ( ke->key() ) {
@@ -61,9 +61,9 @@ void MyLineEdit::keyPressEvent(QKeyEvent *ke) { std::cout << __FILE__ << __FUNCT
 			if (commandmode && cursorPosition()<= promptlength) return;
 			break;
 		case Qt::Key_Up:
-			if (commandmode) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+			if (commandmode) {
 				QString pprev = *(it -1);
-			if (pprev.size()) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+			if (pprev.size()) {
 					QString updummy = qsprompt;
 					updummy.append(pprev);
 					setText(updummy);
@@ -73,12 +73,12 @@ void MyLineEdit::keyPressEvent(QKeyEvent *ke) { std::cout << __FILE__ << __FUNCT
 			}
 			return;
 		case Qt::Key_Down:
-			if (commandmode) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+			if (commandmode) {
 				if ( *(it) == "" )
 					return;
 				QString pnext;
 				pnext = *(it++);
-				if (pnext.size()) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+				if (pnext.size()) {
 					QString downdummy = qsprompt;
 					downdummy.append(pnext);
 					setText(downdummy);
@@ -88,15 +88,15 @@ void MyLineEdit::keyPressEvent(QKeyEvent *ke) { std::cout << __FILE__ << __FUNCT
 			return;
 		case Qt::Key_Enter:
 		case Qt::Key_Return:
-		if ( commandmode ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+		if ( commandmode ) {
 			emit echoCommand(text().prepend("\n"));
-			if (promptlength > 0) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+			if (promptlength > 0) {
 				QString qtext = text();
 				qtext.remove(0,(promptlength));
 				qtext = qtext.trimmed();
 				sendit(qtext);
 				commandlist.last();
-			if (qtext != "") { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;commandlist.removeOne(*(it)); commandlist.append(QString(qtext)); commandlist.append(QString(""));}
+			if (qtext != "") {std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;commandlist.removeOne(*(it)); commandlist.append(QString(qtext)); commandlist.append(QString(""));}
 			if (commandlist.count() > 10 ) commandlist.removeFirst();
 					commandlist.last();
 				}
@@ -108,10 +108,10 @@ void MyLineEdit::keyPressEvent(QKeyEvent *ke) { std::cout << __FILE__ << __FUNCT
 
 	char a = ke->key();
 
-	if (!commandmode) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if (!commandmode) {
 		sendit(a);
 	}
-	if ( ke->key() == Qt::CTRL + Qt::Key_Z || ke->key()== Qt::CTRL + Qt::Key_U ) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+	if ( ke->key() == Qt::CTRL + Qt::Key_Z || ke->key()== Qt::CTRL + Qt::Key_U ) {
 		return;
 	}
 	QLineEdit::keyPressEvent(ke);       // lokale Echo ??
@@ -119,11 +119,11 @@ void MyLineEdit::keyPressEvent(QKeyEvent *ke) { std::cout << __FILE__ << __FUNCT
 }
 
 
-void MyLineEdit::insertChar(unsigned char c) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void MyLineEdit::insertChar(unsigned char c) {
 	myinsert(QChar(c));
 }
 
-void MyLineEdit::myinsert( QString qs) { std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+void MyLineEdit::myinsert( QString qs) {
 //TODO
 	/* // get cursor position
   int line, col;
@@ -135,17 +135,17 @@ void MyLineEdit::myinsert( QString qs) { std::cout << __FILE__ << __FUNCTION__ <
 }
 
 void MyLineEdit::focusInEvent( QFocusEvent * ev )
-{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+{
 	QLineEdit::focusInEvent( ev );
 	setCursorPosition(cursorpos);
 }
 
 void MyLineEdit::focusOutEvent ( QFocusEvent * ev )
-{ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+{
 	cursorpos = cursorPosition();
 	QLineEdit::focusInEvent( ev );
 }
 
 
-MyLineEdit::~MyLineEdit(){ std::cout << __FILE__ << __FUNCTION__ << __LINE__  << std::endl;
+MyLineEdit::~MyLineEdit(){
 }
