@@ -22,8 +22,8 @@
 
 RTTYSpeedWidget::RTTYSpeedWidget(QWidget *parent) : QDialog(parent) {
 	setWindowTitle(tr("RTTY BAUDE RATE"));
-	resize( 200,80 );
-	setMinimumSize( 200, 80 );
+	resize(200, 80);
+	setMinimumSize(200, 80);
 
 	QVBoxLayout *vbox = new QVBoxLayout(this);
 	slider = new QSlider(this);
