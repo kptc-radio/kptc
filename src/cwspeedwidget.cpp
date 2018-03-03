@@ -5,7 +5,7 @@
 	copyright            : (C) 2001 by Lars Schnake
 	email                : lschnak@suse.de
 
-	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de )
+	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de)
  ***************************************************************************/
 
 /***************************************************************************
@@ -21,22 +21,22 @@
 
 CWSpeedWidget::CWSpeedWidget(QWidget *parent) : QDialog(parent) {
 	setWindowTitle(tr("cw tx speed"));
-	resize( 200,80 );
-	setMinimumSize( 200, 80 );
+	resize(200,80);
+	setMinimumSize(200, 80);
 
 	QVBoxLayout *vbox = new QVBoxLayout(this);
 	slider = new QSlider(this);
 	slider->setOrientation(Qt::Horizontal);
 	slider->setGeometry(40,1200, 1, 160);
 
-	lineedit = new QLineEdit( this);
+	lineedit = new QLineEdit(this);
 	lineedit->setText("160");
-	okbutton = new QPushButton( tr("OK"), this );
+	okbutton = new QPushButton(tr("OK"), this);
 	vbox->addWidget(slider);
 	vbox->addWidget(lineedit);
 	vbox->addWidget(okbutton);
-	connect( okbutton, SIGNAL(clicked()), this, SLOT(change()));
-	connect( slider, SIGNAL(valueChanged(int)), this, SLOT(updateText(int)));
+	connect(okbutton, SIGNAL(clicked()), this, SLOT(change()));
+	connect(slider, SIGNAL(valueChanged(int)), this, SLOT(updateText(int)));
 	connect(lineedit, SIGNAL(textChanged(const QString &)), this, SLOT(updateSlider(const QString &)));
 }
 

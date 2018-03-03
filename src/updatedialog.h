@@ -5,7 +5,7 @@
 	copyright            : (C) 2001 by Lars Schnake
 	email                : mail@lars-schnake.de
 
-	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de )
+	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de)
  ***************************************************************************/
 
 /***************************************************************************
@@ -57,7 +57,7 @@ class UpdateDialog : public QDialog  {
 
 	protected:
 
-		void closeEvent( QCloseEvent*);
+		void closeEvent(QCloseEvent*);
 
 	private slots:
 

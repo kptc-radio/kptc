@@ -5,7 +5,7 @@
 	copyright			: (C) 2001 by Lars Schnake
 	email				: lschnak@suse.de
 
-	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de )
+	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de)
  ***************************************************************************/
 
 /***************************************************************************
@@ -19,17 +19,17 @@
 #include <iostream>
 #include "fixtextpicker.h"
 
-FixTextPicker::FixTextPicker(QWidget *parent ) : QWidget(parent) {
-	choosebutton = new QPushButton( tr("choose..."), this );
+FixTextPicker::FixTextPicker(QWidget *parent) : QWidget(parent) {
+	choosebutton = new QPushButton(tr("choose..."), this);
 	editpath = new QLineEdit(this);
 	editlabel = new QLineEdit(this);
 	numlabel = new QLabel("number", this);
 
-	QHBoxLayout *layout = new QHBoxLayout( this );
-	layout->addWidget( numlabel );
-	layout->addWidget( editlabel );
-	layout->addWidget( editpath );
-	layout->addWidget( choosebutton );
+	QHBoxLayout *layout = new QHBoxLayout(this);
+	layout->addWidget(numlabel);
+	layout->addWidget(editlabel);
+	layout->addWidget(editpath);
+	layout->addWidget(choosebutton);
 }
 
 QPushButton *FixTextPicker::getChooseButtom() {

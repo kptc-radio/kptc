@@ -73,7 +73,7 @@ class Modem : public QObject  {
 		const QString modemMessage();
 		/** set up the connection to get notified if data was received */
 		void notify(const QObject *, const char *);
-		/** disconnect the notify connection ( see notify )*/
+		/** disconnect the notify connection (see notify)*/
 		void stop();
 		/** send escape to change to command mode*/
 		void send_esc();

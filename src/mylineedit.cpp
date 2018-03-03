@@ -5,7 +5,7 @@
 	copyright            : (C) 2001 by lschnak@suse.de
 	email                : lschnak@suse.de
 
-	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de )
+	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de)
  ***************************************************************************/
 
 /***************************************************************************
@@ -23,10 +23,10 @@
 MyLineEdit::MyLineEdit(QWidget *parent) : QLineEdit(parent) {
 	this->setFont(QFont("courier",12,QFont::Normal));
 	setReadOnly (false);
-	setMinimumSize( 400, 30 );
-	setMaximumSize( 1690, 30 );
-	setFocusPolicy( Qt::StrongFocus );
-	connect ( this, SIGNAL(returnPressed()), this, SLOT(clear()) );
+	setMinimumSize(400, 30);
+	setMaximumSize(1690, 30);
+	setFocusPolicy(Qt::StrongFocus);
+	connect (this, SIGNAL(returnPressed()), this, SLOT(clear()));
 	commandmode = true;
 	cursorpos = 0;
 	promptlength = 0;
@@ -40,16 +40,16 @@ void MyLineEdit::notify(const QObject *receiver, const char *member) {
 
 void MyLineEdit::setPrompt(QString prompt) {
 	qsprompt = prompt;
-	setText( prompt );
+	setText(prompt);
 	promptlength = prompt.length();
-	if ( prompt == "") commandmode = false;
+	if (prompt == "") commandmode = false;
 	else commandmode = true;
 }
 
 void MyLineEdit::keyPressEvent(QKeyEvent *ke) {
 	auto it = commandlist.begin();
 	ke->accept();
-	switch ( ke->key() ) {
+	switch (ke->key()) {
 		case Qt::Key_Left:
 			if (!commandmode) return;
 			if (cursorPosition()<= promptlength) return;
@@ -74,7 +74,7 @@ void MyLineEdit::keyPressEvent(QKeyEvent *ke) {
 			return;
 		case Qt::Key_Down:
 			if (commandmode) {
-				if ( *(it) == "")
+				if (*(it) == "")
 					return;
 				QString pnext;
 				pnext = *(it++);
@@ -88,7 +88,7 @@ void MyLineEdit::keyPressEvent(QKeyEvent *ke) {
 			return;
 		case Qt::Key_Enter:
 		case Qt::Key_Return:
-		if ( commandmode ) {
+		if (commandmode) {
 			emit echoCommand(text().prepend("\n"));
 			if (promptlength > 0) {
 				QString qtext = text();
@@ -97,7 +97,7 @@ void MyLineEdit::keyPressEvent(QKeyEvent *ke) {
 				sendit(qtext);
 				commandlist.last();
 			if (qtext != "") {commandlist.removeOne(*(it)); commandlist.append(QString(qtext)); commandlist.append(QString(""));}
-			if (commandlist.count() > 10 ) commandlist.removeFirst();
+			if (commandlist.count() > 10) commandlist.removeFirst();
 					commandlist.last();
 				}
 			}
@@ -111,7 +111,7 @@ void MyLineEdit::keyPressEvent(QKeyEvent *ke) {
 	if (!commandmode) {
 		sendit(a);
 	}
-	if ( ke->key() == Qt::CTRL + Qt::Key_Z || ke->key()== Qt::CTRL + Qt::Key_U ) {
+	if (ke->key() == Qt::CTRL + Qt::Key_Z || ke->key()== Qt::CTRL + Qt::Key_U) {
 		return;
 	}
 	QLineEdit::keyPressEvent(ke);       // lokale Echo ??
@@ -123,27 +123,27 @@ void MyLineEdit::insertChar(unsigned char c) {
 	myinsert(QChar(c));
 }
 
-void MyLineEdit::myinsert( QString qs) {
+void MyLineEdit::myinsert(QString qs) {
 //TODO
 	/* // get cursor position
   int line, col;
-  getCursorPosition( &line, &col );
+  getCursorPosition(&line, &col);
 
   // write text
-  insertAt( qs, line, col );
+  insertAt(qs, line, col);
 	 */
 }
 
-void MyLineEdit::focusInEvent( QFocusEvent * ev )
+void MyLineEdit::focusInEvent(QFocusEvent * ev)
 {
-	QLineEdit::focusInEvent( ev );
+	QLineEdit::focusInEvent(ev);
 	setCursorPosition(cursorpos);
 }
 
-void MyLineEdit::focusOutEvent ( QFocusEvent * ev )
+void MyLineEdit::focusOutEvent (QFocusEvent * ev)
 {
 	cursorpos = cursorPosition();
-	QLineEdit::focusInEvent( ev );
+	QLineEdit::focusInEvent(ev);
 }
 
 

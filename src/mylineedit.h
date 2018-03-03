@@ -5,7 +5,7 @@
 	copyright            : (C) 2001 by lschnak@suse.de
 	email                : lschnak@suse.de
 
-	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de )
+	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de)
  ***************************************************************************/
 
 /***************************************************************************
@@ -35,13 +35,13 @@ class MyLineEdit : public QLineEdit  {
    Q_OBJECT
 
 	public:
-		MyLineEdit(QWidget *parent=0);
+		MyLineEdit(QWidget *parent = 0);
 		~MyLineEdit();
-		void keyPressEvent (QKeyEvent*);
+		void keyPressEvent (QKeyEvent *);
 		void notify(const QObject *, const char *);
 		void insertChar(unsigned char);
-		void myinsert( QString qs );
-		void setPrompt( QString );
+		void myinsert(QString qs);
+		void setPrompt(QString);
 
 	private:
 		bool commandmode;
@@ -50,8 +50,8 @@ class MyLineEdit : public QLineEdit  {
 		QString qsprompt;
 		QList <QString> commandlist;
 
-		void focusInEvent( QFocusEvent * );
-		void focusOutEvent( QFocusEvent * );
+		void focusInEvent(QFocusEvent *);
+		void focusOutEvent(QFocusEvent *);
 
 	signals:
 

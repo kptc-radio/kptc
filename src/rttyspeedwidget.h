@@ -5,7 +5,7 @@
 	copyright            : (C) 2001 by Lars Schnake
 	email                : mail@lars-schnake.de
 
-	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de )
+	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de)
  ***************************************************************************/
 
 /***************************************************************************
@@ -39,11 +39,11 @@ class RTTYSpeedWidget : public QDialog  {
 		Q_OBJECT
 
 public:
-	QPushButton * okbutton;
-	QSlider * slider;
-	QLineEdit * lineedit;
+	QPushButton *okbutton;
+	QSlider *slider;
+	QLineEdit *lineedit;
 
-	RTTYSpeedWidget(QWidget *parent=0);
+	RTTYSpeedWidget(QWidget *parent = 0);
 	~RTTYSpeedWidget();
 
 	private:

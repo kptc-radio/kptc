@@ -5,7 +5,7 @@
 	copyright			: (C) 2001 by Lars Schnake
 	email				: lschnak@suse.de
 
-	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de )
+	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de)
  ***************************************************************************/
 
 /***************************************************************************
@@ -20,7 +20,7 @@
 #include <iostream>
 #include "modecommander.h"
 
-ModeCommander::ModeCommander(QObject *parent ) : blisten(false), QObject(parent) {}
+ModeCommander::ModeCommander(QObject *parent) : blisten(false), QObject(parent) {}
 
 ModeCommander::~ModeCommander() {}
 
@@ -28,7 +28,7 @@ QString ModeCommander::currendmod() {
 	return qscurrendmod;
 }
 
-void ModeCommander::setcurrendmod( QString _qscurrendmod )
+void ModeCommander::setcurrendmod(QString _qscurrendmod)
 {
 	qscurrendmod = _qscurrendmod;
 }
@@ -76,13 +76,13 @@ void ModeCommander::Standby() {
 
 void ModeCommander::Changeover() {
 	char c = 25;
-	Modem::modem->writeChar( c );
+	Modem::modem->writeChar(c);
 }
 
 
 void ModeCommander::QRT() {
 	char c = 4;
-	Modem::modem->writeChar( c );
+	Modem::modem->writeChar(c);
 }
 
 void ModeCommander::Unproto() {
@@ -93,7 +93,7 @@ void ModeCommander::Unproto() {
 
 void ModeCommander::Listen() {
 	Modem::modem->send_esc();
-	if ( !blisten ) {
+	if (!blisten) {
 		Modem::modem->writeLine("l 1");
 		blisten = true;
 	}
@@ -122,26 +122,26 @@ void ModeCommander::FEC() {
 
 void ModeCommander::cwprescribe() {
 	char c = 25; // CTRL + Key_Y
-	Modem::modem->writeChar( c );
+	Modem::modem->writeChar(c);
 	sleep(1);
-	Modem::modem->writeChar( c );
+	Modem::modem->writeChar(c);
 }
 
 void ModeCommander::cwflush() {
 	char c = 25; // CTRL + Key_Y
-	Modem::modem->writeChar( c );
+	Modem::modem->writeChar(c);
 }
 
 void ModeCommander::increaseCWSpeed() {
 	char c = 21;  // CTRL + Key_U
-	Modem::modem->writeChar( c );
+	Modem::modem->writeChar(c);
 }
 
 void ModeCommander::decreaseCWSpeed() {
 	char c = 4;  // CTRL + Key_D
-	Modem::modem->writeChar( c );
+	Modem::modem->writeChar(c);
 }
 
 void ModeCommander::cwautospeed() {
-	Modem::modem->writeChar( (char) 6 );	// CTRL + Key_F
+	Modem::modem->writeChar((char) 6);	// CTRL + Key_F
 }

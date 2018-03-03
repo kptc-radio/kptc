@@ -5,7 +5,7 @@
 	copyright            : (C) 2001 by Lars Schnake
 	email                : mail@lars-schnake.de
 
-	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de )
+	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de)
  ***************************************************************************/
 
 /***************************************************************************
@@ -20,18 +20,18 @@
 #include <iostream>
 #include "commanddialog.h"
 
-CommandDialog::CommandDialog(QWidget *parent, Qt::WindowFlags f) : QDialog (parent) {
-	resize( 180,50 );
-	setMinimumSize( 180, 50 );
-	setMaximumSize( 180, 50 );
+CommandDialog::CommandDialog(QWidget *parent) : QDialog (parent) {
+	resize(180,50);
+	setMinimumSize(180, 50);
+	setMaximumSize(180, 50);
 
 	combo = new QComboBox (this);
-	combo->setGeometry( 15,10, 150, 30 );
-	combo->setMinimumSize( 0, 0 );
-	combo->setMaximumSize( 32767, 32767 );
-	combo->setFocusPolicy( Qt::StrongFocus );
-	combo->setMaxCount( 20 );
-	combo->setAutoCompletion( true );
+	combo->setGeometry(15,10, 150, 30);
+	combo->setMinimumSize(0, 0);
+	combo->setMaximumSize(32767, 32767);
+	combo->setFocusPolicy(Qt::StrongFocus);
+	combo->setMaxCount(20);
+	combo->setAutoCompletion(true);
 	combo->setInsertPolicy(QComboBox::InsertPolicy::InsertAtTop);
 
 }

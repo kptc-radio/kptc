@@ -5,7 +5,7 @@
 	copyright            : (C) 2001 by Lars Schnake
 	email                : mail@lars-schnake.de
 
-	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de )
+	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de)
  ***************************************************************************/
 
 /***************************************************************************
@@ -34,7 +34,7 @@ class ModeCommander : public QObject  {
 
 	public:
 
-		ModeCommander(QObject *parent=0);
+		ModeCommander(QObject *parent = 0);
 		~ModeCommander();
 		void setcurrendmod(QString);
 		QString currendmod();

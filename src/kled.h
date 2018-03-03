@@ -35,32 +35,32 @@ class QColor;
 class KLed : public QWidget
 {
 	Q_OBJECT
-	Q_ENUMS( State Shape Look )
-	Q_PROPERTY( State state READ state WRITE setState )
-	Q_PROPERTY( Shape shape READ shape WRITE setShape )
-	Q_PROPERTY( Look look READ look WRITE setLook )
-	Q_PROPERTY( QColor color READ color WRITE setColor )
-	Q_PROPERTY( int darkFactor READ darkFactor WRITE setDarkFactor )
+	Q_ENUMS(State Shape Look)
+	Q_PROPERTY(State state READ state WRITE setState)
+	Q_PROPERTY(Shape shape READ shape WRITE setShape)
+	Q_PROPERTY(Look look READ look WRITE setLook)
+	Q_PROPERTY(QColor color READ color WRITE setColor)
+	Q_PROPERTY(int darkFactor READ darkFactor WRITE setDarkFactor)
 
 	public:
         enum State {Off, On };
-        enum Shape {Rectangular, Circular };
-        enum Look  {Flat, Raised, Sunken };
+		enum Shape {Rectangular, Circular};
+		enum Look  {Flat, Raised, Sunken};
 
-		explicit KLed( QWidget *parent = 0 );
-		explicit KLed( const QColor &color, QWidget *parent = 0 );
-		KLed( const QColor& color, KLed::State state, KLed::Look look, KLed::Shape shape, QWidget *parent = 0);
+		explicit KLed(QWidget *parent = 0);
+		explicit KLed(const QColor &color, QWidget *parent = 0);
+		KLed(const QColor& color, KLed::State state, KLed::Look look, KLed::Shape shape, QWidget *parent = 0);
 		~KLed();
 		QColor color() const;
 		State state() const;
 		Look look() const;
 		Shape shape() const;
 		int darkFactor() const;
-		void setColor( const QColor& color );
-		void setState( State state );
-		void setLook( Look look );
-		void setShape( Shape shape );
-		void setDarkFactor( int darkFactor );
+		void setColor(const QColor& color);
+		void setState(State state);
+		void setLook(Look look);
+		void setShape(Shape shape);
+		void setDarkFactor(int darkFactor);
 		virtual QSize sizeHint() const;
 		virtual QSize minimumSizeHint() const;
 
@@ -77,16 +77,16 @@ class KLed : public QWidget
 		virtual void paintRaised();
 		virtual void paintSunken();
 		virtual void paintRect();
-		virtual void paintRectFrame( bool raised );
-		void paintEvent( QPaintEvent* );
-		void resizeEvent( QResizeEvent* );
+		virtual void paintRectFrame(bool raised);
+		void paintEvent(QPaintEvent*);
+		void resizeEvent(QResizeEvent*);
 		bool paintCachedPixmap();
 		void updateCachedPixmap();
 		void paintKLed(Shape shape, Look look);
 
 	private:
 		class Private;
-		Private * const d;
+		Private *const d;
 
  };
 

@@ -5,7 +5,7 @@
 	copyright            : (C) 2001 by Lars Schnake
 	email                : lschnak@suse.de
 
-	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de )
+	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de)
  ***************************************************************************/
 
 /***************************************************************************
@@ -30,7 +30,7 @@ UpdateDialog::UpdateDialog(QWidget *parent) : QDialog(parent) {
 	choosebutton = new QPushButton(tr("choose"),this);
 	progressbar = new QProgressBar(this);
 	infolabel = new QLabel(this);
-	infolabel->setFrameStyle( QFrame::Panel | QFrame::Sunken );
+	infolabel->setFrameStyle(QFrame::Panel | QFrame::Sunken);
 	infolabel->setText("choose the new Firmware");
 
 	QBoxLayout *toplayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
@@ -49,15 +49,15 @@ UpdateDialog::UpdateDialog(QWidget *parent) : QDialog(parent) {
 	filepicklayout->addWidget(lineedit);
 	filepicklayout->addWidget(choosebutton);
 
-	QObject::connect (cancelbutton, SIGNAL (clicked()), this, SLOT ( reject()));
-	QObject::connect (choosebutton, SIGNAL (clicked()), this, SLOT ( myfileDialog()));
-	QObject::connect (okbutton, SIGNAL (clicked()), this, SLOT ( initUpdate()));
-	QObject::connect (update, SIGNAL (progress(int)), progressbar, SLOT ( setProgress(int)));
-	QObject::connect (update, SIGNAL (message(QString)), this, SLOT ( updateMessage(QString)));
+	QObject::connect (cancelbutton, SIGNAL (clicked()), this, SLOT (reject()));
+	QObject::connect (choosebutton, SIGNAL (clicked()), this, SLOT (myfileDialog()));
+	QObject::connect (okbutton, SIGNAL (clicked()), this, SLOT (initUpdate()));
+	QObject::connect (update, SIGNAL (progress(int)), progressbar, SLOT (setProgress(int)));
+	QObject::connect (update, SIGNAL (message(QString)), this, SLOT (updateMessage(QString)));
 }
 
 void UpdateDialog::myfileDialog() {
-	QString filename = QFileDialog::getOpenFileName( this, QString::null, "*.pt*\n*.pt2\n*.pte\n*", tr("choose new Firmware:") );
+	QString filename = QFileDialog::getOpenFileName(this, QString::null, "*.pt*\n*.pt2\n*.pte\n*", tr("choose new Firmware:"));
 	if (filename == NULL) {
 		return;
 	}
@@ -66,15 +66,15 @@ void UpdateDialog::myfileDialog() {
 
 void UpdateDialog::initUpdate() {
 	updaterunning = true;
-	QObject::disconnect (cancelbutton, SIGNAL (clicked()), this, SLOT ( reject()));
-	QObject::disconnect (choosebutton, SIGNAL (clicked()), this, SLOT ( fileDialog()));
-	QObject::disconnect (okbutton, SIGNAL (clicked()), this, SLOT ( initUpdate()));
+	QObject::disconnect (cancelbutton, SIGNAL (clicked()), this, SLOT (reject()));
+	QObject::disconnect (choosebutton, SIGNAL (clicked()), this, SLOT (fileDialog()));
+	QObject::disconnect (okbutton, SIGNAL (clicked()), this, SLOT (initUpdate()));
 
 	update->runUpdate(lineedit->text());
 
-	QObject::connect (cancelbutton, SIGNAL (clicked()), this, SLOT ( reject()));
-	QObject::connect (choosebutton, SIGNAL (clicked()), this, SLOT ( fileDialog()));
-	QObject::connect (okbutton, SIGNAL (clicked()), this, SLOT ( initUpdate()));
+	QObject::connect (cancelbutton, SIGNAL (clicked()), this, SLOT (reject()));
+	QObject::connect (choosebutton, SIGNAL (clicked()), this, SLOT (fileDialog()));
+	QObject::connect (okbutton, SIGNAL (clicked()), this, SLOT (initUpdate()));
 
 	updaterunning = false;
 }
@@ -83,7 +83,7 @@ void UpdateDialog::updateMessage(QString text) {
 	infolabel->setText(text);
 }
 
-void UpdateDialog::closeEvent( QCloseEvent* event )
+void UpdateDialog::closeEvent(QCloseEvent* event)
 {
 	if (!updaterunning) {
 		event->accept();

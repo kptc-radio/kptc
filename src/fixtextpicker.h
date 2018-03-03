@@ -5,7 +5,7 @@
 	copyright            : (C) 2001 by Lars Schnake
 	email                : mail@lars-schnake.de
 
-	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de )
+	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de)
  ***************************************************************************/
 
 /***************************************************************************
@@ -36,7 +36,7 @@ class FixTextPicker : public QWidget  {
 
 	public:
 
-		FixTextPicker( QWidget *parent=0 );
+		FixTextPicker(QWidget *parent = 0);
 		~FixTextPicker();
 		QPushButton *getChooseButtom();
 		QLabel *getNumLabel();

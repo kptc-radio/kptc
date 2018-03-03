@@ -5,7 +5,7 @@
 	copyright            : (C) 2001 by Lars Schnake
 	email                : lschnak@suse.de
 
-	Ported to Qt5 and restructured storage access by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de )
+	Ported to Qt5 and restructured storage access by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de)
  ***************************************************************************/
 
 /***************************************************************************
@@ -114,7 +114,7 @@ QString ConfigData::getPortSpeed() {
 	return this->getValue(Group::PORT,  "PORTSPEED", "38400");
 }
 
-void ConfigData::setCall(const QString &call ) {
+void ConfigData::setCall(const QString &call) {
 	this->setValue(Group::PERSONAL, "CALL", call);
 }
 
@@ -123,7 +123,7 @@ QString ConfigData::getCall() {
 	return this->getValue(Group::PERSONAL,  "CALL", "DK0TUX");
 }
 
-void ConfigData::setSelCall(const QString &call ) {
+void ConfigData::setSelCall(const QString &call) {
 	this->setValue(Group::PERSONAL, "SELCALL", call);
 }
 
@@ -133,7 +133,7 @@ QString ConfigData::getSelCall() {
 }
 
 
-void ConfigData::setfirststart( bool  first) {
+void ConfigData::setfirststart(bool  first) {
 	if (!first) this->setValue(Group::GENERAL, "FIRSTSTART", "FALSE");
 }
 
@@ -171,15 +171,15 @@ QString ConfigData::getCMsg() {
 	return this->getValue(Group::PERSONAL, "CMSG", "Here is %MYCALL% from %MYQTH%!");
 }
 
-void ConfigData::setCQPactor(const QString &qtext ) {
-	this->setValue(Group::CQTEXT, "PACTOR", qtext );
+void ConfigData::setCQPactor(const QString &qtext) {
+	this->setValue(Group::CQTEXT, "PACTOR", qtext);
 }
 
 QString ConfigData::getCQPactor() {
 	return this->getValue(Group::CQTEXT, "PACTOR", "CQ CQ CQ de %MYCALL%\nCQ CQ CQ de %MYCALL%\nCQ CQ CQ de %MYCALL%\npse K\n");
 }
 
-void ConfigData::setCQAmtor(const QString &qtext ) {
+void ConfigData::setCQAmtor(const QString &qtext) {
 	this->setValue(Group::CQTEXT, "AMTOR", qtext);
 }
 
@@ -187,23 +187,23 @@ QString ConfigData::getCQAmtor() {
 	return this->getValue(Group::CQTEXT, "AMTOR", "CQ CQ CQ de %MYCALL%\nCQ CQ CQ de %MYCALL%\nCQ CQ CQ de %MYCALL%\npse K\n");
 }
 
-void ConfigData::setCQRTTY(const QString &qtext ) {
-	this->setValue(Group::CQTEXT, "RTTY", qtext );
+void ConfigData::setCQRTTY(const QString &qtext) {
+	this->setValue(Group::CQTEXT, "RTTY", qtext);
 }
 
 QString ConfigData::getCQRTTY() {
 	return this->getValue(Group::CQTEXT, "RTTY", "ryryryryryry\nCQ CQ CQ de %MYSELCALL%\nCQ CQ CQ de %MYSELCALL%\npse K\n");
 }
-void ConfigData::setCQPSK31(const QString &qtext ) {
-	this->setValue(Group::CQTEXT, "PSK31", qtext );
+void ConfigData::setCQPSK31(const QString &qtext) {
+	this->setValue(Group::CQTEXT, "PSK31", qtext);
 }
 
 QString ConfigData::getCQPSK31() {
 	return this->getValue(Group::CQTEXT, "PSK31", "CQ CQ CQ de %MYCALL%\nCQ CQ CQ de %MYCALL%\nCQ CQ CQ de %MYCALL%\npse K\n");
 }
 
-void ConfigData::setCQCW(const QString &qtext ) {
-	this->setValue(Group::CQTEXT, "CW", qtext );
+void ConfigData::setCQCW(const QString &qtext) {
+	this->setValue(Group::CQTEXT, "CW", qtext);
 }
 
 QString ConfigData::getCQCW() {
@@ -214,19 +214,19 @@ void ConfigData::setFixLabel(const QString &label,const QString &number) {
 	this->setValue(Group::FIXTEXT, number, label);
 }
 
-QString ConfigData::getFixLabel (const QString &number ) {
-	return this->getValue(Group::FIXTEXT, number, "TEXT NR. " + number );
+QString ConfigData::getFixLabel (const QString &number) {
+	return this->getValue(Group::FIXTEXT, number, "TEXT NR. " + number);
 }
 
 void ConfigData::setFixPath(const QString &path,const QString &number) {
-	this->setValue(Group::FIXTEXT, number + "PATH", path );
+	this->setValue(Group::FIXTEXT, number + "PATH", path);
 }
 
-QString ConfigData::getFixPath (const QString &number ) {
+QString ConfigData::getFixPath (const QString &number) {
 	return this->getValue(Group::FIXTEXT, number + "PATH", "");
 }
 
-void ConfigData::setName(const QString &name ) {
+void ConfigData::setName(const QString &name) {
 	this->setValue(Group::PERSONAL, "NAME", name);
 }
 
@@ -234,7 +234,7 @@ QString ConfigData::getName() {
 	return this->getValue(Group::PERSONAL, "NAME", "Tux");
 }
 
-void ConfigData::setQTH(const QString &name ) {
+void ConfigData::setQTH(const QString &name) {
 	this->setValue(Group::PERSONAL, "QTH", name);
 }
 
@@ -259,7 +259,7 @@ QString ConfigData::getLoginPath () {
 	return this->getValue(Group::LOGIN, "PATH", "");
 }
 
-void ConfigData::setLogoutScript( bool set ) {
+void ConfigData::setLogoutScript(bool set) {
 	QString qset = this->boolToString(set);
 	this->setValue(Group::LOGOUT,  "LOGOUTSCRIPT", qset);
 }
@@ -269,7 +269,7 @@ bool ConfigData::isLogoutScript() {
 	return this->stringIsTrue(temp);
 }
 
-void ConfigData::setLoginScript( bool set ) {
+void ConfigData::setLoginScript(bool set) {
 	QString qset = this->boolToString(set);
 	this->setValue(Group::LOGIN,  "LOGINSCRIPT", qset);
 }

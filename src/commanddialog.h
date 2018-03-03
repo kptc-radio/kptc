@@ -5,7 +5,7 @@
 	copyright            : (C) 2001 by Lars Schnake
 	email                : mail@lars-schnake.de
 
-	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de )
+	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de)
  ***************************************************************************/
 
 /***************************************************************************
@@ -33,7 +33,7 @@
 
 class CommandDialog : public QDialog  {
 public:
-	CommandDialog(QWidget *parent=0, Qt::WindowFlags f=0);
+	CommandDialog(QWidget *parent = 0);
 	~CommandDialog();
 
 private:

@@ -5,7 +5,7 @@
 	copyright			: (C) 2001 by Lars Schnake
 	email				: mail@lars-schnake.de
 
-	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de )
+	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de)
  ***************************************************************************/
 
 /***************************************************************************
@@ -26,7 +26,7 @@ Kptc::Kptc(QWidget *parent) : QMainWindow()
 {
 
 	setWindowTitle(tr("Kptc - the PTC-II for penguins "));
-	// connect( kapp, SIGNAL(shutDown()), this, SLOT(shutdown()) );
+	// connect(kapp, SIGNAL(shutDown()), this, SLOT(shutdown()));
 
 	//TODO
 
@@ -83,10 +83,10 @@ Kptc::Kptc(QWidget *parent) : QMainWindow()
 //////////////////////////////////////////////////////////////////////////////
 	// main window elements
 
-	QSplitter *splitter = new QSplitter(this );
+	QSplitter *splitter = new QSplitter(this);
 	splitter->setOrientation(Qt::Vertical);
-	splitter->setOpaqueResize( true );
-	setCentralWidget( splitter );
+	splitter->setOpaqueResize(true);
+	setCentralWidget(splitter);
 
 	// modebuttons in splitter window instead of modetoolbar ?! :
 	// modebuttons = new ModeButtons(splitter);
@@ -99,13 +99,13 @@ Kptc::Kptc(QWidget *parent) : QMainWindow()
 	splitter->show();
 
 	textedit->setFocus();
-	connect( textedit, SIGNAL(echoCommand(QString)), this, SLOT( echoText(QString)));
-	connect( textedit, SIGNAL(sendit(QString)), this, SLOT(sendline(QString)));
+	connect(textedit, SIGNAL(echoCommand(QString)), this, SLOT(echoText(QString)));
+	connect(textedit, SIGNAL(sendit(QString)), this, SLOT(sendline(QString)));
 
 	//////////////////////////////////////////////////////////////////
 
-	cwspeedwidget = new CWSpeedWidget( 0 );
-	rttyspeedwidget = new RTTYSpeedWidget( 0 );
+	cwspeedwidget = new CWSpeedWidget(0);
+	rttyspeedwidget = new RTTYSpeedWidget(0);
 
 	configmachine = new ConfigMachine(this);
 
@@ -126,7 +126,7 @@ Kptc::Kptc(QWidget *parent) : QMainWindow()
 		if (configdialog.exec()== QDialog::Accepted) {
 			bModemOk = Modem::modem->opentty() ;
 			Modem::modem->notify(this, SLOT(parseModemOut(unsigned char)));
-			configdata.setfirststart( false );
+			configdata.setfirststart(false);
 			useconfigmachine();
 			//lefttoolbar->setBarPos(KToolBar::Left);
 		}
@@ -221,7 +221,7 @@ void Kptc::initializePopUpMenues() {
 
 	//clearwindow->insertItem (tr("&traffic window"), this, SLOT(clearTrafficWindow()));
 	//clearwindow->insertItem (tr("&edit window"), this, SLOT(clearEditWindow()));
-	//->insertItem (tr("&clear window"), clearwindow );
+	//->insertItem (tr("&clear window"), clearwindow);
 
 	QString about = tr("Kptc 0.2\n user interface for the SCS-PTC-II\n\n (C) 2001 Lars Schnake\nmail@lars-schnake.de\n");
 
@@ -233,25 +233,25 @@ void Kptc::initializePopUpMenues() {
 	QString number;
 	for (int i = 1; i <= 8; i++) {
 		number.setNum(i);
-		QAction *actionSendText = new QAction(+ "&" + number + ". " + configdata.getFixLabel( number ), fixmenu);
-		connect(actionSendText, SIGNAL(triggered(bool)),this, SLOT (sendFixText( int )) );
+		QAction *actionSendText = new QAction(+ "&" + number + ". " + configdata.getFixLabel(number), fixmenu);
+		connect(actionSendText, SIGNAL(triggered(bool)),this, SLOT (sendFixText(int)));
 
 		actionSendText->setShortcut(QKeySequence(Qt::CTRL, Qt::Key_F1, i));
 
 		fixmenu->addAction(actionSendText);
-		//	  fixmenu->insertItem ("&" + s + ". " + configdata.getFixLabel( s ),
-		//			  this, SLOT (sendFixText( int )), CTRL + SHIFT + (Key_F1 +(i)) , i);
-		//			((fixmenu->setItemParameter ( i, i);
+		//	  fixmenu->insertItem ("&" + s + ". " + configdata.getFixLabel(s),
+		//			  this, SLOT (sendFixText(int)), CTRL + SHIFT + (Key_F1 +(i)) , i);
+		//			((fixmenu->setItemParameter (i, i);
 
 	}
 }
 
 void Kptc::initializeStatusBar() {
-	KLed *sendled = new KLed( statusBar() );
+	KLed *sendled = new KLed(statusBar());
 	sendled->setColor(QColor("#CC0000b")); //red
 	sendled->off();
 
-	//statusBar()->setInsertOrder( KStatusBar::RightToLeft );	//
+	//statusBar()->setInsertOrder(KStatusBar::RightToLeft);	//
 	//statusBar()->insertWidget(sendled, sendled->width(),1);
 	statusBar()->insertWidget(1, sendled, sendled->width());
 	statusBar()->addPermanentWidget(sendled, 1);
@@ -267,7 +267,7 @@ void Kptc::initializeMenuBar() {
 	this->menuBar()->addMenu(fileMenu);
 	QMenu *actionMenu = new QMenu(tr("&Actions"), this->menuBar());
 	menuBar()->addMenu(actionMenu);
-	QMenu *fixmenuMenu = new QMenu( tr("Fi&xtext"), menuBar());
+	QMenu *fixmenuMenu = new QMenu(tr("Fi&xtext"), menuBar());
 	menuBar()->addMenu(fixmenuMenu);
 	QMenu *optionMenu = new QMenu(tr("&Options"), menuBar());
 	menuBar()->addMenu(optionMenu);
@@ -279,16 +279,16 @@ void Kptc::parseModemOut(unsigned char c) {
 	}
 	if (bStatusByteFollows) {
 		bStatusByteFollows = false;
-		parseStatus( c );
+		parseStatus(c);
 	}
-	else if ((int) c == 30 ) {
+	else if ((int) c == 30) {
 		bStatusByteFollows = true;
 	}
 	else if (c == 4) {
 		bPromptInfoFollows = true; // command prompt info follows
 	}
 	else if (bPromptInfoFollows) {
-		parsePrompt( c );
+		parsePrompt(c);
 		  bPromptInfoFollows = false;
 		  parsePromptText = 20;
 	}
@@ -301,16 +301,16 @@ void Kptc::parseModemOut(unsigned char c) {
 			}
 		}
 	}
-	else if ((int)c == 3 ) {
+	else if ((int)c == 3) {
 			currentterm = 3;
 	}	// delayed echo
-	else if ((int)c == 2 ) {
+	else if ((int)c == 2) {
 			currentterm = 2;
 	}	// rx
-	else if ((int)c == 1 ) {
+	else if ((int)c == 1) {
 			currentterm = 1;
 	}	// prompt , errors , ...
-	else if ((int)c == 7 ) ; // klingeling :-) , changeover bell, do some ring ring here !?
+	else if ((int)c == 7) ; // klingeling :-) , changeover bell, do some ring ring here !?
 	else {
 		if ((currentterm == 2) || (currentterm == 3)) {
 //			if (currentterm == 3) termoutput->setNewLineColor(QColor("#FF3333"));   // echo //red
@@ -322,13 +322,13 @@ void Kptc::parseModemOut(unsigned char c) {
 			//termoutput->setNewLineColor(QColor("#000000")); //black
 			termoutput->append(QString(c));
 			if (this->isendline(c)) {
-				if (statusmessage.contains("*** ") == 1 ) {
+				if (statusmessage.contains("*** ") == 1) {
 					if (statusmessage.contains("CONNECTED") || statusmessage.contains("CALLING")) {
-						statusmessage.replace( QRegExp("[*]"), "");
+						statusmessage.replace(QRegExp("[*]"), "");
 						statusmessage = statusmessage.trimmed();
 						statusinfo->statusmessage->setText(statusmessage);
 					}
-					else if ( statusmessage.contains("STBY")) {
+					else if (statusmessage.contains("STBY")) {
 						statusinfo->statusmessage->setText("");
 					}
 				}
@@ -342,7 +342,7 @@ void Kptc::parseModemOut(unsigned char c) {
 }
 
 void Kptc :: sendline(QString qs) {
-	Modem::modem->writeLine( qs );
+	Modem::modem->writeLine(qs);
 	termoutput->append(qs);
 	termoutput->append("\n");
 	show();
@@ -371,9 +371,9 @@ void Kptc :: useconfigmachine() {
 
 	QString number;
 	fixmenu->clear();
-	for ( int i = 1; i <= 8; i++ ) {
+	for (int i = 1; i <= 8; i++) {
 		number.setNum(i);
-		QAction *action = new QAction("&" + number + ". " + configdata.getFixLabel( number ), fixmenu);
+		QAction *action = new QAction("&" + number + ". " + configdata.getFixLabel(number), fixmenu);
 		connect(action, SIGNAL(triggered(bool)), this, SLOT (sendFixText(int)));
 		action->setShortcut(QKeySequence(Qt::Key_Shift, Qt::Key_F1 + i, i));
 		fixmenu->addAction(action);
@@ -502,7 +502,7 @@ bool Kptc::isendline(char c) {
 
 void Kptc :: parsePrompt(const char c) {
 	//  analyze prompt
-	switch( c ) {
+	switch(c) {
 		case 32:
 			modecommander->setcurrendmod("cmd:");
 			break;
@@ -529,8 +529,8 @@ void Kptc :: parsePrompt(const char c) {
 }
 
 void Kptc :: parseStatus(const char c) {
-	// check DIRECTION bit ( SEND-LED )
-	if (( c & 0x08 ) > 0 ) {
+	// check DIRECTION bit (SEND-LED)
+	if ((c & 0x08) > 0) {
 		statusinfo->led->on();
 	}
 	else {
@@ -540,7 +540,7 @@ void Kptc :: parseStatus(const char c) {
 	//TODO
 	// check STATUS bits
 	QString status;
-	switch ( c & 0x07 ) {
+	switch (c & 0x07) {
 		case 0:
 			status =  "ERROR";
 			break;
@@ -574,7 +574,7 @@ void Kptc :: parseStatus(const char c) {
 
 	// check MODE bits
 	QString mode;
-	switch ( (c & 112) >> 4 ) {
+	switch ((c & 112) >> 4) {
 		case 0:
 			mode =  "STAND BY";
 			break;
@@ -603,7 +603,7 @@ void Kptc :: parseStatus(const char c) {
 	statusinfo->mode->setText(mode);
 
 	// read listen mode from status byte ??
-	if ( mode == "LISTEN") {
+	if (mode == "LISTEN") {
 		modecommander->setListen(true);
 	}
 	else {
@@ -611,14 +611,14 @@ void Kptc :: parseStatus(const char c) {
 	}
 }
 
-void Kptc::sendFixText( int id ) {
+void Kptc::sendFixText(int id) {
 	QString qsid;
-	qsid.setNum( id );
+	qsid.setNum(id);
 	QString filename = configdata.getFixPath(qsid);
-	QFile file ( filename );
-	if ( ! file.open (QIODevice::ReadOnly)) {
-		QMessageBox::critical( this, "",
-		("Cannot open fix text file !\n Error by opening \"" + filename +"\""  ) );	 // error by opening text file
+	QFile file (filename);
+	if (! file.open (QIODevice::ReadOnly)) {
+		QMessageBox::critical(this, "",
+		("Cannot open fix text file !\n Error by opening \"" + filename +"\"" ));	 // error by opening text file
 		return;
 	}
 	QString buffer;
@@ -641,12 +641,12 @@ void Kptc::shutdown() {
 	modecommander->changetoPactor();
 	sleep(1) ;
 	configmachine->logout();
-	if ( ! Modem::modem->closetty()) {
+	if (! Modem::modem->closetty()) {
 		//qDebug () << Modem::modem->modemMessage();
 	}
 }
 
-void Kptc::closeEvent( QCloseEvent* ce ) {
+void Kptc::closeEvent(QCloseEvent* ce) {
 	emit shutdown();
 	ce->accept();
 }

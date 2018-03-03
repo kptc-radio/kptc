@@ -5,7 +5,7 @@
 	copyright            : (C) 2001 by Lars Schnake
 	email                : lschnak@suse.de
 
-	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de )
+	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de)
  ***************************************************************************/
 
 /***************************************************************************
@@ -23,10 +23,10 @@
 StatusInfo::StatusInfo(QWidget *parent) : QWidget(parent) {
 
 	this->setFont(QFont("courier", 10, QFont::Normal));
-setMinimumSize( 400, 20 );
+setMinimumSize(400, 20);
 
 //TODO
-	led = new KLed( QColor("#FF0000"), this);
+	led = new KLed(QColor("#FF0000"), this);
 	led->setGeometry (2, 2, 16, 16);
 	led->setFixedSize(18, 18);
 	led->off();
@@ -34,12 +34,12 @@ setMinimumSize( 400, 20 );
 	led->setWhatsThis(tr("The Send LED show the direction\nof the information flow.\nOn means: sending text\noff means: receiving text"));
 
 	send = new QLabel(this);
-	send->setGeometry(20, 0, 30, 20 );
+	send->setGeometry(20, 0, 30, 20);
 	send->setFixedSize(30, 20);
 	send->setText("SEND");
 
 	prompt = new QLabel(this);
-	prompt->setGeometry(50, 0, 80, 20 );
+	prompt->setGeometry(50, 0, 80, 20);
 	prompt->setFixedSize(80, 20);
 	prompt->setFrameStyle(QFrame::Sunken | QFrame::Box);
 	prompt->setToolTip(tr("prompt"));
@@ -58,7 +58,7 @@ setMinimumSize( 400, 20 );
 	status->setFixedSize(80, 20);
 	status->setFrameStyle(QFrame::Sunken | QFrame::Box);
 	status->setToolTip(tr("status"));
-	status->setWhatsThis( tr("Here are some status information showen."));
+	status->setWhatsThis(tr("Here are some status information showen."));
 
 	statusmessage = new QLabel(this);
 	statusmessage->setMaximumHeight(20);

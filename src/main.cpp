@@ -5,7 +5,7 @@
 	copyright			: (C) 2001 by Lars Schnake
 	email				: mail@lars-schnake.de
 
-	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de )
+	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de)
  ***************************************************************************/
 
 /***************************************************************************
@@ -36,11 +36,11 @@ int main(int argc, char *argv[])
 	QGuiApplication::setApplicationVersion("0.1 alpha");
 	Kptc *kptc = new Kptc();
 	kptc->show();
-	//QObject :: connect ( &app, SIGNAL (lastWindowClosed ()), &app, SLOT (quit()));
+	//QObject :: connect (&app, SIGNAL (lastWindowClosed ()), &app, SLOT (quit()));
 	return app.exec();
 //	VERSION, description, KAboutData::License_GPL,
 //	"(c) 2001, Lars Schnake");
 //	aboutData.addAuthor("Lars Schnake",0, "mail@lars-schnake.de");
-//	KCmdLineArgs::init( argc, argv, &aboutData );
-//	KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
+//	KCmdLineArgs::init(argc, argv, &aboutData);
+//	KCmdLineArgs::addCmdLineOptions(options); // Add our own options.
 }

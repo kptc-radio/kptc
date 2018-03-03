@@ -5,7 +5,7 @@
 	copyright            : (C) 2001 by Lars Schnake
 	email                : mail@lars-schnake.de
 
-	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de )
+	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de)
  ***************************************************************************/
 
 /***************************************************************************
@@ -63,7 +63,7 @@ class Kptc : public QMainWindow
 	Q_OBJECT
 	public:
 		/** construtor */
-			Kptc(QWidget* parent=0);
+			Kptc(QWidget* parent = 0);
 		/** destructor */
 		~Kptc();
 
@@ -134,11 +134,11 @@ class Kptc : public QMainWindow
 		void updateStatusBar();
 		void clearTrafficWindow();
 		void clearEditWindow();
-		void sendFixText ( int );
+		void sendFixText (int);
 		void shutdown();
 		void showcwspeeddialog();
 		void showrttyspeeddialog();
-		void echoText( QString );
+		void echoText(QString);
 		void openUpdateDialog();
 		void fileQuit();
 		void closeEvent(QCloseEvent* ce);

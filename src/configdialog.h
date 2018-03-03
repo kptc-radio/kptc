@@ -5,7 +5,7 @@
 	copyright            : (C) 2001 by Lars Schnake
 	email                : mail@lars-schnake.de
 
-	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de )
+	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de)
  ***************************************************************************/
 
 /***************************************************************************
@@ -57,7 +57,7 @@ class ConfigDialog : public QDialog  {
 
 	public:
 
-		ConfigDialog(QWidget *parent=0);
+		ConfigDialog(QWidget *parent = 0);
 		~ConfigDialog();
 
 	private:
@@ -72,11 +72,11 @@ class ConfigDialog : public QDialog  {
 		QLineEdit *personal_LineEdit_call;
 		QLineEdit *personal_LineEdit_selcall;
 		QLineEdit *personal_LineEdit_name;
-		QLineEdit *personal_LineEdit_qth ;
+		QLineEdit *personal_LineEdit_qth;
 		QTextEdit *personal_MultiLineEdit_ctext;
-		QCheckBox *personal_CheckBox_cmsg ;
+		QCheckBox *personal_CheckBox_cmsg;
 		QTextEdit *logout_MultiLineEdit_ctext;
-		QCheckBox *logout_CheckBox_cmsg ;
+		QCheckBox *logout_CheckBox_cmsg;
 		QList <FixTextPicker *> list;
 		QList <QObject*> oblist;
 		QLineEdit *logout_LineEdit_path;

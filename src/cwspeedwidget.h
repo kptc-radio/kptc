@@ -5,7 +5,7 @@
 	copyright            : (C) 2001 by Lars Schnake
 	email                : mail@lars-schnake.de
 
-	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de )
+	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de)
  ***************************************************************************/
 
 /***************************************************************************
@@ -38,7 +38,7 @@ class CWSpeedWidget : public QDialog  {
 
 	public:
 
-		CWSpeedWidget(QWidget *parent=0);
+		CWSpeedWidget(QWidget *parent = 0);
 		~CWSpeedWidget();
 		QPushButton * okbutton;
 		QSlider *slider;

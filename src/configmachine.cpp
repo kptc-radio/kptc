@@ -5,7 +5,7 @@
 	copyright            : (C) 2001 by Lars Schnake
 	email                : lschnak@suse.de
 
-	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de )
+	Ported to Qt5 by Sebastian Martin Dicke in 2017 (Sebastianmartindicke [@] gmx [.] de)
  ***************************************************************************/
 
 /***************************************************************************
@@ -24,7 +24,7 @@ ConfigMachine::ConfigMachine(QWidget *_top) : top(_top) {}
 
 void ConfigMachine::doconfig() {
 	Modem::modem->closetty();
-	if ( ! Modem::modem->opentty() ) {
+	if (! Modem::modem->opentty()) {
 
 	// todo errorhandling !
 	}
@@ -58,7 +58,7 @@ void ConfigMachine::doconfig() {
 	//Modem::modem->send_esc();
 	Modem::modem->writeLine(qs);
 
-	if ( configdata.isCMsg() ) {
+	if (configdata.isCMsg()) {
 		Modem::modem->writeLine("cmsg 1");
 	}
 	else {
@@ -66,39 +66,39 @@ void ConfigMachine::doconfig() {
 	}
 
 	QString cmsg = configdata.getCMsg();
-	cmsg = cmsg.replace( QRegExp("\n"), "#");
-	cmsg = configdata.parseMacroText ( cmsg );
+	cmsg = cmsg.replace(QRegExp("\n"), "#");
+	cmsg = configdata.parseMacroText (cmsg);
 	if (cmsg !="") {
-		Modem::modem->writeLine("ctext " + cmsg );
+		Modem::modem->writeLine("ctext " + cmsg);
 	}
 }
 
 void ConfigMachine::logout() {
-	if ( configdata.isAwayMsg() ) {
+	if (configdata.isAwayMsg()) {
 		QString ctext = configdata.getAwayMsg();
-		ctext = configdata.parseMacroText( ctext );
-		ctext = ctext.replace( QRegExp("\n"), "#");
+		ctext = configdata.parseMacroText(ctext);
+		ctext = ctext.replace(QRegExp("\n"), "#");
 		ctext.prepend("cte ");
 		ctext.append("\r");
 		Modem::modem->send_esc();
-		Modem::modem->writeLine( ctext );
+		Modem::modem->writeLine(ctext);
 		//qDebug () << "configmachine::logout- "<< ctext;
 	}
 	Modem::modem->send_esc();
 	Modem::modem->writeLine("term 0"); // terminal setup
 
-	if ( configdata.isLogoutScript() ) {
+	if (configdata.isLogoutScript()) {
 
 		QString qpath = configdata.getLogoutPath();
-		QFile file ( qpath );
-		if ( ! file.open (QIODevice::ReadOnly)) {
-			QMessageBox::critical( top, "",
-	("Cannot open your personal logout script file !\n Error by opening \"" + qpath +"\""  ) );	 // error by opening text file
+		QFile file (qpath);
+		if (! file.open (QIODevice::ReadOnly)) {
+			QMessageBox::critical(top, "",
+	("Cannot open your personal logout script file !\n Error by opening \"" + qpath +"\"" ));	 // error by opening text file
 		}
 		else {
 			while (!file.atEnd()) {
 				QString buffer = file.readLine(1024);
-				Modem::modem->writeLine( QString(buffer) );
+				Modem::modem->writeLine(QString(buffer));
 			}
 			file.close() ;
 			Modem::modem->writeLine("");
@@ -107,17 +107,17 @@ void ConfigMachine::logout() {
 }
 
 void ConfigMachine::login() {
-	if ( configdata.isLoginScript() ) {
+	if (configdata.isLoginScript()) {
 		QString qpath = configdata.getLoginPath();
-		QFile file ( qpath );
-		if ( ! file.open (QIODevice::ReadOnly)) {
-			QMessageBox::critical( top, "",
-			("Cannot open your personal login script file !\n Error by opening \"" + qpath +"\""  ) );	 // error by opening text file
+		QFile file (qpath);
+		if (! file.open (QIODevice::ReadOnly)) {
+			QMessageBox::critical(top, "",
+			("Cannot open your personal login script file !\n Error by opening \"" + qpath +"\"" ));	 // error by opening text file
 		}
 		else {
 			while (!file.atEnd()) {
-				QByteArray buffer = file.readLine(1024 );
-				Modem::modem->writeLine( QString(buffer) );
+				QByteArray buffer = file.readLine(1024);
+				Modem::modem->writeLine(QString(buffer));
 			}
 			file.close() ;
 			Modem::modem->writeLine("");
