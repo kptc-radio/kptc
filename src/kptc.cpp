@@ -104,8 +104,8 @@ Kptc::Kptc(QWidget *parent) : QMainWindow()
 
 	//////////////////////////////////////////////////////////////////
 
-	cwspeedwidget = new CWSpeedWidget(0);
-	rttyspeedwidget = new RTTYSpeedWidget(0);
+	cwspeedwidget = new CWSpeedWidget();
+	rttyspeedwidget = new RTTYSpeedWidget();
 
 	configmachine = new ConfigMachine(this);
 
