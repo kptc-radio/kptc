@@ -24,13 +24,8 @@
 
 Kptc::Kptc(QWidget *parent) : QMainWindow()
 {
-
-	setWindowTitle(tr("Kptc - the PTC-II for penguins "));
-	// connect(kapp, SIGNAL(shutDown()), this, SLOT(shutdown()));
-
 	//TODO
-
-	this->resize(650, 450);
+	this->initMainWindow();
 
 	this->lefttoolbar = new QToolBar("", this);
 	currentterm = 1;
@@ -61,97 +56,94 @@ Kptc::Kptc(QWidget *parent) : QMainWindow()
 	moderadiogroup->addButton(5);
 	*/
 
-	this->modetoolbar = new QToolBar(this);
+	//lefttoolbar->setIconText(KToolBar::IconTextBottom);
 
+	this->initializeStatusBar();
+	this->initTextEdit();
+
+	connect(textedit, SIGNAL(echoCommand(QString)), this, SLOT(echoText(QString)));
+	connect(textedit, SIGNAL(sendit(QString)), this, SLOT(sendline(QString)));
+
+	cwspeedwidget = new CWSpeedWidget();
+	rttyspeedwidget = new RTTYSpeedWidget();
+	configmachine = new ConfigMachine(this);
+
+	//setAutoSaveSettings(); //TODO
+	this->initModem();
+	this->initializeMenuBar();
+	this->initializeToolBar();
+	this->initializePopUpMenues();
+}
+
+bool Kptc::handleFirstStart() {
+	bool bModemOk = false;
+	QMessageBox::information(this, (QString(tr("Thank you for installing Kptc !\n")) +
+	QString("This is a Ham Radio software for the SCS-PTC-II\nRemember: This sofware is still beta !\n\n") +
+	QString("Connect the PTC to your computer\nand switch it on now.\nThen let?s continue with some configurations.\n") +
+	QString("Have Fun ! 73 de Lars DL3YFC")), QString(tr("Welcome to Kptc !")));
+
+	ConfigDialog configdialog ;
+	if (configdialog.exec()== QDialog::Accepted) {
+		bModemOk = Modem::modem->opentty() ;
+		Modem::modem->notify(this, SLOT(parseModemOut(unsigned char)));
+		configdata.setfirststart(false);
+		useconfigmachine();
+		//lefttoolbar->setBarPos(KToolBar::Left);
+	}
+	return bModemOk;
+}
+
+void Kptc::initModem() {
+	(void) new Modem;
+	bool bModemOk = false;
+
+	if (configdata.firststart()) {
+		bModemOk = this->handleFirstStart();
+	}
+	else {
+		bModemOk = Modem::modem->opentty();
+		Modem::modem->notify(this, SLOT(parseModemOut(unsigned char)));
+		useconfigmachine();
+	}
+	configmachine->login();
+	qDebug() << Modem::modem->modemMessage();
+	if (!bModemOk) {
+		QMessageBox::information(this,
+			tr("Cannot open modem device !"), "Kptc");
+	}
+}
+
+void Kptc::initMainWindow() {
+	setWindowTitle(tr("Kptc - the PTC-II for penguins "));
+	// connect(kapp, SIGNAL(shutDown()), this, SLOT(shutdown()));
+	this->resize(650, 450);
+}
+
+void Kptc::initTextEdit() {
+	QSplitter *splitter = new QSplitter(this);
+	splitter->setOrientation(Qt::Vertical);
+	splitter->setOpaqueResize(true);
+	setCentralWidget(splitter);
+	textedit = new MyLineEdit(splitter);
+	textedit->notify(this, SLOT(sendchar(unsigned char)));
+	splitter->show();
+	textedit->setFocus();
+}
+
+void Kptc::initializeToolBar() {
+	modetoolbar = new QToolBar(this);
 	this->expandToolBar(" | Pactor | ", "changetoPactor", modecommander, modetoolbar);
 	this->expandToolBar(" | Amtor |", "changetoAmtor", modecommander, modetoolbar);
 	this->expandToolBar(" | RTTY | ", "changetoRTTY", modecommander, modetoolbar);
 	this->expandToolBar(" | PSK31 | ", "changetoPSK31", modecommander, modetoolbar);
 	this->expandToolBar(" | CW | ", "changetoCW", modecommander, modetoolbar);
 
-	///////////////////////////////////////////////////////////////////////////////
-	// toolbar on the left side
-
-	lefttoolbar = new QToolBar(this);
-	//lefttoolbar->setIconText(KToolBar::IconTextBottom);
-
-	///////////////////////////////////////////////////////////////////////////////
-	// statusbar
-
-	this->initializeStatusBar();
-
-//////////////////////////////////////////////////////////////////////////////
-	// main window elements
-
-	QSplitter *splitter = new QSplitter(this);
-	splitter->setOrientation(Qt::Vertical);
-	splitter->setOpaqueResize(true);
-	setCentralWidget(splitter);
-
+	modebuttons = new ModeButtons(modetoolbar);
 	// modebuttons in splitter window instead of modetoolbar ?! :
 	// modebuttons = new ModeButtons(splitter);
 
-	//  termoutput = new MyTermout(splitter);
+	//termoutput = new MyTermout(splitter);
 	//	termoutput->setFont(QFont("courier",12,QFont::Normal));
-	textedit = new MyLineEdit(splitter);
-	textedit->notify(this, SLOT(sendchar(unsigned char)));
-
-	splitter->show();
-
-	textedit->setFocus();
-	connect(textedit, SIGNAL(echoCommand(QString)), this, SLOT(echoText(QString)));
-	connect(textedit, SIGNAL(sendit(QString)), this, SLOT(sendline(QString)));
-
-	//////////////////////////////////////////////////////////////////
-
-	cwspeedwidget = new CWSpeedWidget();
-	rttyspeedwidget = new RTTYSpeedWidget();
-
-	configmachine = new ConfigMachine(this);
-
-	// Modem :
-	(void) new Modem;
-		//TODO possible memory leak
-	bool bModemOk = false;
-
-	//setAutoSaveSettings();
-
-	if (configdata.firststart()) {
-		QMessageBox::information(this, (QString(tr("Thank you for installing Kptc !\n")) +
-		QString("This is a Ham Radio software for the SCS-PTC-II\nRemember: This sofware is still beta !\n\n") +
-		QString("Connect the PTC to your computer\nand switch it on now.\nThen let?s continue with some configurations.\n") +
-		QString("Have Fun ! 73 de Lars DL3YFC")), QString(tr("Welcome to Kptc !")));
-
-		ConfigDialog configdialog ;
-		if (configdialog.exec()== QDialog::Accepted) {
-			bModemOk = Modem::modem->opentty() ;
-			Modem::modem->notify(this, SLOT(parseModemOut(unsigned char)));
-			configdata.setfirststart(false);
-			useconfigmachine();
-			//lefttoolbar->setBarPos(KToolBar::Left);
-		}
-	}
-	else {
-
-	bModemOk = Modem::modem->opentty();
-		Modem::modem->notify(this, SLOT(parseModemOut(unsigned char)));
-		useconfigmachine();
-	}
-		configmachine->login();
-	//qDebug() << Modem::modem->modemMessage();
-	if (!bModemOk) {
-				QMessageBox::information(this,
-		tr("Cannot open modem device !"), "Kptc");
-	}
-
-	this->initializeMenuBar();
-	this->initializeToolBar();
-	this->initializePopUpMenues();
-}
-
-void Kptc::initializeToolBar() {
-	modetoolbar = new QToolBar(this);
-	modebuttons = new ModeButtons(modetoolbar);
 
 	modetoolbar->addWidget(modebuttons->pactorButton);
 	modetoolbar->addWidget(modebuttons->amtorButton);
@@ -227,8 +219,7 @@ void Kptc::initializePopUpMenues() {
 
 	QMenu *helpmenu = new QMenu();
 	helpmenu->setTitle(about);
-
-		fixmenu = new QMenu ;
+	fixmenu = new QMenu ;
 
 	QString number;
 	for (int i = 1; i <= 8; i++) {
@@ -387,7 +378,7 @@ void Kptc :: openCommandDialog() {
 }
 
 void Kptc :: clearTrafficWindow() {
-	//termoutput->repaint();
+	termoutput->repaint();
 }
 
 void Kptc :: clearEditWindow() {
@@ -616,7 +607,7 @@ void Kptc::sendFixText(int id) {
 	qsid.setNum(id);
 	QString filename = configdata.getFixPath(qsid);
 	QFile file (filename);
-	if (! file.open (QIODevice::ReadOnly)) {
+	if (!file.open(QIODevice::ReadOnly)) {
 		QMessageBox::critical(this, "",
 		("Cannot open fix text file !\n Error by opening \"" + filename +"\"" ));	 // error by opening text file
 		return;

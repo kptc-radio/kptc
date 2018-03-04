@@ -117,6 +117,10 @@ class Kptc : public QMainWindow
 		void initializeStatusBar();
 		void initializeMenuBar();
 		bool isendline(char c);
+		bool handleFirstStart();
+		void initModem();
+		void initMainWindow();
+		void initTextEdit();
 
 	public slots:
 		void parseModemOut(unsigned char);
