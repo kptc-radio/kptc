@@ -17,7 +17,6 @@
  *						 *
  ***************************************************************************/
 
-#include <iostream>
 #include <QDebug>
 
 #include "kptc.h"
@@ -34,35 +33,10 @@ Kptc::Kptc(QWidget *parent) : QMainWindow()
 	modecommander = new ModeCommander(this);
 	cqdialog = new CQDialog(this,  modecommander);
 
-	////////////////////////////////////////////////////////////////////////////
-
 	this->initializePopUpMenues();
-
-	/////////////////////////////////////////////////////////////////////////////
-	// Toolbar for changing the mods:
-
-	/*
-
-1	KToolBarRadioGroup *moderadiogroup = new KToolBarRadioGroup(modetoolbar,"modradiogroup");
-	modetoolbar->setToggle(1);
-	modetoolbar->setToggle(2);
-	modetoolbar->setToggle(3);
-	modetoolbar->setToggle(4);
-	modetoolbar->setToggle(5);
-	moderadiogroup->addButton(1);
-	moderadiogroup->addButton(2);
-	moderadiogroup->addButton(3);
-	moderadiogroup->addButton(4);
-	moderadiogroup->addButton(5);
-	*/
-
 	//lefttoolbar->setIconText(KToolBar::IconTextBottom);
-
 	this->initializeStatusBar();
 	this->initTextEdit();
-
-	connect(textedit, SIGNAL(echoCommand(QString)), this, SLOT(echoText(QString)));
-	connect(textedit, SIGNAL(sendit(QString)), this, SLOT(sendline(QString)));
 
 	cwspeedwidget = new CWSpeedWidget();
 	rttyspeedwidget = new RTTYSpeedWidget();
@@ -128,10 +102,15 @@ void Kptc::initTextEdit() {
 	textedit->notify(this, SLOT(sendchar(unsigned char)));
 	splitter->show();
 	textedit->setFocus();
+	connect(textedit, SIGNAL(echoCommand(QString)), this, SLOT(echoText(QString)));
+	connect(textedit, SIGNAL(sendit(QString)), this, SLOT(sendline(QString)));
+	termoutput = new QTextEdit(this);
+	connect(this, SIGNAL(htmlString), termoutput, SLOT(insertHtml(QString)));
 }
 
 void Kptc::initializeToolBar() {
-	modetoolbar = new QToolBar(this);
+	modetoolbar = new QToolBar();
+
 	this->expandToolBar(" | Pactor | ", "changetoPactor", modecommander, modetoolbar);
 	this->expandToolBar(" | Amtor |", "changetoAmtor", modecommander, modetoolbar);
 	this->expandToolBar(" | RTTY | ", "changetoRTTY", modecommander, modetoolbar);
@@ -139,11 +118,20 @@ void Kptc::initializeToolBar() {
 	this->expandToolBar(" | CW | ", "changetoCW", modecommander, modetoolbar);
 
 	modebuttons = new ModeButtons(modetoolbar);
+	/*	KToolBarRadioGroup *moderadiogroup = new KToolBarRadioGroup(modetoolbar,"modradiogroup");
+	modetoolbar->setToggle(1);
+	modetoolbar->setToggle(2);
+	modetoolbar->setToggle(3);
+	modetoolbar->setToggle(4);
+	modetoolbar->setToggle(5);
+	moderadiogroup->addButton(1);
+	moderadiogroup->addButton(2);
+	moderadiogroup->addButton(3);
+	moderadiogroup->addButton(4);
+	moderadiogroup->addButton(5);*/
+
 	// modebuttons in splitter window instead of modetoolbar ?! :
 	// modebuttons = new ModeButtons(splitter);
-
-	//termoutput = new MyTermout(splitter);
-	//	termoutput->setFont(QFont("courier",12,QFont::Normal));
 
 	modetoolbar->addWidget(modebuttons->pactorButton);
 	modetoolbar->addWidget(modebuttons->amtorButton);
@@ -266,7 +254,7 @@ void Kptc::initializeMenuBar() {
 
 void Kptc::parseModemOut(unsigned char c) {
 	if ((int) c == 6) {
-			qDebug ()<< "Packet-STATUSINFO";
+		qDebug ()<< "Packet-STATUSINFO";
 	}
 	if (bStatusByteFollows) {
 		bStatusByteFollows = false;
@@ -304,14 +292,18 @@ void Kptc::parseModemOut(unsigned char c) {
 	else if ((int)c == 7) ; // klingeling :-) , changeover bell, do some ring ring here !?
 	else {
 		if ((currentterm == 2) || (currentterm == 3)) {
-//			if (currentterm == 3) termoutput->setNewLineColor(QColor("#FF3333"));   // echo //red
-//			else termoutput->setNewLineColor(QColor("#336600"));			  // rx
-			termoutput->append(QString(c));
+			QString color;
+			if (currentterm == 3) {
+				color = "#FF3333"; // red
+			}
+			else {
+				color = "#336600"; // rx
+			}
+			setHTML(makeHTML(QString(c), color));
 			show();
 		}
 		else if (currentterm == 1) {
-			//termoutput->setNewLineColor(QColor("#000000")); //black
-			termoutput->append(QString(c));
+			setHTML(makeHTML(QString(c), "#000000")); //black
 			if (this->isendline(c)) {
 				if (statusmessage.contains("*** ") == 1) {
 					if (statusmessage.contains("CONNECTED") || statusmessage.contains("CALLING")) {
@@ -344,7 +336,7 @@ void Kptc :: sendchar(unsigned char c) {
 }
 
 void Kptc :: echoText(QString qtext) {
-	//	termoutput->setNewLineColor(QColor("#001933")); //darkblue
+	setHTML(makeHTML(qtext, "#001933")); //darkblue
 	termoutput->append(qtext);
 }
 
@@ -372,9 +364,9 @@ void Kptc :: useconfigmachine() {
 }
 
 void Kptc :: openCommandDialog() {
-		commanddialog.close();
-		commanddialog.show();
-		commanddialog.setFocus();
+	commanddialog.close();
+	commanddialog.show();
+	commanddialog.setFocus();
 }
 
 void Kptc :: clearTrafficWindow() {
@@ -389,7 +381,6 @@ void Kptc :: clearEditWindow() {
 
 void Kptc :: showPactor() {
 	lefttoolbar->clear();
-
 	this->expandToolBar("Stand by", "Standby", modecommander, lefttoolbar);
 	this->expandToolBar("QRT", "initQRT", this, lefttoolbar);
 	this->expandToolBar("changeover", "initchangeover", this, lefttoolbar);
@@ -403,7 +394,6 @@ void Kptc :: showPactor() {
 void Kptc :: showAmtor() {
 	//modebuttons->buttongroup->setButton(2);
 	lefttoolbar->clear();
-
 	this->expandToolBar("Stand by", "Standby", modecommander, lefttoolbar);
 	this->expandToolBar("QRT", "initQRT", this, lefttoolbar);
 	this->expandToolBar("changeover", "initchangeover", this, lefttoolbar);
@@ -414,8 +404,6 @@ void Kptc :: showAmtor() {
 
 void Kptc :: showRTTY() {
 	// modetoolbar->toggleButton(3);
-	// ;
-
 	lefttoolbar->clear();
 	this->expandToolBar(standby, "Standby", modecommander, lefttoolbar);
 	this->expandToolBar(qrt, "initQRT", this, lefttoolbar);
@@ -427,7 +415,6 @@ void Kptc :: showRTTY() {
 void Kptc :: showPSK31() {
 	//modetoolbar->toggleButton(4);
 	//modebuttons->buttongroup->setButton(4);
-
 	lefttoolbar->clear();
 	this->expandToolBar(standby, "Standby", modecommander, lefttoolbar);
 	this->expandToolBar(qrt, "initQRT", this, lefttoolbar);
@@ -438,7 +425,6 @@ void Kptc :: showPSK31() {
 void Kptc :: showCW() {
 	//modebuttons->buttongroup->setButton(5);
 	lefttoolbar->clear();
-
 	this->expandToolBar(standby, "StandBy", modecommander, lefttoolbar);
 	this->expandToolBar(prescribe, "cwprescribe", modecommander, lefttoolbar);
 	this->expandToolBar(flush, "cwflush", modecommander, lefttoolbar);
@@ -474,6 +460,18 @@ void Kptc :: initQRT() {
 	textedit->myinsert("[QRT]\n");
 	termoutput->append("\n[QRT]\n");
 	modecommander->QRT();
+}
+
+QString Kptc::makeHTML(QString text, QString color) {
+	text = "<p style=\"color: " + color +
+	"; font-family: courier; font-size: 12; font-style: normal;\">"
+	+ text + "</p>";
+	return text;
+}
+
+void Kptc::setHTML(QString text) {
+	text = termoutput->toHtml() + text;
+	emit setHTML(text);
 }
 
 void Kptc :: updateStatusBar() {

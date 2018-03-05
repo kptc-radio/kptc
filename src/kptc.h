@@ -121,6 +121,11 @@ class Kptc : public QMainWindow
 		void initModem();
 		void initMainWindow();
 		void initTextEdit();
+		QString makeHTML(QString text, QString color);
+		void setHTML(QString text);
+
+	signals:
+		void htmlString(QString);
 
 	public slots:
 		void parseModemOut(unsigned char);
