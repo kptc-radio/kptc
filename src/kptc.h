@@ -107,13 +107,16 @@ class Kptc : public QMainWindow
 		CQDialog *cqdialog;
 		ModeButtons *modebuttons;
 		ConfigMachine * configmachine;
+		QMenu *filemenu;
+		QMenu *actionmenu;
+		QMenu *clearwindow;
 		void useconfigmachine();
 		void parsePrompt(const char);
 		void parseStatus(const char);
 		bool queryClose ();
 		void expandToolBar(QString text, char *slot, QObject *obj,  QToolBar *bar);
 		void initializeToolBar();
-		void initializePopUpMenues();
+		void initializeMenues();
 		void initializeStatusBar();
 		void initializeMenuBar();
 		bool isendline(char c);

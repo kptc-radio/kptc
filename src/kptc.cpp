@@ -33,7 +33,7 @@ Kptc::Kptc(QWidget *parent) : QMainWindow()
 	modecommander = new ModeCommander(this);
 	cqdialog = new CQDialog(this,  modecommander);
 
-	this->initializePopUpMenues();
+	this->initializeMenues();
 	//lefttoolbar->setIconText(KToolBar::IconTextBottom);
 	this->initializeStatusBar();
 	this->initTextEdit();
@@ -44,9 +44,9 @@ Kptc::Kptc(QWidget *parent) : QMainWindow()
 
 	//setAutoSaveSettings(); //TODO
 	this->initModem();
+	this->initializeMenues();
 	this->initializeMenuBar();
 	this->initializeToolBar();
-	this->initializePopUpMenues();
 }
 
 bool Kptc::handleFirstStart() {
@@ -105,11 +105,15 @@ void Kptc::initTextEdit() {
 	connect(textedit, SIGNAL(echoCommand(QString)), this, SLOT(echoText(QString)));
 	connect(textedit, SIGNAL(sendit(QString)), this, SLOT(sendline(QString)));
 	termoutput = new QTextEdit(this);
+	termoutput->setGeometry(0, 4 * textedit->height(), this->width(), this->height() - 3 * textedit->height());
+	termoutput->setEnabled(false);
 	connect(this, SIGNAL(htmlString), termoutput, SLOT(insertHtml(QString)));
 }
 
 void Kptc::initializeToolBar() {
 	modetoolbar = new QToolBar();
+	this->addToolBar(modetoolbar);
+//	modetoolbar->setGeometry(0, 2 * textedit->height(), this->width(), textedit->height());
 
 	this->expandToolBar(" | Pactor | ", "changetoPactor", modecommander, modetoolbar);
 	this->expandToolBar(" | Amtor |", "changetoAmtor", modecommander, modetoolbar);
@@ -146,15 +150,14 @@ void Kptc::initializeToolBar() {
 	connect(modebuttons->cwButton, SIGNAL(clicked(bool)), modecommander,SLOT(changetoCW()));
 }
 
-void Kptc::initializePopUpMenues() {
-	// Popup Menu:
-
-	QMenu *filemenu = new QMenu();
+void Kptc::initializeMenues() {
+	filemenu = new QMenu(tr("&File"), this->menuBar());
+	filemenu->insertSeparator(nullptr);
 	QAction *action = new QAction(tr("&Quit"), this);
 	connect(action, SIGNAL(triggered(bool)), this, SLOT(fileQuit()));
 	filemenu->addAction(action);
 
-	QMenu *actionmenu = new QMenu ;
+	actionmenu = new QMenu(tr("&Actions"), this->menuBar());
 
 	QAction *reload = new QAction(tr("Change&over"), actionmenu);
 	reload->setShortcut(QKeySequence(Qt::CTRL, 'Y'));
@@ -181,7 +184,7 @@ void Kptc::initializePopUpMenues() {
 	connect(command, SIGNAL(triggered(bool)), this, SLOT(openCommandDialog()));
 	actionmenu->addAction(command);
 
-	QMenu *optionmenu = new QMenu();
+	QMenu *optionmenu = new QMenu(tr("&Options"), menuBar());
 	QAction *configure = new QAction(tr("&Config..."), optionmenu);
 	optionmenu->addAction(configure);
 	connect(configure, SIGNAL(triggered(bool)), this, SLOT(openconfigdialog()));
@@ -191,7 +194,7 @@ void Kptc::initializePopUpMenues() {
 	connect(updateFirmware, SIGNAL(triggered(bool)), this, SLOT(openUpdateDialog()));
 
 	// window menu
-	QMenu *clearwindow = new QMenu("Clear");
+	clearwindow = new QMenu("Clear");
 	QAction *traffic = new QAction(tr("&traffic window"), clearwindow);
 	connect(traffic, SIGNAL(triggered(bool)), this, SLOT(clearTrafficWindow()));
 	clearwindow->addAction(traffic);
@@ -205,9 +208,15 @@ void Kptc::initializePopUpMenues() {
 
 	QString about = tr("Kptc 0.2\n user interface for the SCS-PTC-II\n\n (C) 2001 Lars Schnake\nmail@lars-schnake.de\n");
 
-	QMenu *helpmenu = new QMenu();
-	helpmenu->setTitle(about);
-	fixmenu = new QMenu ;
+	QMenu *helpmenu = new QMenu("Help");
+	QAction *helpaction = new QAction("About");
+	connect(helpaction, &QAction::triggered, this, [about](){
+			QWidget *versioninfo = new QWidget();
+			QLabel *label = new QLabel(about);
+			versioninfo->show();
+		});
+	this->menuBar()->addMenu(helpmenu);
+	fixmenu = new QMenu(tr("Fi&xtext"), menuBar());
 
 	QString number;
 	for (int i = 1; i <= 8; i++) {
@@ -230,8 +239,7 @@ void Kptc::initializeStatusBar() {
 	sendled->setColor(QColor("#CC0000b")); //red
 	sendled->off();
 
-	//statusBar()->setInsertOrder(KStatusBar::RightToLeft);	//
-	//statusBar()->insertWidget(sendled, sendled->width(),1);
+	statusBar()->setLayoutDirection(Qt::RightToLeft);
 	statusBar()->insertWidget(1, sendled, sendled->width());
 	statusBar()->addPermanentWidget(sendled, 1);
 
@@ -241,15 +249,10 @@ void Kptc::initializeStatusBar() {
 }
 
 void Kptc::initializeMenuBar() {
-	QMenuBar *menu = new QMenuBar(this);
-	QMenu *fileMenu = new QMenu(tr("&File"), this->menuBar());
-	this->menuBar()->addMenu(fileMenu);
-	QMenu *actionMenu = new QMenu(tr("&Actions"), this->menuBar());
-	menuBar()->addMenu(actionMenu);
-	QMenu *fixmenuMenu = new QMenu(tr("Fi&xtext"), menuBar());
-	menuBar()->addMenu(fixmenuMenu);
-	QMenu *optionMenu = new QMenu(tr("&Options"), menuBar());
-	menuBar()->addMenu(optionMenu);
+	this->menuBar()->addMenu(filemenu);
+	menuBar()->addMenu(actionmenu);
+	menuBar()->addMenu(fixmenu);
+	//menuBar()->addMenu(optionmenu);
 }
 
 void Kptc::parseModemOut(unsigned char c) {
