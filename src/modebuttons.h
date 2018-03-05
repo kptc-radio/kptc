@@ -22,7 +22,7 @@
 
 #include <qobject.h>
 #include <QtWidgets/QButtonGroup>
-#include <QtWidgets/QPushButton>
+#include <QtWidgets/QRadioButton>
 #include "QtWidgets/QLayout"
 
 /**buttons for changeing the mode
@@ -34,11 +34,11 @@ class ModeButtons : public QObject  {
 	Q_OBJECT
 
 	public:
-		QPushButton *pactorButton;
-		QPushButton *amtorButton;
-		QPushButton *rttyButton;
-		QPushButton *psk31Button;
-		QPushButton *cwButton;
+		QRadioButton *pactorButton;
+		QRadioButton *amtorButton;
+		QRadioButton *rttyButton;
+		QRadioButton *psk31Button;
+		QRadioButton *cwButton;
 		QButtonGroup *buttongroup;
 
 		ModeButtons(QWidget *parent = 0);

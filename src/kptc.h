@@ -110,6 +110,8 @@ class Kptc : public QMainWindow
 		QMenu *filemenu;
 		QMenu *actionmenu;
 		QMenu *clearwindow;
+		QMenu *optionmenu;
+		QMenu *helpmenu;
 		void useconfigmachine();
 		void parsePrompt(const char);
 		void parseStatus(const char);
@@ -117,6 +119,12 @@ class Kptc : public QMainWindow
 		void expandToolBar(QString text, char *slot, QObject *obj,  QToolBar *bar);
 		void initializeToolBar();
 		void initializeMenues();
+		void initFileMenu();
+		void initOptionMenu();
+		void initActionMenu();
+		void initHelpMenu();
+		void initFixMenu();
+		void initClearwindowMenu();
 		void initializeStatusBar();
 		void initializeMenuBar();
 		bool isendline(char c);

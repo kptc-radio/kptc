@@ -22,11 +22,11 @@
 
 ModeButtons::ModeButtons(QWidget *parent) : QObject(parent) {
 	buttongroup = new QButtonGroup(parent);
-	pactorButton = new QPushButton("Pactor", parent);
-	amtorButton = new QPushButton("Amtor", parent);
-	rttyButton = new QPushButton("RTTY", parent);
-	psk31Button = new QPushButton("PSK31", parent);
-	cwButton = new QPushButton("CW", parent);
+	pactorButton = new QRadioButton("Pactor", parent);
+	amtorButton = new QRadioButton("Amtor", parent);
+	rttyButton = new QRadioButton("RTTY", parent);
+	psk31Button = new QRadioButton("PSK31", parent);
+	cwButton = new QRadioButton("CW", parent);
 	buttongroup->addButton(pactorButton, 1);
 	buttongroup->addButton(amtorButton, 2);
 	buttongroup->addButton(rttyButton, 3);

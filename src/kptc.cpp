@@ -26,7 +26,8 @@ Kptc::Kptc(QWidget *parent) : QMainWindow()
 	//TODO
 	this->initMainWindow();
 
-	this->lefttoolbar = new QToolBar("", this);
+	this->lefttoolbar = new QToolBar("");
+	this->addToolBar(lefttoolbar);
 	currentterm = 1;
 	bPromptInfoFollows = false;
 
@@ -113,13 +114,13 @@ void Kptc::initTextEdit() {
 void Kptc::initializeToolBar() {
 	modetoolbar = new QToolBar();
 	this->addToolBar(modetoolbar);
-//	modetoolbar->setGeometry(0, 2 * textedit->height(), this->width(), textedit->height());
+	//modetoolbar->setGeometry(0, 2 * textedit->height(), this->width(), textedit->height());
 
-	this->expandToolBar(" | Pactor | ", "changetoPactor", modecommander, modetoolbar);
-	this->expandToolBar(" | Amtor |", "changetoAmtor", modecommander, modetoolbar);
-	this->expandToolBar(" | RTTY | ", "changetoRTTY", modecommander, modetoolbar);
-	this->expandToolBar(" | PSK31 | ", "changetoPSK31", modecommander, modetoolbar);
-	this->expandToolBar(" | CW | ", "changetoCW", modecommander, modetoolbar);
+//	this->expandToolBar(" | Pactor | ", "changetoPactor", modecommander, modetoolbar);
+//	this->expandToolBar(" | Amtor |", "changetoAmtor", modecommander, modetoolbar);
+//	this->expandToolBar(" | RTTY | ", "changetoRTTY", modecommander, modetoolbar);
+//	this->expandToolBar(" | PSK31 | ", "changetoPSK31", modecommander, modetoolbar);
+//	this->expandToolBar(" | CW | ", "changetoCW", modecommander, modetoolbar);
 
 	modebuttons = new ModeButtons(modetoolbar);
 	/*	KToolBarRadioGroup *moderadiogroup = new KToolBarRadioGroup(modetoolbar,"modradiogroup");
@@ -151,12 +152,47 @@ void Kptc::initializeToolBar() {
 }
 
 void Kptc::initializeMenues() {
+	initFileMenu();
+	initClearwindowMenu();
+	initOptionMenu();
+	initActionMenu();
+	initHelpMenu();
+	initFixMenu();
+}
+
+void Kptc::initFileMenu() {
 	filemenu = new QMenu(tr("&File"), this->menuBar());
-	filemenu->insertSeparator(nullptr);
 	QAction *action = new QAction(tr("&Quit"), this);
 	connect(action, SIGNAL(triggered(bool)), this, SLOT(fileQuit()));
 	filemenu->addAction(action);
+}
 
+void Kptc::initClearwindowMenu() {
+	clearwindow = new QMenu(tr("Clear"), menuBar());
+	QAction *traffic = new QAction(tr("&traffic window"), clearwindow);
+	connect(traffic, SIGNAL(triggered(bool)), this, SLOT(clearTrafficWindow()));
+	clearwindow->addAction(traffic);
+	QAction *edit = new QAction(tr("&edit window"), clearwindow);
+	connect(edit, SIGNAL(triggered(bool)), this, SLOT(clearEditWindow()));
+	clearwindow->addAction(edit);
+
+	//clearwindow->insertItem (tr("&traffic window"), this, SLOT(clearTrafficWindow()));
+	//clearwindow->insertItem (tr("&edit window"), this, SLOT(clearEditWindow()));
+	//->insertItem (tr("&clear window"), clearwindow);
+}
+
+void Kptc::initOptionMenu() {
+	optionmenu = new QMenu(tr("&Options"), menuBar());
+	QAction *configure = new QAction(tr("&Config..."), optionmenu);
+	optionmenu->addAction(configure);
+	connect(configure, SIGNAL(triggered(bool)), this, SLOT(openconfigdialog()));
+
+	QAction *updateFirmware = new QAction(tr("Firmware Update..."), optionmenu);
+	optionmenu->addAction(updateFirmware);
+	connect(updateFirmware, SIGNAL(triggered(bool)), this, SLOT(openUpdateDialog()));
+}
+
+void Kptc::initActionMenu() {
 	actionmenu = new QMenu(tr("&Actions"), this->menuBar());
 
 	QAction *reload = new QAction(tr("Change&over"), actionmenu);
@@ -183,39 +219,21 @@ void Kptc::initializeMenues() {
 	command->setShortcut(QKeySequence(Qt::CTRL, 19)); //Ctrl + Esc
 	connect(command, SIGNAL(triggered(bool)), this, SLOT(openCommandDialog()));
 	actionmenu->addAction(command);
+}
 
-	QMenu *optionmenu = new QMenu(tr("&Options"), menuBar());
-	QAction *configure = new QAction(tr("&Config..."), optionmenu);
-	optionmenu->addAction(configure);
-	connect(configure, SIGNAL(triggered(bool)), this, SLOT(openconfigdialog()));
+void Kptc::initHelpMenu() {
+	helpmenu = new QMenu(tr("Help"), menuBar());
+	QAction *helpaction = new QAction("About", helpmenu);
+	helpmenu->addAction(helpaction);
+	connect(helpaction, &QAction::triggered, this, [](){
+		QString about = tr("Kptc 0.2\n user interface for the SCS-PTC-II\n\n (C) 2001 Lars Schnake\nmail@lars-schnake.de\n");
+		QWidget *versioninfo = new QWidget();
+		QLabel *label = new QLabel(about);
+		versioninfo->show();
+	});
+}
 
-	QAction *updateFirmware = new QAction(tr("Firmware Update..."), optionmenu);
-	optionmenu->addAction(updateFirmware);
-	connect(updateFirmware, SIGNAL(triggered(bool)), this, SLOT(openUpdateDialog()));
-
-	// window menu
-	clearwindow = new QMenu("Clear");
-	QAction *traffic = new QAction(tr("&traffic window"), clearwindow);
-	connect(traffic, SIGNAL(triggered(bool)), this, SLOT(clearTrafficWindow()));
-	clearwindow->addAction(traffic);
-	QAction *edit = new QAction(tr("&edit window"), clearwindow);
-	connect(edit, SIGNAL(triggered(bool)), this, SLOT(clearEditWindow()));
-	clearwindow->addAction(edit);
-
-	//clearwindow->insertItem (tr("&traffic window"), this, SLOT(clearTrafficWindow()));
-	//clearwindow->insertItem (tr("&edit window"), this, SLOT(clearEditWindow()));
-	//->insertItem (tr("&clear window"), clearwindow);
-
-	QString about = tr("Kptc 0.2\n user interface for the SCS-PTC-II\n\n (C) 2001 Lars Schnake\nmail@lars-schnake.de\n");
-
-	QMenu *helpmenu = new QMenu("Help");
-	QAction *helpaction = new QAction("About");
-	connect(helpaction, &QAction::triggered, this, [about](){
-			QWidget *versioninfo = new QWidget();
-			QLabel *label = new QLabel(about);
-			versioninfo->show();
-		});
-	this->menuBar()->addMenu(helpmenu);
+void Kptc::initFixMenu() {
 	fixmenu = new QMenu(tr("Fi&xtext"), menuBar());
 
 	QString number;
@@ -249,10 +267,12 @@ void Kptc::initializeStatusBar() {
 }
 
 void Kptc::initializeMenuBar() {
-	this->menuBar()->addMenu(filemenu);
+	menuBar()->addMenu(filemenu);
 	menuBar()->addMenu(actionmenu);
 	menuBar()->addMenu(fixmenu);
-	//menuBar()->addMenu(optionmenu);
+	menuBar()->addMenu(optionmenu);
+	menuBar()->addMenu(clearwindow);
+	menuBar()->addMenu(helpmenu);
 }
 
 void Kptc::parseModemOut(unsigned char c) {
@@ -634,7 +654,7 @@ void Kptc::shutdown() {
 	sleep(1) ;
 	configmachine->logout();
 	if (! Modem::modem->closetty()) {
-		//qDebug () << Modem::modem->modemMessage();
+		qDebug () << Modem::modem->modemMessage();
 	}
 }
 
