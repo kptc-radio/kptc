@@ -63,13 +63,13 @@ void MyLineEdit::keyPressEvent(QKeyEvent *key) {
 		case Qt::Key_Up:
 			if (commandmode) {
 				QString pprev = *(iterator -1);
-			if (pprev.size()) {
+				if (pprev.size()) {
 					QString updummy = qsprompt;
 					updummy.append(pprev);
 					setText(updummy);
 					end(false);
 				}
-				else commandlist.first();
+			else commandlist.first();
 			}
 			return;
 		case Qt::Key_Down:
