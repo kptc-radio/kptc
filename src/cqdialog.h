@@ -41,12 +41,12 @@ class CQDialog : public QObject  {
 Q_OBJECT
 
 	public:
-
 		CQDialog(QWidget *parent=0, ModeCommander *modecommander = 0);
 		~CQDialog();
 
 	private:
 		enum class Tabs {Pactor = 0, Amtor = 1, RTTY = 2, PSK31 = 3, CW = 4};
+
 		QTabWidget *TabDialog;
 		QTextEdit *CQText_Pactor ;
 		QTextEdit *CQText_Amtor;
@@ -63,7 +63,6 @@ Q_OBJECT
 		void saveText();
 		void startCall();
 		void selectTab(int);
-
 };
 
 #endif

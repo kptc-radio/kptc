@@ -43,7 +43,6 @@ class ModeButtons : public QObject  {
 
 		ModeButtons(QWidget *parent = 0);
 		~ModeButtons();
-
 };
 
 #endif

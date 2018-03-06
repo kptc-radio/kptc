@@ -58,8 +58,7 @@
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QToolBar>
 
-class Kptc : public QMainWindow
-{
+class Kptc : public QMainWindow {
 	Q_OBJECT
 	public:
 		/** construtor */
@@ -80,7 +79,6 @@ class Kptc : public QMainWindow
 		const QString speed_down = tr("speed down");
 		const QString tx_speed = tr("tx speed");
 		const QString baudrate = tr("baudrate");
-
 		int currentterm;
 		// meaning of currentterm :
 		// 1: (ctrl-A) : prescripe/message window
@@ -112,6 +110,7 @@ class Kptc : public QMainWindow
 		QMenu *clearwindow;
 		QMenu *optionmenu;
 		QMenu *helpmenu;
+
 		void useconfigmachine();
 		void parsePrompt(const char);
 		void parseStatus(const char);
@@ -162,7 +161,6 @@ class Kptc : public QMainWindow
 		void openUpdateDialog();
 		void fileQuit();
 		void closeEvent(QCloseEvent* ce);
-
 };
 
 #endif

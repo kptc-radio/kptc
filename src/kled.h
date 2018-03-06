@@ -28,12 +28,9 @@
 #include <QtWidgets/QStyle>
 #include <QtWidgets/QStyleOption>
 
-
-
 class QColor;
 
-class KLed : public QWidget
-{
+class KLed : public QWidget {
 	Q_OBJECT
 	Q_ENUMS(State Shape Look)
 	Q_PROPERTY(State state READ state WRITE setState)
@@ -65,13 +62,11 @@ class KLed : public QWidget
 		virtual QSize minimumSizeHint() const;
 
 	public Q_SLOTS:
-
 		void toggle();
 		void on();
 		void off();
 
 	protected:
-
 		virtual int KLedWidth() const;
 		virtual void paintFlat();
 		virtual void paintRaised();
@@ -87,7 +82,6 @@ class KLed : public QWidget
 	private:
 		class Private;
 		Private *const d;
-
- };
+};
 
  #endif

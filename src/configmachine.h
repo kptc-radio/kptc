@@ -36,16 +36,14 @@
 class ConfigMachine {
 
 	public:
-
 		ConfigMachine(QWidget *);
 		~ConfigMachine();
-
 		void doconfig();
 		void logout();
 		void login();
+
 	private:
 		QWidget *top;
-
 };
 
 #endif

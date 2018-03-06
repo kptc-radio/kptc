@@ -132,7 +132,6 @@ class ConfigDialog : public QDialog  {
 
 	public slots:
 		void chooseFile();
-
 };
 
 #endif

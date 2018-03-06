@@ -33,7 +33,6 @@ class ModeCommander : public QObject  {
 	Q_OBJECT
 
 	public:
-
 		ModeCommander(QObject *parent = 0);
 		~ModeCommander();
 		void setcurrendmod(QString);

@@ -35,7 +35,6 @@ class FixTextPicker : public QWidget  {
 	Q_OBJECT
 
 	public:
-
 		FixTextPicker(QWidget *parent = 0);
 		~FixTextPicker();
 		QPushButton *getChooseButtom();
@@ -46,7 +45,6 @@ class FixTextPicker : public QWidget  {
 		QLineEdit *editlabel;
 		QLineEdit *editpath;
 		QLabel *numlabel;
-
 };
 
 #endif

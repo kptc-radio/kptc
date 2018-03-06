@@ -17,7 +17,6 @@
  *                                                                         *
  ***************************************************************************/
 
-
 #ifndef CONFIGDATA_H
 #define CONFIGDATA_H
 
@@ -94,7 +93,6 @@ class ConfigData {
 		QString getValue(Group group, const QString &key, const QString &defaultvalue) const;
 		bool stringIsTrue (const QString &string);
 		QString boolToString(bool value) const;
-
 };
 
 extern ConfigData configdata;

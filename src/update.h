@@ -82,7 +82,6 @@ typedef struct _FTIME {
 	unsigned int hours = 5;
 } FTIME;
 
-
 typedef struct _FDTIME {
 	unsigned int twosecs = 5;
 	unsigned int minutes = 6;
@@ -105,7 +104,7 @@ class Update : public QObject  {
 	private:
 		QWidget *updatewidget;
 		time_t convtime(FDTIME);
-		 int GetFlash (char, char, FLASH *);
+		int GetFlash (char, char, FLASH *);
 		int readflush(int);
 
 	signals:

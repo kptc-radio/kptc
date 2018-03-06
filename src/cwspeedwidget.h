@@ -37,18 +37,17 @@ class CWSpeedWidget : public QDialog  {
 	Q_OBJECT
 
 	public:
-
-		CWSpeedWidget(QWidget *parent = 0);
-		~CWSpeedWidget();
 		QPushButton * okbutton;
 		QSlider *slider;
 		QLineEdit *lineedit;
+
+		CWSpeedWidget(QWidget *parent = 0);
+		~CWSpeedWidget();
 
 	private:
 		int speed;
 
 	private slots:
-
 		void updateText(int);
 		void updateSlider(const QString &);
 		void change();

@@ -17,7 +17,6 @@
  *                                                                         *
  ***************************************************************************/
 
-
 #ifndef COMMANDDIALOG_H
 #define COMMANDDIALOG_H
 
@@ -32,13 +31,13 @@
   */
 
 class CommandDialog : public QDialog  {
-public:
-	CommandDialog(QWidget *parent = 0);
-	~CommandDialog();
+	public:
+		CommandDialog(QWidget *parent = 0);
+		~CommandDialog();
 
-private:
-	QComboBox *combo;
-	void keyPressEvent(QKeyEvent *) ;
-
+	private:
+		QComboBox *combo;
+		void keyPressEvent(QKeyEvent *) ;
 };
+
 #endif

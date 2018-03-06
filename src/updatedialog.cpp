@@ -25,9 +25,9 @@ UpdateDialog::UpdateDialog(QWidget *parent) : QDialog(parent) {
 
 	this->setWindowTitle("PTC Firmware Update");
 	okbutton = new QPushButton(tr("start Update"), this);
-	cancelbutton = new QPushButton(tr("Exit"),this);
+	cancelbutton = new QPushButton(tr("Exit"), this);
 	lineedit = new QLineEdit(this);
-	choosebutton = new QPushButton(tr("choose"),this);
+	choosebutton = new QPushButton(tr("choose"), this);
 	progressbar = new QProgressBar(this);
 	infolabel = new QLabel(this);
 	infolabel->setFrameStyle(QFrame::Panel | QFrame::Sunken);

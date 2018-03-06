@@ -29,7 +29,6 @@
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QLayout>
 
-
 /**change baude rate for RTTY
   *@author Lars Schnake
   */

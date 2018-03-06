@@ -54,11 +54,9 @@ class MyLineEdit : public QLineEdit  {
 		void focusOutEvent(QFocusEvent *);
 
 	signals:
-
 		void sendit(QString);
 		void sendit(unsigned char);
 		void echoCommand(QString);
-
 };
 
 #endif

@@ -31,8 +31,6 @@
 #include <QtWidgets/QLayout>
 #include "update.h"
 
-
-
 /**
   *@author Lars Schnake
   */
@@ -56,11 +54,9 @@ class UpdateDialog : public QDialog  {
 		bool updaterunning;
 
 	protected:
-
 		void closeEvent(QCloseEvent*);
 
 	private slots:
-
 		void myfileDialog();
 		void initUpdate();
 		void updateMessage(QString);
