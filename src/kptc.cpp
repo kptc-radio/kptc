@@ -227,9 +227,8 @@ void Kptc::initHelpMenu() {
 	helpmenu->addAction(helpaction);
 	connect(helpaction, &QAction::triggered, this, [](){
 		QString about = tr("Kptc 0.2\n user interface for the SCS-PTC-II\n\n (C) 2001 Lars Schnake\nmail@lars-schnake.de\n");
-		QWidget *versioninfo = new QWidget();
 		QLabel *label = new QLabel(about);
-		versioninfo->show();
+		label->show();
 	});
 }
 
@@ -494,7 +493,7 @@ QString Kptc::makeHTML(QString text, QString color) {
 
 void Kptc::setHTML(QString text) {
 	text = termoutput->toHtml() + text;
-	emit setHTML(text);
+	termoutput->setHtml(text);
 }
 
 void Kptc :: updateStatusBar() {
