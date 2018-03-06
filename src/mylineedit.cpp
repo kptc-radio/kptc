@@ -89,7 +89,7 @@ void MyLineEdit::keyPressEvent(QKeyEvent *key) {
 		case Qt::Key_Enter:
 		case Qt::Key_Return:
 			if (commandmode) {
-				//emit echoCommand(text() + "\n"); //BUG
+				emit echoCommand(text() + "\n");
 				if (promptlength > 0) {
 					QString qtext = text();
 					qtext.remove(0,(promptlength));

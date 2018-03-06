@@ -23,9 +23,9 @@
 StatusInfo::StatusInfo(QWidget *parent) : QWidget(parent) {
 
 	this->setFont(QFont("courier", 10, QFont::Normal));
-setMinimumSize(400, 20);
+	setMinimumSize(400, 20);
 
-//TODO
+	//TODO
 	led = new KLed(QColor("#FF0000"), this);
 	led->setGeometry (2, 2, 16, 16);
 	led->setFixedSize(18, 18);
