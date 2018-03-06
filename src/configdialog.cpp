@@ -46,7 +46,6 @@ void ConfigDialog::createTopWidgets() {
 }
 
 void ConfigDialog::initWidgetStack() {
-
 	widgetstack= new QStackedWidget(this);
 	widgetstack->setFrameStyle(QFrame::Sunken | QFrame::Box);
 	widgetstack->setLineWidth(1);
@@ -64,7 +63,6 @@ void ConfigDialog::initWidgetStack() {
 }
 
 void ConfigDialog::initLeftsiteEntries() {
-
 	QListWidget* ListBox = new QListWidget(this);
 	ListBox->setGeometry(10, 10, 110, 290);
 	ListBox->setMinimumSize(110, 290);
@@ -81,13 +79,14 @@ void ConfigDialog::initLeftsiteEntries() {
 	ListBox->insertItem(5, "LOGIN");
 	ListBox->insertItem(6, "LOGOUT");
 	ListBox->setAutoScroll(true);
+
 	connect(ListBox, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(selectwidget(QListWidgetItem*)));
 }
 
 void ConfigDialog::createButtons() {
-
 	QPushButton *OkButton = this->createButton("OkButton", QRect(285, 310, 90, 20), "Ok");
 	QPushButton* CancelButton = this->createButton("CancelButton", QRect(395, 310, 90, 20), "Cancel");
+
 	QObject::connect (CancelButton, SIGNAL (clicked()), this, SLOT (reject()));
 	QObject::connect (OkButton, SIGNAL(clicked(bool)), this, SLOT (writeconfig()));
 }
@@ -133,14 +132,17 @@ QLabel *ConfigDialog::createPersonalLabel(QString text, QRect dimension, bool no
 	label->setGeometry(dimension);
 	label->setMinimumSize(0, 0);
 	label->setMaximumSize(32767, 32767);
+
 	if (nofocus) {
 		label->setFocusPolicy(Qt::NoFocus);
 	}
+
 	label->setFrameStyle(0);
 	label->setLineWidth(1);
 	label->setMidLineWidth(0);
 	label->setText(i18n(text));
 	label->setMargin(-1);
+
 	return label;
 }
 
@@ -153,8 +155,6 @@ void ConfigDialog::createPortWidget() {
 }
 
 void ConfigDialog::createPortLineEdits() {
-
-
 	port_LineEdit_dev = this->createLineEdit(port_top, "/dev/ttyS11", QRect(40, 120, 75, 20), 20);
 	personal_LineEdit_name = this->createLineEdit(personal_top, "TUX",  QRect(120, 20, 80, 20), 20);
 	personal_LineEdit_qth = this->createLineEdit(personal_top, "Nürnberg", QRect(120, 50, 80, 20), 30);
@@ -178,8 +178,6 @@ void ConfigDialog::createSpeedComboBox() {
 }
 
 void ConfigDialog::createPortSelectionRadioButtons() {
-
-
 	port_ButtonGroup = new QButtonGroup(port_top);
 	port_ButtonGroup->setExclusive(true);
 
@@ -202,7 +200,6 @@ void ConfigDialog::createPortSelectionRadioButtons() {
 }
 
 void ConfigDialog::createPortLabel() {
-
 	QLabel* port_Label_3;
 	port_Label_3 = new QLabel(port_top);
 	port_Label_3->setGeometry(220, 12, 100, 30);
@@ -214,7 +211,6 @@ void ConfigDialog::createPortLabel() {
 	port_Label_3->setMidLineWidth(0);;
 	port_Label_3->setText(i18n("port speed"));
 	port_Label_3->setMargin(-1);
-
 }
 
 QRadioButton *ConfigDialog::createRadioButton(QString text, QRect dimensions) {
@@ -237,18 +233,20 @@ QLineEdit *ConfigDialog::createLineEdit(QWidget *parent, QString text, QRect dim
 	edit->setGeometry(dimensions);
 	edit->setMinimumSize(0, 0);
 	edit->setMaximumSize(32767, 32767);
+
 	if (strongfocus) {
 		edit->setFocusPolicy(Qt::StrongFocus);
 	}
+
 	edit->setText(text);
 	edit->setMaxLength(maxLength);
 	edit->setFrame(QLineEdit::Normal);
 	edit->setFrame(true);
+
 	return edit;
 }
 
 void ConfigDialog::createLogOutWidget() {
-
 	logout_top = new QWidget();
 	logout_CheckBox_cmsg = new QCheckBox(logout_top);
 	logout_CheckBox_cmsg->setText(i18n("set \"away message\""));
@@ -265,10 +263,9 @@ void ConfigDialog::createLogOutWidget() {
 	connect(logout_PushButton_choosescript, SIGNAL(	clicked()), this, SLOT(chooseLogoutFile()));
 	connect(logout_CheckBox_cmsg, SIGNAL(clicked(bool)), this, SLOT(update_widgets()));
 	connect(logout_CheckBox_script, SIGNAL(clicked(bool)), this, SLOT(update_widgets()));
-	}
+}
 
 void ConfigDialog::createLogInWidget() {
-
 	login_top = new QWidget();
 	login_CheckBox_script = new QCheckBox(login_top);
 	login_CheckBox_script->setText(i18n("use personal login script"));
@@ -277,13 +274,13 @@ void ConfigDialog::createLogInWidget() {
 	login_LineEdit_path->setGeometry(5, 30, 150, 20);
 	login_PushButton_choosescript = new QPushButton(i18n("choose"), login_top);
 	login_PushButton_choosescript->setGeometry(170, 30, 50, 20);
+
 	connect(login_PushButton_choosescript, SIGNAL(clicked()), this, SLOT(chooseLoginFile()));
 	connect(login_CheckBox_script, SIGNAL(clicked()), this, SLOT(update_widgets()));
 }
 
 void ConfigDialog::selectwidget(QListWidgetItem * lbi) {
-
-	if (lbi == NULL){
+	if (lbi == NULL) {
 		return;
 	}
 	std::array<QString, 7> possibleTextes = {"PORT", "PERSONAL", "FIX-TEXT", "PACKET", "BOX",  "LOGIN", "LOGOUT"};
@@ -302,7 +299,6 @@ void ConfigDialog::selectwidget(QListWidgetItem * lbi) {
 }
 
 void ConfigDialog::createFixTextWidget() {
-
 	fixtext_top = new QWidget(0);
 	list.clear();
 	oblist.clear();
