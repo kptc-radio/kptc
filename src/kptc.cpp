@@ -48,6 +48,7 @@ Kptc::Kptc(QWidget *parent) : QMainWindow()
 	this->initializeMenues();
 	this->initializeMenuBar();
 	this->initializeToolBar();
+	this->resizeElements();
 }
 
 bool Kptc::handleFirstStart() {
@@ -106,7 +107,6 @@ void Kptc::initTextEdit() {
 	connect(textedit, SIGNAL(echoCommand(QString)), this, SLOT(echoText(QString)));
 	connect(textedit, SIGNAL(sendit(QString)), this, SLOT(sendline(QString)));
 	termoutput = new QTextEdit(this);
-	termoutput->setGeometry(0, 4 * textedit->height(), this->width(), this->height() - 3 * textedit->height());
 	termoutput->setEnabled(false);
 	connect(this, SIGNAL(htmlString), termoutput, SLOT(insertHtml(QString)));
 }
@@ -149,6 +149,11 @@ void Kptc::initializeToolBar() {
 	connect(modebuttons->rttyButton, SIGNAL(clicked(bool)), modecommander,SLOT(changetoRTTY()));
 	connect(modebuttons->psk31Button, SIGNAL(clicked(bool)), modecommander,SLOT(changetoPSK31()));
 	connect(modebuttons->cwButton, SIGNAL(clicked(bool)), modecommander,SLOT(changetoCW()));
+}
+
+void Kptc::resizeElements() {
+	termoutput->setGeometry(0, 4 * textedit->height(), this->width() - 1, this->height() - 4 * textedit->height() - statusBar()->height());
+	textedit->setGeometry(2, 0, width() - 4, 30);
 }
 
 void Kptc::initializeMenues() {
@@ -256,7 +261,7 @@ void Kptc::initializeStatusBar() {
 	sendled->setColor(QColor("#CC0000b")); //red
 	sendled->off();
 
-	statusBar()->setLayoutDirection(Qt::RightToLeft);
+	//statusBar()->setLayoutDirection(Qt::RightToLeft);
 	statusBar()->insertWidget(1, sendled, sendled->width());
 	statusBar()->addPermanentWidget(sendled, 1);
 
@@ -669,6 +674,11 @@ void Kptc::fileQuit() {
 bool Kptc::queryClose() {
 	shutdown();
 	return true;
+}
+
+void Kptc::resizeEvent(QResizeEvent *event) {
+	event->accept();
+	this->resizeElements();
 }
 
 Kptc::~Kptc() {

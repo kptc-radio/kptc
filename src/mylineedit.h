@@ -43,6 +43,9 @@ class MyLineEdit : public QLineEdit  {
 		void myinsert(QString qs);
 		void setPrompt(QString);
 
+	protected:
+//		 void resizeEvent(QResizeEvent *event) override;
+
 	private:
 		bool commandmode;
 		int cursorpos;

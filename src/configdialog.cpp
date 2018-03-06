@@ -200,8 +200,7 @@ void ConfigDialog::createPortSelectionRadioButtons() {
 }
 
 void ConfigDialog::createPortLabel() {
-	QLabel* port_Label_3;
-	port_Label_3 = new QLabel(port_top);
+	QLabel* port_Label_3 = new QLabel(port_top);
 	port_Label_3->setGeometry(220, 12, 100, 30);
 	port_Label_3->setMinimumSize(0, 0);
 	port_Label_3->setMaximumSize(32767, 32767);
@@ -438,7 +437,7 @@ void ConfigDialog::writeconfig() {
 		FixDummy = list[i];
 	//	FixDummy=list.first(); FixDummy != 0; FixDummy=list.next();
 
-		  FixTextPicker *next = list[i+1];
+		  FixTextPicker *next = list[i + 1];
 			//TODO
 	//		configdata.setFixLabel(FixDummy->editlabel->text(), num);
 	//		configdata.setFixPath(FixDummy->editpath->text(), num);
@@ -472,19 +471,19 @@ QString s(QFileDialog::getOpenFileName(this, QString::null, ""));
 }
 
 void ConfigDialog::chooseLogoutFile() {
-	QString s(QFileDialog::getOpenFileName(this, QString::null, ""));
-	if (s.isEmpty()) {
+	QString string(QFileDialog::getOpenFileName(this, QString::null, ""));
+	if (string.isEmpty()) {
 		return;
 	}
-	logout_LineEdit_path->setText(s);
+	logout_LineEdit_path->setText(string);
 }
 
 void ConfigDialog::chooseLoginFile() {
-	QString s(QFileDialog::getOpenFileName(this, QString::null, ""));
-	if (s.isEmpty()) {
+	QString string(QFileDialog::getOpenFileName(this, QString::null, ""));
+	if (string.isEmpty()) {
 		return;
 	}
-	login_LineEdit_path->setText(s);
+	login_LineEdit_path->setText(string);
 }
 
 void ConfigDialog::update_widgets() {

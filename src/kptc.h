@@ -66,6 +66,9 @@ class Kptc : public QMainWindow {
 		/** destructor */
 		~Kptc();
 
+	protected:
+		 void resizeEvent(QResizeEvent *event) override;
+
 	private:
 		const QString standby= tr("Stand by");
 		const QString qrt = tr("QRT");
@@ -133,6 +136,7 @@ class Kptc : public QMainWindow {
 		void initTextEdit();
 		QString makeHTML(QString text, QString color);
 		void setHTML(QString text);
+		void resizeElements();
 
 	signals:
 		void htmlString(QString);
