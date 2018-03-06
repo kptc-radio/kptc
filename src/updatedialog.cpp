@@ -58,7 +58,7 @@ UpdateDialog::UpdateDialog(QWidget *parent) : QDialog(parent) {
 
 void UpdateDialog::myfileDialog() {
 	QString filename = QFileDialog::getOpenFileName(this, QString::null, "*.pt*\n*.pt2\n*.pte\n*", tr("choose new Firmware:"));
-	if (filename == NULL) {
+	if (filename.size() == 0) {
 		return;
 	}
 	lineedit->setText(filename);

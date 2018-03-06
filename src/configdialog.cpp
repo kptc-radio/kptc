@@ -280,7 +280,7 @@ void ConfigDialog::createLogInWidget() {
 }
 
 void ConfigDialog::selectwidget(QListWidgetItem * lbi) {
-	if (lbi == NULL) {
+	if (lbi == nullptr) {
 		return;
 	}
 	std::array<QString, 7> possibleTextes = {"PORT", "PERSONAL", "FIX-TEXT", "PACKET", "BOX",  "LOGIN", "LOGOUT"};
