@@ -111,7 +111,7 @@ void ConfigData::setPortSpeed(const QString &speed) {
 }
 
 QString ConfigData::getPortSpeed() {
-	return this->getValue(Group::PORT,  "PORTSPEED", "38400");
+	return this->getValue(Group::PORT, "PORTSPEED", "38400");
 }
 
 void ConfigData::setCall(const QString &call) {
@@ -120,7 +120,7 @@ void ConfigData::setCall(const QString &call) {
 
 
 QString ConfigData::getCall() {
-	return this->getValue(Group::PERSONAL,  "CALL", "DK0TUX");
+	return this->getValue(Group::PERSONAL, "CALL", "DK0TUX");
 }
 
 void ConfigData::setSelCall(const QString &call) {
@@ -252,7 +252,7 @@ QString ConfigData::getLogoutPath () {
 
 
 void ConfigData::setLoginPath(const QString &path) {
-	this->setValue(Group::LOGIN,  "PATH", path);
+	this->setValue(Group::LOGIN, "PATH", path);
 }
 
 QString ConfigData::getLoginPath () {
@@ -261,7 +261,7 @@ QString ConfigData::getLoginPath () {
 
 void ConfigData::setLogoutScript(bool set) {
 	QString qset = this->boolToString(set);
-	this->setValue(Group::LOGOUT,  "LOGOUTSCRIPT", qset);
+	this->setValue(Group::LOGOUT, "LOGOUTSCRIPT", qset);
 }
 
 bool ConfigData::isLogoutScript() {
@@ -271,7 +271,7 @@ bool ConfigData::isLogoutScript() {
 
 void ConfigData::setLoginScript(bool set) {
 	QString qset = this->boolToString(set);
-	this->setValue(Group::LOGIN,  "LOGINSCRIPT", qset);
+	this->setValue(Group::LOGIN, "LOGINSCRIPT", qset);
 }
 
 bool ConfigData::isLoginScript() {

@@ -24,7 +24,7 @@
 #define i18n
 
 ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent){
-	resize(500,340);
+	resize(500, 340);
 	setMinimumSize(500, 340);
 	setMaximumSize(500, 340);
 
@@ -78,8 +78,8 @@ void ConfigDialog::initLeftsiteEntries() {
 	ListBox->insertItem(2, "FIX-TEXT");
 	ListBox->insertItem(3, "PACKET");
 	ListBox->insertItem(4, "BOX");
-	ListBox->insertItem(5,  "LOGIN");
-	ListBox->insertItem(6,  "LOGOUT");
+	ListBox->insertItem(5, "LOGIN");
+	ListBox->insertItem(6, "LOGOUT");
 	ListBox->setAutoScroll(true);
 	connect(ListBox, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(selectwidget(QListWidgetItem*)));
 }
@@ -123,7 +123,7 @@ void ConfigDialog::createPersonalMessageArea() {
 
 void ConfigDialog::createPersonalLabels() {
 	/*	QLabel* personal_Label_8 = */this->createPersonalLabel("SELCALL:", QRect(40, 110, 100, 20), true);
-	/*	QLabel* personal_Label_7 =*/ this->createPersonalLabel("CALL:" , QRect(40, 80, 100, 20), true);
+	/*	QLabel* personal_Label_7 =*/ this->createPersonalLabel("CALL:", QRect(40, 80, 100, 20), true);
 	/*	QLabel* personal_Label_qth=*/  this->createPersonalLabel("QTH:", QRect(40, 50, 100, 20));
 	/*	QLabel* personal_Label_6= */ this->createPersonalLabel("Name:", QRect(40, 20, 100, 20), true);
 }

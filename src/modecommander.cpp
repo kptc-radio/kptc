@@ -34,19 +34,19 @@ void ModeCommander::setcurrendmod(QString _qscurrendmod)
 }
 
 void ModeCommander::changetoPactor() {
-	Standby() ;
+	Standby();
 	Modem::modem->send_esc();
 	Modem::modem->writeLine("PT");
 }
 
 void ModeCommander::changetoAmtor() {
-	Standby() ;
+	Standby();
 	Modem::modem->send_esc();
 	Modem::modem->writeLine("Amtor");
 }
 
 void ModeCommander::changetoAmtorMon() {
-	Standby()	;
+	Standby();
 	Modem::modem->send_esc();
 	Modem::modem->writeLine("Amtor");
 }
@@ -58,13 +58,13 @@ void ModeCommander::changetoRTTY() {
 }
 
 void ModeCommander::changetoPSK31() {
-	Standby() ;
+	Standby();
 	Modem::modem->send_esc();
 	Modem::modem->writeLine("PSKTerm");
 }
 
 void ModeCommander::changetoCW() {
-	Standby() ;
+	Standby();
 	Modem::modem->send_esc();
 	Modem::modem->writeLine("cwt");
 }

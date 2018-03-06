@@ -88,34 +88,39 @@ void MyLineEdit::keyPressEvent(QKeyEvent *key) {
 			return;
 		case Qt::Key_Enter:
 		case Qt::Key_Return:
-		if (commandmode) {
-			//emit echoCommand(text() + "\n"); //BUG
-			if (promptlength > 0) {
-				QString qtext = text();
-				qtext.remove(0,(promptlength));
-				qtext = qtext.trimmed();
-				sendit(qtext);
-				commandlist.last();
-			if (qtext != "") {commandlist.removeOne(*(iterator)); commandlist.append(QString(qtext)); commandlist.append(QString(""));}
-			if (commandlist.count() > 10) commandlist.removeFirst();
+			if (commandmode) {
+				//emit echoCommand(text() + "\n"); //BUG
+				if (promptlength > 0) {
+					QString qtext = text();
+					qtext.remove(0,(promptlength));
+					qtext = qtext.trimmed();
+					sendit(qtext);
+					commandlist.last();
+					if (qtext != "") {
+						commandlist.removeOne(*(iterator));
+						commandlist.append(QString(qtext));
+						commandlist.append(QString(""));
+					}
+					if (commandlist.count() > 10) {
+						commandlist.removeFirst();
+					}
 					commandlist.last();
 				}
 			}
 			setText("");
 			commandmode = false;
-		break;
-		}
+			break;
+	}
 
 	char value = key->key();
 
 	if (!commandmode) {
 		sendit(value);
 	}
-	if (key->key() == Qt::CTRL + Qt::Key_Z || key->key()== Qt::CTRL + Qt::Key_U) {
+	if (key->key() == Qt::CTRL + Qt::Key_Z || key->key() == Qt::CTRL + Qt::Key_U) {
 		return;
 	}
 	QLineEdit::keyPressEvent(key);       // lokale Echo ??
-
 }
 
 
@@ -134,14 +139,12 @@ void MyLineEdit::myinsert(QString string) {
 	 */
 }
 
-void MyLineEdit::focusInEvent(QFocusEvent * event)
-{
+void MyLineEdit::focusInEvent(QFocusEvent * event) {
 	QLineEdit::focusInEvent(event);
 	setCursorPosition(cursorpos);
 }
 
-void MyLineEdit::focusOutEvent (QFocusEvent * event)
-{
+void MyLineEdit::focusOutEvent (QFocusEvent * event) {
 	cursorpos = cursorPosition();
 	QLineEdit::focusInEvent(event);
 }

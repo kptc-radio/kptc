@@ -110,17 +110,17 @@ bool Modem::opentty() {
 	tcdrain (modemfd);
 	tcflush (modemfd, TCIOFLUSH);
 	if(tcgetattr(modemfd, &tty) < 0){
-	// this helps in some cases
-	tcsendbreak(modemfd, 0);
-	sleep(1);
-	if(tcgetattr(modemfd, &tty) < 0){
-		errmsg = /*i18n*/("Sorry, the modem is busy.");
-		::close(modemfd);
-		modemfd = -1;
-		return false;
+		// this helps in some cases
+		tcsendbreak(modemfd, 0);
+		sleep(1);
+		if(tcgetattr(modemfd, &tty) < 0){
+			errmsg = /*i18n*/("Sorry, the modem is busy.");
+			::close(modemfd);
+			modemfd = -1;
+			return false;
+		}
 	}
-	}
-	memset(&initial_tty,'\0',sizeof(initial_tty));
+	memset(&initial_tty, '\0', sizeof(initial_tty));
 	initial_tty = tty;
 	tty.c_cc[VMIN] = 0; // nonblocking
 	tty.c_cc[VTIME] = 0;
@@ -225,7 +225,7 @@ bool Modem::writeLine(QString data) {
 
 void Modem::send_esc(){
 	constexpr char esc = 27;
-	writeChar( esc );
+	writeChar(esc);
 }
 
 bool Modem :: lock_device()
@@ -287,7 +287,10 @@ bool Modem :: lock_device()
 
 bool Modem :: unlock_device()
 {
-	if(! modem_is_locked	&& qdev=="") { qDebug() << "confused by unlock device, sorry !"<< endl;return false; }
+	if(!modem_is_locked && qdev == "") {
+		qDebug() << "confused by unlock device, sorry !"<< endl;
+		return false;
+	}
 	char *device;
 	device = (char *) qdev.toStdString().c_str();
 	char lckf[128];

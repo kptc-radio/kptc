@@ -1,5 +1,5 @@
 /***************************************************************************
-		  kptc.cpp  -  description
+		 kptc.cpp - description
 			 -------------------
 	begin				: Wed Feb 14 2001
 	copyright			: (C) 2001 by Lars Schnake
@@ -12,8 +12,8 @@
  *						 *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or	 *
- *   (at your option) any later version.				   *
+ *   the Free Software Foundation; either version 2 of the License, or	   *
+ *   (at your option) any later version.				                   *
  *						 *
  ***************************************************************************/
 
@@ -32,7 +32,7 @@ Kptc::Kptc(QWidget *parent) : QMainWindow()
 	bPromptInfoFollows = false;
 
 	modecommander = new ModeCommander(this);
-	cqdialog = new CQDialog(this,  modecommander);
+	cqdialog = new CQDialog(this, modecommander);
 
 	this->initializeMenues();
 	//lefttoolbar->setIconText(KToolBar::IconTextBottom);
@@ -58,7 +58,7 @@ bool Kptc::handleFirstStart() {
 	QString("Have Fun ! 73 de Lars DL3YFC")), QString(tr("Welcome to Kptc !")));
 
 	ConfigDialog configdialog ;
-	if (configdialog.exec()== QDialog::Accepted) {
+	if (configdialog.exec() == QDialog::Accepted) {
 		bModemOk = Modem::modem->opentty() ;
 		Modem::modem->notify(this, SLOT(parseModemOut(unsigned char)));
 		configdata.setfirststart(false);
@@ -239,13 +239,13 @@ void Kptc::initFixMenu() {
 	for (int i = 1; i <= 8; i++) {
 		number.setNum(i);
 		QAction *actionSendText = new QAction(+ "&" + number + ". " + configdata.getFixLabel(number), fixmenu);
-		connect(actionSendText, SIGNAL(triggered(bool)),this, SLOT (sendFixText(int)));
+		connect(actionSendText, SIGNAL(triggered(bool)), this, SLOT (sendFixText(int)));
 
 		actionSendText->setShortcut(QKeySequence(Qt::CTRL, Qt::Key_F1, i));
 
 		fixmenu->addAction(actionSendText);
-		//	  fixmenu->insertItem ("&" + s + ". " + configdata.getFixLabel(s),
-		//			  this, SLOT (sendFixText(int)), CTRL + SHIFT + (Key_F1 +(i)) , i);
+		//	 fixmenu->insertItem ("&" + s + ". " + configdata.getFixLabel(s),
+		//			 this, SLOT (sendFixText(int)), CTRL + SHIFT + (Key_F1 +(i)) , i);
 		//			((fixmenu->setItemParameter (i, i);
 
 	}
@@ -290,8 +290,8 @@ void Kptc::parseModemOut(unsigned char c) {
 	}
 	else if (bPromptInfoFollows) {
 		parsePrompt(c);
-		  bPromptInfoFollows = false;
-		  parsePromptText = 20;
+		 bPromptInfoFollows = false;
+		 parsePromptText = 20;
 	}
 	else if (parsePromptText > 0) {
 	if ((int)c == 1) { parsePromptText = 0; currentterm = 1; textedit->setPrompt(prompt.trimmed()); prompt.clear();} // prompt end
@@ -409,7 +409,7 @@ void Kptc :: showPactor() {
 	this->expandToolBar(" CQ ", "openDialog", cqdialog, lefttoolbar);
 	this->expandToolBar("Unproto TX", "Unproto", modecommander, lefttoolbar);
 	this->expandToolBar("Listen", "Listen", modecommander, lefttoolbar);
-//  lefttoolbar->setToggle(6);
+// lefttoolbar->setToggle(6);
 //	lefttoolbar->setButton(6,modecommander->isListen());
 }
 
@@ -498,12 +498,12 @@ void Kptc::setHTML(QString text) {
 
 void Kptc :: updateStatusBar() {
 	statusinfo->prompt->setText(modecommander->currendmod());
-	if (modecommander->currendmod() == "cmd:")  showPactor();
-	else if (modecommander->currendmod() == "Amtor")  showAmtor();
-	else if (modecommander->currendmod() == "AMTOR-MONITOR")  showAmtor();
-	else if (modecommander->currendmod() == "RTTY")  showRTTY();
-	else if (modecommander->currendmod() == "PSK31")  showPSK31();
-	else if (modecommander->currendmod() == "CW")  showCW();
+	if (modecommander->currendmod() == "cmd:") showPactor();
+	else if (modecommander->currendmod() == "Amtor") showAmtor();
+	else if (modecommander->currendmod() == "AMTOR-MONITOR") showAmtor();
+	else if (modecommander->currendmod() == "RTTY") showRTTY();
+	else if (modecommander->currendmod() == "PSK31") showPSK31();
+	else if (modecommander->currendmod() == "CW") showCW();
 	else showPactor();
 }
 
@@ -512,7 +512,7 @@ bool Kptc::isendline(char c) {
 }
 
 void Kptc :: parsePrompt(const char c) {
-	//  analyze prompt
+	// analyze prompt
 	switch(c) {
 		case 32:
 			modecommander->setcurrendmod("cmd:");
@@ -553,31 +553,31 @@ void Kptc :: parseStatus(const char c) {
 	QString status;
 	switch (c & 0x07) {
 		case 0:
-			status =  "ERROR";
+			status = "ERROR";
 			break;
 		case 1:
-			status =  "REQUEST";
+			status = "REQUEST";
 			break;
 		case 2:
-			status =  "TRAFFIC";
+			status = "TRAFFIC";
 			break;
 		case 3:
-			status =  "IDLE";
+			status = "IDLE";
 			break;
 		case 4:
-			status =  "OVER";
+			status = "OVER";
 			break;
 		case 5:
-			status =  "PHASE";
+			status = "PHASE";
 			break;
 		case 6:
-			status =  "SYNCH";
+			status = "SYNCH";
 			break;
 		case 7:
-			status =  "";
+			status = "";
 			break;
 		default:
-			status =  "??????";
+			status = "??????";
 			break;
 	}
 
@@ -587,28 +587,28 @@ void Kptc :: parseStatus(const char c) {
 	QString mode;
 	switch ((c & 112) >> 4) {
 		case 0:
-			mode =  "STAND BY";
+			mode = "STAND BY";
 			break;
 		case 1:
-			mode =  "AMTOR-ARQ";
+			mode = "AMTOR-ARQ";
 			break;
 		case 2:
-			mode =  "PACTOR-ARQ";
+			mode = "PACTOR-ARQ";
 			break;
 		case 3:
-			mode =  "AMTOR-FEC";
+			mode = "AMTOR-FEC";
 			break;
 		case 4:
-			mode =  "PACTOR-FEC";
+			mode = "PACTOR-FEC";
 			break;
 		case 5:
-			mode =  "RTTY / CW";
+			mode = "RTTY / CW";
 			break;
 		case 6:
-			mode =  "LISTEN";
+			mode = "LISTEN";
 			break;
 		case 7:
-			mode =  "channel busy";
+			mode = "channel busy";
 			break;
 	}
 	statusinfo->mode->setText(mode);
@@ -643,7 +643,7 @@ void Kptc::sendFixText(int id) {
 
 void Kptc::openUpdateDialog() {
 	UpdateDialog updatedialog;
-	if (updatedialog.exec()==QDialog::Accepted) {
+	if (updatedialog.exec() == QDialog::Accepted) {
 		Modem::modem->startNotifier();
 	}
 }

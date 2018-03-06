@@ -21,12 +21,12 @@
 #include "commanddialog.h"
 
 CommandDialog::CommandDialog(QWidget *parent) : QDialog (parent) {
-	resize(180,50);
+	resize(180, 50);
 	setMinimumSize(180, 50);
 	setMaximumSize(180, 50);
 
 	combo = new QComboBox (this);
-	combo->setGeometry(15,10, 150, 30);
+	combo->setGeometry(15, 10, 150, 30);
 	combo->setMinimumSize(0, 0);
 	combo->setMaximumSize(32767, 32767);
 	combo->setFocusPolicy(Qt::StrongFocus);
