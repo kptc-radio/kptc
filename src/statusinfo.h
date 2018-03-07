@@ -21,9 +21,12 @@
 #define STATUSINFO_H
 
 #include <QtWidgets/QWidget>
+#include <QtWidgets/QStatusBar>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLayout>
 #include <QtWidgets/QWhatsThis>
+#include <QFontMetrics>
+#include <QResizeEvent>
 
 #include "kled.h"
 
@@ -32,21 +35,33 @@ like "Stand by" or "over" and the command prompt Info
   *@author Lars Schnake
   */
 
-class StatusInfo : public QWidget  {
+class StatusInfo : public QStatusBar  {
 
 		Q_OBJECT
 
 	public:
-		QLabel *prompt;
-		QLabel *status;
-		QLabel *mode;
-		KLed *led;
-		QLabel *send;
-		QLabel *statusmessage;
-		QLabel *call;
-
 		StatusInfo(QWidget *parent=0);
 		~StatusInfo();
+		void setLED(bool);
+		void setStatus(QString);
+		void setMode(QString);
+		void setCall(QString);
+		void setStatusMessage(QString);
+		void setPrompt(QString);
+
+	protected:
+		 void resizeEvent(QResizeEvent *event) override;
+
+	private:
+		 QLabel *prompt;
+		 QLabel *status;
+		 QLabel *mode;
+		 KLed *led;
+		 QLabel *send;
+		 QLabel *statusmessage;
+		 QLabel *call;
+
+		void setSize();
 };
 
 #endif

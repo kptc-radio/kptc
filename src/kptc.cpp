@@ -154,6 +154,7 @@ void Kptc::initializeToolBar() {
 void Kptc::resizeElements() {
 	termoutput->setGeometry(0, 4 * textedit->height(), this->width() - 1, this->height() - 4 * textedit->height() - statusBar()->height());
 	textedit->setGeometry(2, 0, width() - 4, 30);
+	statusBar()->resize(width(), 20);
 }
 
 void Kptc::initializeMenues() {
@@ -180,10 +181,6 @@ void Kptc::initClearwindowMenu() {
 	QAction *edit = new QAction(tr("&edit window"), clearwindow);
 	connect(edit, SIGNAL(triggered(bool)), this, SLOT(clearEditWindow()));
 	clearwindow->addAction(edit);
-
-	//clearwindow->insertItem (tr("&traffic window"), this, SLOT(clearTrafficWindow()));
-	//clearwindow->insertItem (tr("&edit window"), this, SLOT(clearEditWindow()));
-	//->insertItem (tr("&clear window"), clearwindow);
 }
 
 void Kptc::initOptionMenu() {
@@ -257,17 +254,15 @@ void Kptc::initFixMenu() {
 }
 
 void Kptc::initializeStatusBar() {
-	KLed *sendled = new KLed(statusBar());
-	sendled->setColor(QColor("#CC0000b")); //red
-	sendled->off();
 
 	//statusBar()->setLayoutDirection(Qt::RightToLeft);
-	statusBar()->insertWidget(1, sendled, sendled->width());
-	statusBar()->addPermanentWidget(sendled, 1);
+	//statusBar()->insertWidget(1, sendled, sendled->width());
+	//statusBar()->insertPermanentWidget(0, sendled, 1);
 
-	statusinfo = new StatusInfo((QWidget *) statusBar());
-	statusBar()->addWidget(statusinfo);
-	statusinfo->show();
+	//statusinfo = new StatusInfo((QWidget *) statusBar());
+	//statusBar()->insertWidget(1, statusinfo);
+	statusinfo = new StatusInfo(this);
+	setStatusBar(statusinfo);
 }
 
 void Kptc::initializeMenuBar() {
@@ -336,10 +331,10 @@ void Kptc::parseModemOut(unsigned char c) {
 					if (statusmessage.contains("CONNECTED") || statusmessage.contains("CALLING")) {
 						statusmessage.replace(QRegExp("[*]"), "");
 						statusmessage = statusmessage.trimmed();
-						statusinfo->statusmessage->setText(statusmessage);
+						statusinfo->setStatusMessage(statusmessage);
 					}
 					else if (statusmessage.contains("STBY")) {
-						statusinfo->statusmessage->setText("");
+						statusinfo->setStatusMessage("");
 					}
 				}
 				statusmessage = "";
@@ -376,7 +371,7 @@ void Kptc :: openconfigdialog() {
 
 void Kptc :: useconfigmachine() {
 	configmachine->doconfig();
-	statusinfo->call->setText(configdata.getCall() + " (" + configdata.getSelCall() + ") ");
+	statusinfo->setCall(configdata.getCall() + " (" + configdata.getSelCall() + ") ");
 	updateStatusBar();
 
 	QString number;
@@ -502,7 +497,7 @@ void Kptc::setHTML(QString text) {
 }
 
 void Kptc :: updateStatusBar() {
-	statusinfo->prompt->setText(modecommander->currendmod());
+	statusinfo->setPrompt(modecommander->currendmod());
 	if (modecommander->currendmod() == "cmd:") showPactor();
 	else if (modecommander->currendmod() == "Amtor") showAmtor();
 	else if (modecommander->currendmod() == "AMTOR-MONITOR") showAmtor();
@@ -547,10 +542,10 @@ void Kptc :: parsePrompt(const char c) {
 void Kptc :: parseStatus(const char c) {
 	// check DIRECTION bit (SEND-LED)
 	if ((c & 0x08) > 0) {
-		statusinfo->led->on();
+		statusinfo->setLED(true);
 	}
 	else {
-		statusinfo->led->off();
+		statusinfo->setLED(false);
 	}
 
 	//TODO
@@ -586,7 +581,7 @@ void Kptc :: parseStatus(const char c) {
 			break;
 	}
 
-	statusinfo->status->setText(status);
+	statusinfo->setStatus(status);
 
 	// check MODE bits
 	QString mode;
@@ -616,7 +611,7 @@ void Kptc :: parseStatus(const char c) {
 			mode = "channel busy";
 			break;
 	}
-	statusinfo->mode->setText(mode);
+	statusinfo->setMode(mode);
 
 	// read listen mode from status byte ??
 	if (mode == "LISTEN") {

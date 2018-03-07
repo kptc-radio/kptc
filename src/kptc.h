@@ -107,7 +107,7 @@ class Kptc : public QMainWindow {
 		MyLineEdit *textedit;
 		CQDialog *cqdialog;
 		ModeButtons *modebuttons;
-		ConfigMachine * configmachine;
+		ConfigMachine *configmachine;
 		QMenu *filemenu;
 		QMenu *actionmenu;
 		QMenu *clearwindow;

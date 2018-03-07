@@ -18,7 +18,6 @@
  ***************************************************************************/
 
 #include "mylineedit.h"
-#include <QWidget>
 
 MyLineEdit::MyLineEdit(QWidget *parent) : QLineEdit(parent) {
 	this->setFont(QFont("courier",12,QFont::Normal));
@@ -45,10 +44,6 @@ void MyLineEdit::setPrompt(QString prompt) {
 	if (prompt == "") commandmode = false;
 	else commandmode = true;
 }
-
-//void MyLineEdit::resizeEvent(QResizeEvent *event) {
-//	this->setGeometry(x(), y(), static_cast<QWidget*>(parent())->width() , height());
-//}
 
 void MyLineEdit::keyPressEvent(QKeyEvent *key) {
 	auto iterator = commandlist.begin();
