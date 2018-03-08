@@ -28,6 +28,7 @@ Kptc::Kptc(QWidget *parent) : QMainWindow()
 
 	this->lefttoolbar = new QToolBar("");
 	this->addToolBar(lefttoolbar);
+	this->addToolBarBreak();
 	currentterm = 1;
 	bPromptInfoFollows = false;
 
@@ -123,17 +124,6 @@ void Kptc::initializeToolBar() {
 //	this->expandToolBar(" | CW | ", "changetoCW", modecommander, modetoolbar);
 
 	modebuttons = new ModeButtons(modetoolbar);
-	/*	KToolBarRadioGroup *moderadiogroup = new KToolBarRadioGroup(modetoolbar,"modradiogroup");
-	modetoolbar->setToggle(1);
-	modetoolbar->setToggle(2);
-	modetoolbar->setToggle(3);
-	modetoolbar->setToggle(4);
-	modetoolbar->setToggle(5);
-	moderadiogroup->addButton(1);
-	moderadiogroup->addButton(2);
-	moderadiogroup->addButton(3);
-	moderadiogroup->addButton(4);
-	moderadiogroup->addButton(5);*/
 
 	// modebuttons in splitter window instead of modetoolbar ?! :
 	// modebuttons = new ModeButtons(splitter);
@@ -175,9 +165,11 @@ void Kptc::initFileMenu() {
 
 void Kptc::initClearwindowMenu() {
 	clearwindow = new QMenu(tr("Clear"), menuBar());
+
 	QAction *traffic = new QAction(tr("&traffic window"), clearwindow);
 	connect(traffic, SIGNAL(triggered(bool)), this, SLOT(clearTrafficWindow()));
 	clearwindow->addAction(traffic);
+
 	QAction *edit = new QAction(tr("&edit window"), clearwindow);
 	connect(edit, SIGNAL(triggered(bool)), this, SLOT(clearEditWindow()));
 	clearwindow->addAction(edit);
@@ -185,6 +177,7 @@ void Kptc::initClearwindowMenu() {
 
 void Kptc::initOptionMenu() {
 	optionmenu = new QMenu(tr("&Options"), menuBar());
+
 	QAction *configure = new QAction(tr("&Config..."), optionmenu);
 	optionmenu->addAction(configure);
 	connect(configure, SIGNAL(triggered(bool)), this, SLOT(openconfigdialog()));
@@ -225,8 +218,10 @@ void Kptc::initActionMenu() {
 
 void Kptc::initHelpMenu() {
 	helpmenu = new QMenu(tr("Help"), menuBar());
+
 	QAction *helpaction = new QAction("About", helpmenu);
 	helpmenu->addAction(helpaction);
+
 	connect(helpaction, &QAction::triggered, this, [](){
 		QString about = tr("Kptc 0.2\n user interface for the SCS-PTC-II\n\n (C) 2001 Lars Schnake\nmail@lars-schnake.de\n");
 		QLabel *label = new QLabel(about);
@@ -392,7 +387,7 @@ void Kptc :: openCommandDialog() {
 }
 
 void Kptc :: clearTrafficWindow() {
-	termoutput->repaint();
+	termoutput->clear();
 }
 
 void Kptc :: clearEditWindow() {
@@ -459,8 +454,9 @@ void Kptc :: showCW() {
 
 void Kptc::expandToolBar(QString text, char *slot, QObject *obj, QToolBar *bar) {
 	QAction *temp = new QAction(text, this->lefttoolbar);
-	connect(temp, SIGNAL(triggered(bool)), obj, slot);
 	bar->addAction(temp);
+
+	connect(temp, SIGNAL(triggered(bool)), obj, slot);
 }
 
 void Kptc :: showcwspeeddialog() {
