@@ -25,7 +25,6 @@
 
 #include <QSettings>
 #include <QStringList>
-#include <QtWidgets/QMessageBox>
 #include <QRegExp>
 
 /**read/write the config data from/to the config file
