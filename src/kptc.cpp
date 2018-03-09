@@ -42,7 +42,7 @@ Kptc::Kptc(QWidget *parent) : QMainWindow()
 
 	cwspeedwidget = new CWSpeedWidget();
 	rttyspeedwidget = new RTTYSpeedWidget();
-	configmachine = new ConfigMachine(this);
+	configmachine = new ConfigMachine();
 
 	//setAutoSaveSettings(); //TODO
 	this->initModem();
@@ -82,7 +82,11 @@ void Kptc::initModem() {
 		Modem::modem->notify(this, SLOT(parseModemOut(unsigned char)));
 		useconfigmachine();
 	}
-	configmachine->login();
+	ConfigMachine::Pair result = configmachine->login();
+	if (!result.first) {
+		QMessageBox::critical(this, "",
+		("Cannot open your personal login script file !\n Error by opening \"" + result.second +"\"" ));	 // error by opening text file
+	}
 	qDebug() << Modem::modem->modemMessage();
 	if (!bModemOk) {
 		QMessageBox::information(this,
@@ -634,7 +638,11 @@ void Kptc::openUpdateDialog() {
 void Kptc::shutdown() {
 	modecommander->changetoPactor();
 	sleep(1);
-	configmachine->logout();
+	ConfigMachine::Pair result = configmachine->logout();
+	if (!result.first) {
+			QMessageBox::critical(this, "",
+	("Cannot open your personal logout script file !\n Error by opening \"" + result.second +"\"" ));	 // error by opening text file
+	}
 	if (! Modem::modem->closetty()) {
 		qDebug () << Modem::modem->modemMessage();
 	}

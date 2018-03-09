@@ -19,7 +19,7 @@
 
 #include "configmachine.h"
 
-ConfigMachine::ConfigMachine(QWidget *_top) : top(_top) {}
+ConfigMachine::ConfigMachine() {}
 
 void ConfigMachine::doconfig() {
 	Modem::modem->closetty();
@@ -72,7 +72,7 @@ void ConfigMachine::doconfig() {
 	}
 }
 
-void ConfigMachine::logout() {
+ConfigMachine::Pair ConfigMachine::logout() {
 	if (configdata.isAwayMsg()) {
 		QString ctext = configdata.getAwayMsg();
 		ctext = configdata.parseMacroText(ctext);
@@ -91,8 +91,7 @@ void ConfigMachine::logout() {
 		QString qpath = configdata.getLogoutPath();
 		QFile file (qpath);
 		if (! file.open (QIODevice::ReadOnly)) {
-			QMessageBox::critical(top, "",
-	("Cannot open your personal logout script file !\n Error by opening \"" + qpath +"\"" ));	 // error by opening text file
+			return Pair(false, qpath);
 		}
 		else {
 			while (!file.atEnd()) {
@@ -103,15 +102,15 @@ void ConfigMachine::logout() {
 			Modem::modem->writeLine("");
 		}
 	}
+	return Pair(true, "");
 }
 
-void ConfigMachine::login() {
+ConfigMachine::Pair ConfigMachine::login() {
 	if (configdata.isLoginScript()) {
 		QString qpath = configdata.getLoginPath();
 		QFile file (qpath);
 		if (! file.open (QIODevice::ReadOnly)) {
-			QMessageBox::critical(top, "",
-			("Cannot open your personal login script file !\n Error by opening \"" + qpath +"\"" ));	 // error by opening text file
+			return Pair(false, qpath);
 		}
 		else {
 			while (!file.atEnd()) {
@@ -122,6 +121,7 @@ void ConfigMachine::login() {
 			Modem::modem->writeLine("");
 		}
 	}
+	return Pair(true, "");
 }
 
 ConfigMachine::~ConfigMachine() {

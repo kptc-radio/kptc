@@ -23,9 +23,8 @@
 #include "modem.h"
 #include "configdata.h"
 
-#include <QtWidgets/QMessageBox>
+#include <QPair>
 #include <QRegExp>
-#include <QtWidgets/QWidget>
 
 /**
   *@author Lars Schnake
@@ -36,14 +35,14 @@
 class ConfigMachine {
 
 	public:
-		ConfigMachine(QWidget *);
+		typedef QPair<bool, QString> Pair;
+
+		ConfigMachine();
 		~ConfigMachine();
 		void doconfig();
-		void logout();
-		void login();
+		Pair logout();
+		Pair login();
 
-	private:
-		QWidget *top;
 };
 
 #endif

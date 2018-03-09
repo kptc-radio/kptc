@@ -37,6 +37,7 @@
 #include "cwspeedwidget.h"
 #include "updatedialog.h"
 
+#include <QPair>
 #include <QFile>
 #include <QtGui/QFont>
 #include <QtGui/QColor>
