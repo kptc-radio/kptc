@@ -23,7 +23,7 @@
 #include <qobject.h>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QRadioButton>
-#include "QtWidgets/QLayout"
+#include <QtWidgets/QLayout>
 
 /**buttons for changeing the mode
   *@author Lars Schnake
