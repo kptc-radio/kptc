@@ -17,7 +17,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <iostream>
 #include "configmachine.h"
 
 ConfigMachine::ConfigMachine(QWidget *_top) : top(_top) {}

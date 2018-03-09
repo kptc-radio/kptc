@@ -23,7 +23,6 @@
  */
 
 #include "kled.h"
-#include <iostream>
 
 class KLed::Private
 {

@@ -17,7 +17,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <iostream>
 #include "configdata.h"
 
 ConfigData configdata;

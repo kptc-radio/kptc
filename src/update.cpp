@@ -16,7 +16,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <iostream>
+
 #include "update.h"
 
 Update::Update(QWidget *mywidget ) : QObject() {

@@ -16,7 +16,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <iostream>
+
 #include "updatedialog.h"
 
 UpdateDialog::UpdateDialog(QWidget *parent) : QDialog(parent) {

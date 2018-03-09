@@ -17,7 +17,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <iostream>
 #include "commanddialog.h"
 
 CommandDialog::CommandDialog(QWidget *parent) : QDialog (parent) {

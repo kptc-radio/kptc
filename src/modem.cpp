@@ -10,7 +10,6 @@
  ***************************************************************************/
 
 #include "modem.h"
-#include <iostream>
 #include <QDebug>
 
 //	defaults for UUCP style lock files :

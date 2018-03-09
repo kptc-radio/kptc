@@ -115,13 +115,6 @@ void Kptc::initTextEdit() {
 void Kptc::initializeToolBar() {
 	modetoolbar = new QToolBar();
 	this->addToolBar(modetoolbar);
-	//modetoolbar->setGeometry(0, 2 * textedit->height(), this->width(), textedit->height());
-
-//	this->expandToolBar(" | Pactor | ", "changetoPactor", modecommander, modetoolbar);
-//	this->expandToolBar(" | Amtor |", "changetoAmtor", modecommander, modetoolbar);
-//	this->expandToolBar(" | RTTY | ", "changetoRTTY", modecommander, modetoolbar);
-//	this->expandToolBar(" | PSK31 | ", "changetoPSK31", modecommander, modetoolbar);
-//	this->expandToolBar(" | CW | ", "changetoCW", modecommander, modetoolbar);
 
 	modebuttons = new ModeButtons(modetoolbar);
 
@@ -241,6 +234,7 @@ void Kptc::initFixMenu() {
 		actionSendText->setShortcut(QKeySequence(Qt::CTRL, Qt::Key_F1, i));
 
 		fixmenu->addAction(actionSendText);
+
 		//	 fixmenu->insertItem ("&" + s + ". " + configdata.getFixLabel(s),
 		//			 this, SLOT (sendFixText(int)), CTRL + SHIFT + (Key_F1 +(i)) , i);
 		//			((fixmenu->setItemParameter (i, i);
@@ -249,13 +243,6 @@ void Kptc::initFixMenu() {
 }
 
 void Kptc::initializeStatusBar() {
-
-	//statusBar()->setLayoutDirection(Qt::RightToLeft);
-	//statusBar()->insertWidget(1, sendled, sendled->width());
-	//statusBar()->insertPermanentWidget(0, sendled, 1);
-
-	//statusinfo = new StatusInfo((QWidget *) statusBar());
-	//statusBar()->insertWidget(1, statusinfo);
 	statusinfo = new StatusInfo(this);
 	setStatusBar(statusinfo);
 }
@@ -646,7 +633,7 @@ void Kptc::openUpdateDialog() {
 
 void Kptc::shutdown() {
 	modecommander->changetoPactor();
-	sleep(1) ;
+	sleep(1);
 	configmachine->logout();
 	if (! Modem::modem->closetty()) {
 		qDebug () << Modem::modem->modemMessage();

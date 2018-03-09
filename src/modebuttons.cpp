@@ -17,7 +17,6 @@
  *																		 *
  ***************************************************************************/
 
-#include <iostream>
 #include "modebuttons.h"
 
 ModeButtons::ModeButtons(QWidget *parent) : QObject(parent) {

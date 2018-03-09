@@ -17,7 +17,6 @@
  *																		 *
  ***************************************************************************/
 
-#include <iostream>
 #include "modecommander.h"
 
 ModeCommander::ModeCommander(QObject *parent) : blisten(false), QObject(parent) {}

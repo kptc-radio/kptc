@@ -16,7 +16,7 @@
  *   (at your option) any later version.								   *
  *																		 *
  ***************************************************************************/
-#include <iostream>
+
 #include "fixtextpicker.h"
 
 FixTextPicker::FixTextPicker(QWidget *parent) : QWidget(parent) {
@@ -39,6 +39,10 @@ QPushButton *FixTextPicker::getChooseButtom() {
 
 QLabel *FixTextPicker::getNumLabel() {
 	return this->numlabel;
+}
+
+void FixTextPicker::setNumlabelText(QString text) {
+	this->numlabel->setText(text);
 }
 
 FixTextPicker::~FixTextPicker() {}

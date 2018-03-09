@@ -18,7 +18,6 @@
  ***************************************************************************/
 
 #include "cqdialog.h"
-#include <iostream>
 
 CQDialog::CQDialog(QWidget *parent, ModeCommander  *_modecommander) : QObject(parent) {
 	modecommander = _modecommander;

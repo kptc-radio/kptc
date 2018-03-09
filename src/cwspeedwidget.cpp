@@ -16,7 +16,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <iostream>
+
 #include "cwspeedwidget.h"
 
 CWSpeedWidget::CWSpeedWidget(QWidget *parent) : QDialog(parent) {

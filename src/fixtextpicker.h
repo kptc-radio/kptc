@@ -39,6 +39,7 @@ class FixTextPicker : public QWidget  {
 		~FixTextPicker();
 		QPushButton *getChooseButtom();
 		QLabel *getNumLabel();
+		void setNumlabelText(QString text);
 
 	private:
 		QPushButton *choosebutton;

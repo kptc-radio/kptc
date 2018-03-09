@@ -19,8 +19,6 @@
 
 #include "configdialog.h"
 
-#include <iostream>
-
 #define i18n
 
 ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent){
@@ -309,7 +307,7 @@ void ConfigDialog::createFixTextWidget() {
 		FixTextPicker *tp = new FixTextPicker(fixtext_top);
 		//TODO
 		tp->getNumLabel()->setText(number + ".");
-		//tp->setNumlabelText(number + ".");
+		tp->setNumlabelText(number + ".");
 		layout->addWidget(tp);
 		list.append(tp);
 		oblist.append(tp->getChooseButtom());
@@ -392,6 +390,8 @@ void ConfigDialog::resetLogInWidget() {
 
 void ConfigDialog::resetFixTextWidget() {
 	FixTextPicker  *FixDummy;
+	//TODO
+
 //  for (FixDummy=list.first(); FixDummy != 0; FixDummy=list.next())   {
 
 //		QString num;

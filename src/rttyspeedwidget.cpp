@@ -18,7 +18,6 @@
  ***************************************************************************/
 
 #include "rttyspeedwidget.h"
-#include <iostream>
 
 RTTYSpeedWidget::RTTYSpeedWidget(QWidget *parent) : QDialog(parent) {
 	setWindowTitle(tr("RTTY BAUDE RATE"));
