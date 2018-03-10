@@ -46,7 +46,7 @@ int Update::runUpdate(QString qsfilename ) {
 
 	hFile = open((const char *)qsfilename.data(), O_RDONLY);
 
-	if(-1 == hFile) {
+	if(hFile == -1) {
 		//QMessageBox::warning( updatewidget, "Kptc", tr("ERROR: opening file : ") + qsfilename );
 		emit fileopenerror(qsfilename);
 		//fprintf(stderr, "ERROR: opening file: %s\n", (const char *)qsfilename.data());
@@ -304,7 +304,7 @@ int Update::readflush(int handle)
 		if (0 == res) {
 			//fprintf(stderr, "ERROR: timed out!\n");
 			endloop = 1;
-		} else if (-1 == res) {
+		} else if (res == -1) {
 			perror("rs232_read select");
 			//exit(10);
 			return -1;

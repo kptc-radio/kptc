@@ -32,7 +32,7 @@ Modem::Modem() :
 	dataMask(0xFF)
 
 {
-	assert(modem==0);
+	assert(modem == 0);
 	modem = this;
 	modem_is_locked = false;
 	qdev = "";
