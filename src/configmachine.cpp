@@ -25,7 +25,7 @@ void ConfigMachine::doconfig() {
 	Modem::modem->closetty();
 	if (! Modem::modem->opentty()) {
 
-	// todo errorhandling !
+	// TODO errorhandling !
 	}
 
 	Modem::modem->startNotifier();
