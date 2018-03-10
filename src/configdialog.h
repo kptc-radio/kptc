@@ -61,6 +61,7 @@ class ConfigDialog : public QDialog  {
 		~ConfigDialog();
 
 	private:
+		static constexpr int standardheight = 20;
 		QStackedWidget *widgetstack;
 		QRadioButton *port_RadioButton1;
 		QRadioButton *port_RadioButton2;
