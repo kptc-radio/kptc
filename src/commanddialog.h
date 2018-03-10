@@ -36,8 +36,8 @@ class CommandDialog : public QDialog  {
 		~CommandDialog();
 
 	private:
-		QComboBox *combo;
-		void keyPressEvent(QKeyEvent *) ;
+		QComboBox combo;
+		void keyPressEvent(QKeyEvent *event) ;
 };
 
 #endif

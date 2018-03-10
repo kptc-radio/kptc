@@ -21,15 +21,15 @@
 
 CommandDialog::CommandDialog(QWidget *parent) : QDialog (parent) {
 	resize(180, 50);
-	setMinimumSize(180, 50);
-	setMaximumSize(180, 50);
+	setMinimumSize(size());
+	setMaximumSize(size());
 
-	combo = new QComboBox (this);
-	combo->setGeometry(15, 10, 150, 30);
-	combo->setFocusPolicy(Qt::StrongFocus);
-	combo->setMaxCount(20);
-	combo->setAutoCompletion(true);
-	combo->setInsertPolicy(QComboBox::InsertPolicy::InsertAtTop);
+	combo.setParent(this);
+	combo.setGeometry(15, 10, 150, 30);
+	combo.setFocusPolicy(Qt::StrongFocus);
+	combo.setMaxCount(20);
+	combo.setAutoCompletion(true);
+	combo.setInsertPolicy(QComboBox::InsertPolicy::InsertAtTop);
 
 }
 
@@ -37,19 +37,19 @@ CommandDialog::~CommandDialog() {
 	deleteLater();
 }
 
-void CommandDialog::keyPressEvent(QKeyEvent *ke) {
-	ke->accept();
-	switch(ke->key()) {
-		case QKeyEvent::Enter:   ;
+void CommandDialog::keyPressEvent(QKeyEvent *event) {
+	event->accept();
+	if(event->key() == QKeyEvent::Enter) {
+//		case QKeyEvent::Enter:   ;
 		//////////////////////////////////////////////
 		// send the command to the ptc:
 
 			////qDebug() << "CommandDialog::keyEvent" <<combo->currentText();
 			Modem::modem->send_esc();
-			Modem::modem->writeLine(combo->currentText().toStdString().c_str());
-			combo->clear();
-			break;
-
-		default: ke->ignore();
+			Modem::modem->writeLine(combo.currentText().toStdString().c_str());
+			combo.clear();
+	}
+	else {
+		event->ignore();
 	}
 }

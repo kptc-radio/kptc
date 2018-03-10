@@ -46,8 +46,8 @@ Q_OBJECT
 	private:
 		enum class Tabs {Pactor = 0, Amtor = 1, RTTY = 2, PSK31 = 3, CW = 4};
 
-		QTabWidget *TabDialog;
-		QTextEdit *CQText_Pactor ;
+		QTabWidget *tabDialog;
+		QTextEdit *cqtext_Pactor ;
 		QTextEdit *CQText_Amtor;
 		QTextEdit *CQText_RTTY ;
 		QTextEdit *CQText_PSK31 ;

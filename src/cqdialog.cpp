@@ -21,36 +21,36 @@
 
 CQDialog::CQDialog(QWidget *parent, ModeCommander  *_modecommander) : QObject(parent) {
 	modecommander = _modecommander;
-	TabDialog = new QTabWidget();
-	TabDialog->setWindowTitle("CQ");
+	tabDialog = new QTabWidget();
+	tabDialog->setWindowTitle("CQ");
 
 	//TODO implement buttons in the widget
 
-TabDialog->addTab(new QPushButton(TabDialog), tr("CALL C&Q")); //okay
-TabDialog->addTab(new QPushButton(TabDialog), tr("CALL C&Q")); //apply
-TabDialog->addTab(new QPushButton(TabDialog), tr("&Save")); //save
-TabDialog->addTab(new QPushButton(TabDialog), tr("&Cancel")); //cancel
+	tabDialog->addTab(new QPushButton(tabDialog), tr("CALL C&Q")); //okay
+	tabDialog->addTab(new QPushButton(tabDialog), tr("CALL C&Q")); //apply
+	tabDialog->addTab(new QPushButton(tabDialog), tr("&Save")); //save
+	tabDialog->addTab(new QPushButton(tabDialog), tr("&Cancel")); //cancel
 
-	CQText_Pactor = new QTextEdit("Pactor-text", TabDialog);
-	CQText_Amtor = new QTextEdit("Amtor-text", TabDialog);
-	CQText_RTTY = new QTextEdit("RTTY-text", TabDialog);
-	CQText_PSK31 = new QTextEdit("PSK31-text", TabDialog);
-	CQText_CW = new QTextEdit("CW-text", TabDialog);
+	cqtext_Pactor = new QTextEdit("Pactor-text", tabDialog);
+	CQText_Amtor = new QTextEdit("Amtor-text", tabDialog);
+	CQText_RTTY = new QTextEdit("RTTY-text", tabDialog);
+	CQText_PSK31 = new QTextEdit("PSK31-text", tabDialog);
+	CQText_CW = new QTextEdit("CW-text", tabDialog);
 
-	TabDialog->addTab(CQText_Pactor, "Pactor");
-	TabDialog->addTab(CQText_Amtor, "Amtor");
-	TabDialog->addTab(CQText_RTTY, "RTTY");
-	TabDialog->addTab(CQText_PSK31, "PSK31");
-	TabDialog->addTab(CQText_CW, "CW");
+	tabDialog->addTab(cqtext_Pactor, "Pactor");
+	tabDialog->addTab(CQText_Amtor, "Amtor");
+	tabDialog->addTab(CQText_RTTY, "RTTY");
+	tabDialog->addTab(CQText_PSK31, "PSK31");
+	tabDialog->addTab(CQText_CW, "CW");
 
    //TODO
-connect (TabDialog, SIGNAL (applyButtonPressed ()), this, SLOT (startCall()));
-connect (TabDialog, SIGNAL (defaultButtonPressed ()), this, SLOT (saveText()));
-	connect (TabDialog, SIGNAL (tabBarClicked(int) ), this, SLOT (selectTab(int)));
+	connect (tabDialog, SIGNAL (applyButtonPressed ()), this, SLOT (startCall()));
+	connect (tabDialog, SIGNAL (defaultButtonPressed ()), this, SLOT (saveText()));
+	connect (tabDialog, SIGNAL (tabBarClicked(int) ), this, SLOT (selectTab(int)));
 }
 
 void CQDialog::openDialog() {
-	CQText_Pactor->setText(configdata.getCQPactor());
+	cqtext_Pactor->setText(configdata.getCQPactor());
 	CQText_Amtor->setText(configdata.getCQAmtor());
 	CQText_RTTY->setText(configdata.getCQRTTY());
 	CQText_PSK31->setText(configdata.getCQPSK31());
@@ -58,19 +58,33 @@ void CQDialog::openDialog() {
 
 	//TODO
 	QString mod;
-	if (modecommander != 0) mod = modecommander->currendmod();
-	if (mod == "cmd:") TabDialog->setCurrentWidget(CQText_Pactor);
-	else if (mod == "AMTOR") TabDialog->setCurrentWidget(CQText_Amtor);
-	else if (mod == "AMTOR-MONITOR") TabDialog->setCurrentWidget(CQText_Amtor);
-	else if (mod == "RTTY") TabDialog->setCurrentWidget(CQText_RTTY);
-	else if (mod == "PSK31") TabDialog->setCurrentWidget(CQText_PSK31);
-	else if (mod == "CW") TabDialog->setCurrentWidget(CQText_CW);
-	TabDialog->show();
+	if (modecommander != 0) {
+		mod = modecommander->currendmod();
+	}
+	if (mod == "cmd:") {
+		tabDialog->setCurrentWidget(cqtext_Pactor);
+	}
+	else if (mod == "AMTOR") {
+		tabDialog->setCurrentWidget(CQText_Amtor);
+	}
+	else if (mod == "AMTOR-MONITOR") {
+		tabDialog->setCurrentWidget(CQText_Amtor);
+	}
+	else if (mod == "RTTY") {
+		tabDialog->setCurrentWidget(CQText_RTTY);
+	}
+	else if (mod == "PSK31") {
+		tabDialog->setCurrentWidget(CQText_PSK31);
+	}
+	else if (mod == "CW") {
+		tabDialog->setCurrentWidget(CQText_CW);
+	}
+	tabDialog->show();
 }
 
 
 void CQDialog::saveText() {
-	configdata.setCQPactor(CQText_Pactor->toPlainText());
+	configdata.setCQPactor(cqtext_Pactor->toPlainText());
 	configdata.setCQAmtor(CQText_Amtor->toPlainText());
 	configdata.setCQRTTY(CQText_RTTY->toPlainText());
 	configdata.setCQPSK31(CQText_PSK31->toPlainText());
@@ -90,7 +104,7 @@ void CQDialog::startCall() {
 	if (currenttab == Tabs::Pactor) {//"Pactor"
 		modecommander->changetoPactor();
 		modecommander->Unproto();
-		qs = qs = this->processString(CQText_Pactor);
+		qs = qs = this->processString(cqtext_Pactor);
 		Modem::modem->writeLine(qs);
 		modecommander->QRT();
 	}
