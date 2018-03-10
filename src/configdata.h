@@ -22,6 +22,7 @@
 
 #include <QSettings>
 #include <QRegExp>
+#include <QHash>
 
 /**read/write the config data from/to the config file
   *@author Lars Schnake
@@ -30,6 +31,7 @@
 class ConfigData {
 
 	public:
+
 		ConfigData();
 		~ConfigData();
 		QString parseMacroText(QString);
@@ -80,7 +82,19 @@ class ConfigData {
 		bool isLoginScript();
 
 	private:
-		enum class Group {PORT, PERSONAL, GENERAL, LOGOUT, CQTEXT, FIXTEXT, LOGIN};
+		enum class Group;
+		struct Triple {
+			Group group;
+			QString name;
+			QString defaultvalue;
+		};
+		enum class Group {PORT, PERSONAL, GENERAL, LOGOUT, CQTEXT, FIXTEXT, LOGIN, NO};
+		enum Types {PORTDEVICE, PORTDEVICE_EDIT, PORTSPEED, CALL,
+							 SELCALL, FIRSTSTART, USEAWAYMSG, AWAYMSG,
+							 USECMSG, CMSG, PACTOR, TEXT, AMTOR, RTTY,
+							 PSK31, CW, TEXT_NR, PATH_LOGIN, PATH_LOGOUT, NAME, QTH,
+							 LOGOUTSCRIPT, LOGINSCRIPT};
+
 		QSettings *settings;
 
 		QString getGroupName(Group group) const;
@@ -88,6 +102,9 @@ class ConfigData {
 		QString getValue(Group group, const QString &key, const QString &defaultvalue) const;
 		bool stringIsTrue (const QString &string);
 		QString boolToString(bool value) const;
+		void setData(Types type, QString value = "");
+		QString getData(Types type);
+		Triple getTripleByType(Types type);
 };
 
 extern ConfigData configdata;
