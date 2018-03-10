@@ -489,27 +489,27 @@ QString s(QFileDialog::getOpenFileName(this, QString::null, ""));
 }
 
 void ConfigDialog::chooseLogoutFile() {
-	QString string(QFileDialog::getOpenFileName(this, QString::null, ""));
-	if (string.isEmpty()) {
-		return;
-	}
-	logout_LineEdit_path->setText(string);
+	this->selectFile(*logout_LineEdit_path);
 }
 
 void ConfigDialog::chooseLoginFile() {
+	this->selectFile(*login_LineEdit_path);
+}
+
+void ConfigDialog::selectFile(QLineEdit &edit) {
 	QString string(QFileDialog::getOpenFileName(this, QString::null, ""));
 	if (string.isEmpty()) {
 		return;
 	}
-	login_LineEdit_path->setText(string);
+	edit.setText(string);
 }
 
 void ConfigDialog::update_widgets() {
 	port_LineEdit_dev->setEnabled(port_RadioButton5->isChecked());
-	personal_MultiLineEdit_ctext->setEnabled( personal_CheckBox_cmsg->isChecked());
+	personal_MultiLineEdit_ctext->setEnabled(personal_CheckBox_cmsg->isChecked());
 	logout_MultiLineEdit_ctext->setEnabled(logout_CheckBox_cmsg->isChecked());
 	logout_LineEdit_path->setEnabled(logout_CheckBox_script->isChecked());
-	login_LineEdit_path->setEnabled( login_CheckBox_script->isChecked());
+	login_LineEdit_path->setEnabled(login_CheckBox_script->isChecked());
 }
 
 ConfigDialog::~ConfigDialog(){

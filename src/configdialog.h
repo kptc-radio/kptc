@@ -122,6 +122,7 @@ class ConfigDialog : public QDialog  {
 		void resetLogOutWidget();
 		void resetLogInWidget();
 		void resetFixTextWidget();
+		void selectFile(QLineEdit &edit);
 
 	private slots:
 		void resetwidgets();
