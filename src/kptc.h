@@ -39,17 +39,9 @@
 
 #include <QPair>
 #include <QFile>
-#include <QtGui/QFont>
-#include <QtGui/QColor>
-#include <QtWidgets/QBoxLayout>
-#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QComboBox>
-#include <QtWidgets/QDial>
-#include <QtWidgets/QFrame>
 #include <QtGui/QKeySequence>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QLayout>
-#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
@@ -98,7 +90,6 @@ class Kptc : public QMainWindow {
 		RTTYSpeedWidget * rttyspeedwidget;
 		QString statusmessage;
 		QString prompt;
-		QColor colors;
 		KLed led;
 		QMenu *fixmenu;
 		QStatusBar *mystatusBar;
