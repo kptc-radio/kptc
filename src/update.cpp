@@ -19,8 +19,7 @@
 
 #include "update.h"
 
-Update::Update(QWidget *mywidget ) : QObject() {
-	updatewidget = mywidget;
+Update::Update() : QObject() {
 }
 
 Update::~Update() {}
@@ -48,7 +47,8 @@ int Update::runUpdate(QString qsfilename ) {
 	hFile = open((const char *)qsfilename.data(), O_RDONLY);
 
 	if(-1 == hFile) {
-		QMessageBox::warning( updatewidget, "Kptc", tr("ERROR: opening file : ") + qsfilename );
+		//QMessageBox::warning( updatewidget, "Kptc", tr("ERROR: opening file : ") + qsfilename );
+		emit fileopenerror(qsfilename);
 		//fprintf(stderr, "ERROR: opening file: %s\n", (const char *)qsfilename.data());
 		return -1;
 	}
@@ -72,7 +72,8 @@ int Update::runUpdate(QString qsfilename ) {
 	Modem::modem->rs232_read(&flashStamp, 4);
 
 	if (GetFlash(manCode, devID, &flash) != 0) {
-		QMessageBox::warning( updatewidget, "Kptc", tr("ERROR: receiving Flash information !") );
+		//QMessageBox::warning( updatewidget, "Kptc", tr("ERROR: receiving Flash information !") );
+		emit flashinfoerror();
 		// fprintf(stderr, "ERROR: receiving Flash information!\n");
 		Modem::modem->send_esc();	/* send esc */
 		close(hFile);
@@ -84,7 +85,8 @@ int Update::runUpdate(QString qsfilename ) {
 	flashFree = flash.ulFlashSize - 16384 - flash.usSectSize;
 
 	if(flash.usSectSize == 0) {
-		QMessageBox::warning( updatewidget, "Kptc", tr("ERROR: wrong sector size !") );
+		//QMessageBox::warning( updatewidget, "Kptc", tr("ERROR: wrong sector size !") );
+		emit wrongsectorsize();
 		//fprintf(stderr, "ERROR: wrong sector size!\n");
 		Modem::modem->send_esc();	/* send esc */
 		close(hFile);
@@ -98,7 +100,8 @@ int Update::runUpdate(QString qsfilename ) {
 	}
 
 	if(fileLength > flashFree) {
-		QMessageBox::warning( updatewidget, "Kptc", tr("ERROR: File too large !\nFile should not be longer than ") + flashFree + QString(" bytes.") );
+		//QMessageBox::warning( updatewidget, "Kptc", tr("ERROR: File too large !\nFile should not be longer than ") + flashFree + QString(" bytes.") );
+		emit filetoolarge(flashFree);
 		//fprintf(stderr, "ERROR: File too large!\n       File should not be longer than %ld bytes.\n", FlashFree);
 		Modem::modem->send_esc();	/* send esc */
 		close(hFile);
@@ -106,14 +109,15 @@ int Update::runUpdate(QString qsfilename ) {
 	}
 
 	if(flashStamp.day == 0 || flashStamp.month == 0 || (flashStamp.day == 0x1f && flashStamp.month == 0xf && flashStamp.year == 0x7f)) {
-	QMessageBox::warning( updatewidget, "Kptc", tr("WARNING: Invalid Flash time stamp.\nPossibly no firmware installed.\n Update will proceed.") );
+	//QMessageBox::warning( updatewidget, "Kptc", tr("WARNING: Invalid Flash time stamp.\nPossibly no firmware installed.\n Update will proceed.") );
+	emit wrongtimestamp();
 		//fprintf(stderr, "WARNING: Invalid Flash time stamp.\n         Possibly no firmware installed.\n\n");
 	}
 
 	if ( convtime(fileStamp) <= convtime(flashStamp)) {
 		//TODO wtf?
 		//qDebug() << "Update: same or newer time stamp";
-		switch( QMessageBox::warning( updatewidget, "Kptc", tr("The current firmware has the same or a newer time stamp!\n"
+		switch( QMessageBox::warning( new QWidget, "Kptc", tr("The current firmware has the same or a newer time stamp!\n"
 		"Do you whant to proceed or quit the update ?\n"),
 		tr("Proceed"), tr("Quit"), 0, 0, 1 )) {
 			case 1: // Quit or escape
@@ -135,7 +139,8 @@ int Update::runUpdate(QString qsfilename ) {
 	Modem::modem->rs232_read(&ch, 1);
 
 	if (ch != ack) {
-		QMessageBox::warning( updatewidget, "Kptc", tr("ERROR: Handshake failed !") );
+		//QMessageBox::warning( updatewidget, "Kptc", tr("ERROR: Handshake failed !") );
+		emit handshakefailed();
 		//fprintf(stderr, "\a\aERROR: Handshake failed!\n");
 		Modem::modem->send_esc();	/* send esc */
 		close(hFile);
@@ -158,7 +163,8 @@ int Update::runUpdate(QString qsfilename ) {
 
 		Modem::modem->rs232_read(&ch, 1);
 		if (ch != ack) {
-			QMessageBox::warning( updatewidget, "Kptc", tr("ERROR: Handshake failed !") );
+			//QMessageBox::warning( new QWidget, "Kptc", tr("ERROR: Handshake failed !") );
+			emit handshakefailed();
 			//fprintf(stderr, "\a\aERROR: Handshake failed!\n");
 			Modem::modem->send_esc();	/* send esc */
 			close(hFile);

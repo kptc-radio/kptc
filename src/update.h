@@ -20,6 +20,7 @@
 #ifndef UPDATE_H
 #define UPDATE_H
 
+#include <QObject>
 #include <QtWidgets/QMessageBox>
 
 #include "modem.h"
@@ -98,11 +99,10 @@ class Update : public QObject  {
 	public:
 		int runUpdate(QString);
 
-		Update(QWidget *mywidget=0);
+		Update();
 		~Update();
 
 	private:
-		QWidget *updatewidget;
 		time_t convtime(FDTIME);
 		int GetFlash (char, char, FLASH *);
 		int readflush(int);
@@ -110,6 +110,13 @@ class Update : public QObject  {
 	signals:
 		void progress(int);
 		void message(QString);
+		void fileopenerror(QString);
+		void flashinfoerror();
+		void wrongsectorsize();
+		void filetoolarge(unsigned long);
+		void wrongtimestamp();
+		void handshakefailed();
+
 };
 
 #endif

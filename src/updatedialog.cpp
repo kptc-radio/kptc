@@ -24,6 +24,44 @@ UpdateDialog::UpdateDialog(QWidget *parent) : QDialog(parent) {
 	update = new Update();
 
 	this->setWindowTitle("PTC Firmware Update");
+	this->initGUIElements();
+	this->initConnections();
+}
+
+void UpdateDialog::initConnections() {
+	auto fileerror = [this]  (QString string) {
+		QMessageBox::warning(this, "Kptc", tr("ERROR: opening file : ") + string );
+	};
+	auto flashinfoerror = [this] () {
+		QMessageBox::warning( this, "Kptc", tr("ERROR: receiving Flash information !") );
+	};
+	auto wrontsectorsize = [this] () {
+		QMessageBox::warning( this, "Kptc", tr("ERROR: wrong sector size !") );
+	};
+	auto wrongtimestamp = [this] () {
+		QMessageBox::warning( this, "Kptc", tr("WARNING: Invalid Flash time stamp.\nPossibly no firmware installed.\n Update will proceed.") );
+	};
+	auto filetoolarge = [this] (unsigned long flashFree) {
+		QMessageBox::warning( this, "Kptc", tr("ERROR: File too large !\nFile should not be longer than ") + flashFree + QString(" bytes.") );
+	};
+	auto handshakefailed = [this] () {
+		QMessageBox::warning( this, "Kptc", tr("ERROR: Handshake failed !") );
+	};
+
+	QObject::connect (cancelbutton, SIGNAL (clicked()), this, SLOT (reject()));
+	QObject::connect (choosebutton, SIGNAL (clicked()), this, SLOT (myfileDialog()));
+	QObject::connect (okbutton, SIGNAL (clicked()), this, SLOT (initUpdate()));
+	QObject::connect (update, SIGNAL (progress(int)), progressbar, SLOT (setProgress(int)));
+	QObject::connect (update, SIGNAL (message(QString)), this, SLOT (updateMessage(QString)));
+	QObject::connect(update, &Update::fileopenerror, this,  fileerror);
+	QObject::connect(update, &Update::flashinfoerror, this, flashinfoerror );
+	QObject::connect(update, &Update::wrongsectorsize, this,  wrontsectorsize);
+	QObject::connect(update, &Update::wrongtimestamp, this,  wrongtimestamp);
+	QObject::connect(update, &Update::filetoolarge, this,  filetoolarge);
+	QObject::connect(update, &Update::handshakefailed, this,  handshakefailed);
+}
+
+void UpdateDialog::initGUIElements() {
 	okbutton = new QPushButton(tr("start Update"), this);
 	cancelbutton = new QPushButton(tr("Exit"), this);
 	lineedit = new QLineEdit(this);
@@ -48,12 +86,6 @@ UpdateDialog::UpdateDialog(QWidget *parent) : QDialog(parent) {
 
 	filepicklayout->addWidget(lineedit);
 	filepicklayout->addWidget(choosebutton);
-
-	QObject::connect (cancelbutton, SIGNAL (clicked()), this, SLOT (reject()));
-	QObject::connect (choosebutton, SIGNAL (clicked()), this, SLOT (myfileDialog()));
-	QObject::connect (okbutton, SIGNAL (clicked()), this, SLOT (initUpdate()));
-	QObject::connect (update, SIGNAL (progress(int)), progressbar, SLOT (setProgress(int)));
-	QObject::connect (update, SIGNAL (message(QString)), this, SLOT (updateMessage(QString)));
 }
 
 void UpdateDialog::myfileDialog() {

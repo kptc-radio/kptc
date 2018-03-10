@@ -44,6 +44,7 @@ class UpdateDialog : public QDialog  {
 		~UpdateDialog();
 
 	private:
+		bool updaterunning;
 		QPushButton *okbutton;
 		QPushButton *cancelbutton;
 		QLineEdit *lineedit;
@@ -51,7 +52,9 @@ class UpdateDialog : public QDialog  {
 		QProgressBar *progressbar;
 		QLabel *infolabel;
 		Update *update;
-		bool updaterunning;
+
+		void initConnections();
+		void initGUIElements();
 
 	protected:
 		void closeEvent(QCloseEvent*);
