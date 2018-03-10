@@ -25,11 +25,26 @@ ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent){
 	setMinimumSize(size());
 	setMaximumSize(size());
 
+	this->devices.reserve(4);
+	this->devices.append(QString("/dev/ttyS0"));
+	this->devices.append(QString("/dev/ttyS1"));
+	this->devices.append(QString("/dev/ttyS2"));
+	this->devices.append(QString("/dev/ttyS3"));
+
+	this->categories.reserve(7);
+	this->categories.append(QString("PORT"));
+	this->categories.append(QString("PERSONAL"));
+	this->categories.append(QString("FIX-TEXT"));
+	this->categories.append(QString("PACKET"));
+	this->categories.append(QString("BOX"));
+	this->categories.append(QString("LOGIN"));
+	this->categories.append(QString("LOGOUT"));
+
 	this->createTopWidgets();
 	this->initWidgetStack();
 	this->initLeftsiteEntries();
 	this->createButtons();
-	resetwidgets();
+	this->resetwidgets();
 }
 
 void ConfigDialog::createTopWidgets() {
@@ -70,13 +85,9 @@ void ConfigDialog::initLeftsiteEntries() {
 	ListBox->setFrameStyle(51);
 	ListBox->setLineWidth(2);
 	ListBox->setMidLineWidth(0);
-	ListBox->insertItem(0, "PORT");
-	ListBox->insertItem(1, "PERSONAL");
-	ListBox->insertItem(2, "FIX-TEXT");
-	ListBox->insertItem(3, "PACKET");
-	ListBox->insertItem(4, "BOX");
-	ListBox->insertItem(5, "LOGIN");
-	ListBox->insertItem(6, "LOGOUT");
+	for (int i = 0; i < categories.size(); ++i) {
+		ListBox->insertItem(i, categories[i]);
+	}
 	ListBox->setAutoScroll(true);
 
 	connect(ListBox, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(selectwidget(QListWidgetItem*)));
@@ -288,11 +299,10 @@ void ConfigDialog::selectwidget(QListWidgetItem * lbi) {
 	if (lbi == nullptr) {
 		return;
 	}
-	std::array<QString, 7> possibleTextes = {"PORT", "PERSONAL", "FIX-TEXT", "PACKET", "BOX",  "LOGIN", "LOGOUT"};
 	int selectedIndex = 4;
 
-	for (auto i = 0u; i < possibleTextes.size(); ++i) {
-		if (lbi->text() == possibleTextes[i]) {
+	for (auto i = 0u; i < categories.size(); ++i) {
+		if (lbi->text() == categories[i]) {
 			selectedIndex = i;
 			break;
 		}
@@ -345,16 +355,16 @@ void ConfigDialog::resetwidgets() {
 
 void ConfigDialog::resetDeviceSelection() {
 	QString port = configdata.getPort();
-	if (port == "/dev/ttyS0") {
+	if (port == devices[0]) {
 		port_RadioButton1->setChecked(true);
 	}
-	else if (port == "/dev/ttyS1") {
+	else if (port == devices[1]) {
 		port_RadioButton2->setChecked(true);
 	}
-	else if (port == "/dev/ttyS2") {
+	else if (port == devices[2]) {
 		port_RadioButton3->setChecked(true);
 	}
-	else if (port == "/dev/ttyS3") {
+	else if (port == devices[3]) {
 		port_RadioButton4->setChecked(true);
 	}
 	else  {
@@ -420,16 +430,16 @@ void ConfigDialog::writeconfig() {
 	QString port;
 
 	if (port_RadioButton1->isChecked()) {
-		port = "/dev/ttyS0";
+		port = devices[0];
 	}
 	else if (port_RadioButton2->isChecked()) {
-		port = "/dev/ttyS1";
+		port = devices[1];
 	}
 	else if (port_RadioButton3->isChecked()) {
-		port = "/dev/ttyS2";
+		port = devices[2];
 	}
 	else if (port_RadioButton4->isChecked()) {
-		port = "/dev/ttyS3";
+		port = devices[3];
 	}
 	else {
 		port =port_LineEdit_dev->text();

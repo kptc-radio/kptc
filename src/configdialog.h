@@ -80,6 +80,8 @@ class ConfigDialog : public QDialog  {
 		QCheckBox *logout_CheckBox_cmsg;
 		QList <FixTextPicker *> list;
 		QList <QObject*> oblist;
+		QList <QString> devices;
+		QList <QString> categories;
 		QLineEdit *logout_LineEdit_path;
 		QCheckBox *logout_CheckBox_script;
 		QPushButton *logout_PushButton_choosescript;
