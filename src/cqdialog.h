@@ -24,7 +24,6 @@
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QPushButton>
-#include <QVector>
 #include <QString>
 #include <QRegExp>
 

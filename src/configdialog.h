@@ -27,7 +27,6 @@
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QCheckBox>
-#include <QPixmap>
 #include <QtWidgets/QLayout>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QButtonGroup>

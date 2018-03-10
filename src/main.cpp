@@ -17,7 +17,6 @@
  *																		 *
  ***************************************************************************/
 
-#include <QtWidgets/QMainWindow>
 #include <QtWidgets/QApplication>
 #include <QGuiApplication>
 

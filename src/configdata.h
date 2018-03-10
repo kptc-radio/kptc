@@ -20,11 +20,7 @@
 #ifndef CONFIGDATA_H
 #define CONFIGDATA_H
 
-#include <unistd.h>
-#include <sys/types.h>
-
 #include <QSettings>
-#include <QStringList>
 #include <QRegExp>
 
 /**read/write the config data from/to the config file
