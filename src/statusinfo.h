@@ -40,7 +40,7 @@ class StatusInfo : public QStatusBar  {
 		Q_OBJECT
 
 	public:
-		StatusInfo(QWidget *parent=0);
+		StatusInfo(QWidget *parent = 0);
 		~StatusInfo();
 		void setLED(bool);
 		void setStatus(QString);

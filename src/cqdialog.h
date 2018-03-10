@@ -40,7 +40,7 @@ class CQDialog : public QObject  {
 Q_OBJECT
 
 	public:
-		CQDialog(QWidget *parent=0, ModeCommander *modecommander = 0);
+		CQDialog(QWidget *parent = 0, ModeCommander *modecommander = 0);
 		~CQDialog();
 
 	private:

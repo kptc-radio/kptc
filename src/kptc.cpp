@@ -21,7 +21,7 @@
 
 #include "kptc.h"
 
-Kptc::Kptc(QWidget *parent) : QMainWindow()
+Kptc::Kptc(QWidget *parent) : QMainWindow(parent)
 {
 	//TODO
 	this->initMainWindow();
