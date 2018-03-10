@@ -20,7 +20,6 @@
 #ifndef CONFIGDIALOG_H
 #define CONFIGDIALOG_H
 
-#include <QtWidgets/QDialog>
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QListWidget>
 #include <QtWidgets/QListWidgetItem>
@@ -28,20 +27,17 @@
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QCheckBox>
-#include <qpixmap.h>
+#include <QPixmap>
 #include <QtWidgets/QLayout>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QBoxLayout>
-#include <QtWidgets/QBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QLayout>
-#include <qlist.h>
+#include <QList>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QDialog>
-#include <vector>
-#include <array>
 
 #include "configdata.h"
 #include "configmachine.h"
