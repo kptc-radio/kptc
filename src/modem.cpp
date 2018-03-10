@@ -13,8 +13,8 @@
 #include <QDebug>
 
 //	defaults for UUCP style lock files :
-#define LF_PATH "/var/lock"
-#define LF_PREFIX "LCK	"
+constexpr char *LF_PATH = "/var/lock";
+constexpr char *LF_PREFIX = "LCK	";
 
 Modem *Modem::modem = 0;
 
