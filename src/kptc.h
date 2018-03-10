@@ -165,7 +165,7 @@ class Kptc : public QMainWindow {
 		void echoText(QString);
 		void openUpdateDialog();
 		void fileQuit();
-		void closeEvent(QCloseEvent* ce);
+		void closeEvent(QCloseEvent* event);
 };
 
 #endif

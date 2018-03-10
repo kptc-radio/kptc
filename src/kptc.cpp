@@ -219,9 +219,9 @@ void Kptc::initHelpMenu() {
 	QAction *helpaction = new QAction("About", helpmenu);
 	helpmenu->addAction(helpaction);
 
-	connect(helpaction, &QAction::triggered, this, [](){
-		QString about = tr("Kptc 0.2\n user interface for the SCS-PTC-II\n\n (C) 2001 Lars Schnake\nmail@lars-schnake.de\n");
-		QLabel *label = new QLabel(about);
+	static QString about = tr("Kptc 0.2\n user interface for the SCS-PTC-II\n\n (C) 2001 Lars Schnake\nmail@lars-schnake.de\n");
+	static QLabel *label = new QLabel(about);
+	connect(helpaction, &QAction::triggered, this, [label](){
 		label->show();
 	});
 }
@@ -261,14 +261,15 @@ void Kptc::initializeMenuBar() {
 }
 
 void Kptc::parseModemOut(unsigned char c) {
-	if ((int) c == 6) {
+	int value = static_cast<int>(c);
+	if (value == 6) {
 		qDebug ()<< "Packet-STATUSINFO";
 	}
 	if (bStatusByteFollows) {
 		bStatusByteFollows = false;
 		parseStatus(c);
 	}
-	else if ((int) c == 30) {
+	else if (value == 30) {
 		bStatusByteFollows = true;
 	}
 	else if (c == 4) {
@@ -276,11 +277,16 @@ void Kptc::parseModemOut(unsigned char c) {
 	}
 	else if (bPromptInfoFollows) {
 		parsePrompt(c);
-		 bPromptInfoFollows = false;
-		 parsePromptText = 20;
+		bPromptInfoFollows = false;
+		parsePromptText = 20;
 	}
 	else if (parsePromptText > 0) {
-	if ((int)c == 1) { parsePromptText = 0; currentterm = 1; textedit->setPrompt(prompt.trimmed()); prompt.clear();} // prompt end
+	if (value == 1) {
+		parsePromptText = 0;
+		currentterm = 1;
+		textedit->setPrompt(prompt.trimmed());
+		prompt.clear();
+	} // prompt end
 		else {
 			parsePromptText--;
 			if (this->isendline(c)) {
@@ -288,16 +294,16 @@ void Kptc::parseModemOut(unsigned char c) {
 			}
 		}
 	}
-	else if ((int)c == 3) {
+	else if (value == 3) {
 			currentterm = 3;
 	}	// delayed echo
-	else if ((int)c == 2) {
+	else if (value == 2) {
 			currentterm = 2;
 	}	// rx
-	else if ((int)c == 1) {
+	else if (value == 1) {
 			currentterm = 1;
 	}	// prompt , errors , ...
-	else if ((int)c == 7) ; // klingeling :-) , changeover bell, do some ring ring here !?
+	else if (value == 7) ; // klingeling :-) , changeover bell, do some ring ring here !?
 	else {
 		if ((currentterm == 2) || (currentterm == 3)) {
 			QString color;
@@ -332,30 +338,30 @@ void Kptc::parseModemOut(unsigned char c) {
 	}
 }
 
-void Kptc :: sendline(QString qs) {
+void Kptc::sendline(QString qs) {
 	Modem::modem->writeLine(qs);
 	termoutput->append(qs);
 	termoutput->append("\n");
 	show();
 }
 
-void Kptc :: sendchar(unsigned char c) {
+void Kptc::sendchar(unsigned char c) {
 	if (Modem::modem->writeChar(c));//TODO Why?
 }
 
-void Kptc :: echoText(QString qtext) {
+void Kptc::echoText(QString qtext) {
 	setHTML(makeHTML(qtext, "#001933")); //darkblue
 	termoutput->append(qtext);
 }
 
-void Kptc :: openconfigdialog() {
+void Kptc::openconfigdialog() {
 	ConfigDialog configdialog ;
 	if (configdialog.exec() == QDialog::Accepted) {
 		useconfigmachine();
 	}
 }
 
-void Kptc :: useconfigmachine() {
+void Kptc::useconfigmachine() {
 	configmachine->doconfig();
 	statusinfo->setCall(configdata.getCall() + " (" + configdata.getSelCall() + ") ");
 	updateStatusBar();
@@ -371,23 +377,23 @@ void Kptc :: useconfigmachine() {
 	}
 }
 
-void Kptc :: openCommandDialog() {
+void Kptc::openCommandDialog() {
 	commanddialog.close();
 	commanddialog.show();
 	commanddialog.setFocus();
 }
 
-void Kptc :: clearTrafficWindow() {
+void Kptc::clearTrafficWindow() {
 	termoutput->clear();
 }
 
-void Kptc :: clearEditWindow() {
+void Kptc::clearEditWindow() {
 	textedit->clear();
 }
 
 //TODO Check which correct QObject has to been called
 
-void Kptc :: showPactor() {
+void Kptc::showPactor() {
 	lefttoolbar->clear();
 	this->expandToolBar("Stand by", "Standby", modecommander, lefttoolbar);
 	this->expandToolBar("QRT", "initQRT", this, lefttoolbar);
@@ -399,7 +405,7 @@ void Kptc :: showPactor() {
 //	lefttoolbar->setButton(6,modecommander->isListen());
 }
 
-void Kptc :: showAmtor() {
+void Kptc::showAmtor() {
 	//modebuttons->buttongroup->setButton(2);
 	lefttoolbar->clear();
 	this->expandToolBar("Stand by", "Standby", modecommander, lefttoolbar);
@@ -410,7 +416,7 @@ void Kptc :: showAmtor() {
 	this->expandToolBar("Monitor", "Monitor", modecommander, lefttoolbar);
 }
 
-void Kptc :: showRTTY() {
+void Kptc::showRTTY() {
 	// modetoolbar->toggleButton(3);
 	lefttoolbar->clear();
 	this->expandToolBar(standby, "Standby", modecommander, lefttoolbar);
@@ -420,7 +426,7 @@ void Kptc :: showRTTY() {
 	this->expandToolBar(cqws, "openDialog", cqdialog, lefttoolbar);
 }
 
-void Kptc :: showPSK31() {
+void Kptc::showPSK31() {
 	//modetoolbar->toggleButton(4);
 	//modebuttons->buttongroup->setButton(4);
 	lefttoolbar->clear();
@@ -430,7 +436,7 @@ void Kptc :: showPSK31() {
 	this->expandToolBar(cq, "openDialog", cqdialog, lefttoolbar);
 }
 
-void Kptc :: showCW() {
+void Kptc::showCW() {
 	//modebuttons->buttongroup->setButton(5);
 	lefttoolbar->clear();
 	this->expandToolBar(standby, "StandBy", modecommander, lefttoolbar);
@@ -450,22 +456,22 @@ void Kptc::expandToolBar(QString text, char *slot, QObject *obj, QToolBar *bar) 
 	connect(temp, SIGNAL(triggered(bool)), obj, slot);
 }
 
-void Kptc :: showcwspeeddialog() {
+void Kptc::showcwspeeddialog() {
 	cwspeedwidget->close();
 	cwspeedwidget->show();
 }
 
-void Kptc :: showrttyspeeddialog() {
+void Kptc::showrttyspeeddialog() {
 	rttyspeedwidget->close();
 	rttyspeedwidget->show();
 }
-void Kptc :: initchangeover() {
+void Kptc::initchangeover() {
 	textedit->myinsert("[changeover]\n");
 	termoutput->append("\n[changeover]\n");
 	modecommander->Changeover();
 }
 
-void Kptc :: initQRT() {
+void Kptc::initQRT() {
 	textedit->myinsert("[QRT]\n");
 	termoutput->append("\n[QRT]\n");
 	modecommander->QRT();
@@ -483,7 +489,7 @@ void Kptc::setHTML(QString text) {
 	termoutput->setHtml(text);
 }
 
-void Kptc :: updateStatusBar() {
+void Kptc::updateStatusBar() {
 	statusinfo->setPrompt(modecommander->currendmod());
 	if (modecommander->currendmod() == "cmd:") showPactor();
 	else if (modecommander->currendmod() == "Amtor") showAmtor();
@@ -498,7 +504,7 @@ bool Kptc::isendline(char c) {
 	return c == '\n' || c == '\r' ;
 }
 
-void Kptc :: parsePrompt(const char c) {
+void Kptc::parsePrompt(const char c) {
 	// analyze prompt
 	switch(c) {
 		case 32:
@@ -526,7 +532,7 @@ void Kptc :: parsePrompt(const char c) {
 	updateStatusBar();
 }
 
-void Kptc :: parseStatus(const char c) {
+void Kptc::parseStatus(const char c) {
 	// check DIRECTION bit (SEND-LED)
 	if ((c & 0x08) > 0) {
 		statusinfo->setLED(true);
@@ -610,9 +616,9 @@ void Kptc :: parseStatus(const char c) {
 }
 
 void Kptc::sendFixText(int id) {
-	QString qsid;
-	qsid.setNum(id);
-	QString filename = configdata.getFixPath(qsid);
+	QString idstring;
+	idstring.setNum(id);
+	QString filename = configdata.getFixPath(idstring);
 	QFile file (filename);
 	if (!file.open(QIODevice::ReadOnly)) {
 		QMessageBox::critical(this, "",
@@ -643,14 +649,14 @@ void Kptc::shutdown() {
 			QMessageBox::critical(this, "",
 	("Cannot open your personal logout script file !\n Error by opening \"" + result.second +"\"" ));	 // error by opening text file
 	}
-	if (! Modem::modem->closetty()) {
+	if (!Modem::modem->closetty()) {
 		qDebug () << Modem::modem->modemMessage();
 	}
 }
 
-void Kptc::closeEvent(QCloseEvent* ce) {
+void Kptc::closeEvent(QCloseEvent *event) {
 	emit shutdown();
-	ce->accept();
+	event->accept();
 }
 
 void Kptc::fileQuit() {

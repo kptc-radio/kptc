@@ -42,7 +42,7 @@ void ConfigMachine::doconfig() {
 	Modem::modem->writeLine("term 5"); // terminal setup
 	Modem::modem->send_esc();
 	Modem::modem->writeLine("status 2"); // auto status dump
-	Modem::modem->writeChar((char)30); // poll for first status info
+	Modem::modem->writeChar(static_cast<char>(30)); // poll for first status info
 	Modem::modem->writeLine("listen 0"); // set listen mode off at startup
 	Modem::modem->writeLine("lfignore 1"); // linefeed after <CR> ?
 	sleep(1);
