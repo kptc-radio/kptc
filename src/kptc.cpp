@@ -26,7 +26,7 @@ Kptc::Kptc(QWidget *parent) : QMainWindow(parent)
 	//TODO
 	this->initMainWindow();
 
-	this->lefttoolbar = new QToolBar("");
+	this->lefttoolbar = new QToolBar();
 	this->addToolBar(lefttoolbar);
 	this->addToolBarBreak();
 	currentterm = 1;
