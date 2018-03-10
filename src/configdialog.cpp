@@ -22,8 +22,8 @@
 
 ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent){
 	resize(500, 340);
-	setMinimumSize(500, 340);
-	setMaximumSize(500, 340);
+	setMinimumSize(size());
+	setMaximumSize(size());
 
 	this->createTopWidgets();
 	this->initWidgetStack();
@@ -60,10 +60,12 @@ void ConfigDialog::initWidgetStack() {
 }
 
 void ConfigDialog::initLeftsiteEntries() {
+	constexpr int width = 110;
+	constexpr int height = 290;
 	QListWidget* ListBox = new QListWidget(this);
-	ListBox->setGeometry(10, 10, 110, 290);
-	ListBox->setMinimumSize(110, 290);
-	ListBox->setMaximumSize(110, 290);
+	ListBox->setGeometry(10, 10, width, height);
+	ListBox->setMinimumSize(width, height);
+	ListBox->setMaximumSize(width, height);
 	ListBox->setFocusPolicy(Qt::StrongFocus);
 	ListBox->setFrameStyle(51);
 	ListBox->setLineWidth(2);
@@ -81,8 +83,10 @@ void ConfigDialog::initLeftsiteEntries() {
 }
 
 void ConfigDialog::createButtons() {
-	QPushButton *OkButton = this->createButton("OkButton", QRect(285, 310, 90, standardheight), "Ok");
-	QPushButton *CancelButton = this->createButton("CancelButton", QRect(395, 310, 90, standardheight), "Cancel");
+	constexpr int width = 90;
+	constexpr int y = 310;
+	QPushButton *OkButton = this->createButton("OkButton", QRect(285, y, width, standardheight), "Ok");
+	QPushButton *CancelButton = this->createButton("CancelButton", QRect(395, y, width, standardheight), "Cancel");
 
 	QObject::connect (CancelButton, SIGNAL (clicked()), this, SLOT (reject()));
 	QObject::connect (OkButton, SIGNAL(clicked(bool)), this, SLOT (writeconfig()));
@@ -90,9 +94,10 @@ void ConfigDialog::createButtons() {
 
 QPushButton *ConfigDialog::createButton(QString text, const QRect dimensions, QString text2) {
 	QPushButton* button = new QPushButton(text, this);
+	constexpr int x = 90;
 	button->setGeometry(dimensions);
-	button->setMinimumSize(90, standardheight);
-	button->setMaximumSize(90, standardheight);
+	button->setMinimumSize(x, standardheight);
+	button->setMaximumSize(x, standardheight);
 	button->setFocusPolicy(Qt::TabFocus);
 	button->setText((text2));
 	button->setAutoRepeat(false);
@@ -108,20 +113,23 @@ void ConfigDialog::createPersonalWidget() {
 }
 
 void ConfigDialog::createPersonalMessageArea() {
+	constexpr int x = 120;
 	personal_CheckBox_cmsg = new QCheckBox(personal_top);
 	personal_CheckBox_cmsg->setText((QString("set \"connect message\"")));
-	personal_CheckBox_cmsg->setGeometry(120, 150, 150, standardheight);
+	personal_CheckBox_cmsg->setGeometry(x, 150, 150, standardheight);
 	personal_MultiLineEdit_ctext = new QTextEdit(personal_top);
-	personal_MultiLineEdit_ctext->setGeometry(120, 170, 230, 100);
+	personal_MultiLineEdit_ctext->setGeometry(x, 170, 230, 100);
 
 	connect(personal_CheckBox_cmsg, SIGNAL(clicked()), this, SLOT(update_widgets()));
 }
 
 void ConfigDialog::createPersonalLabels() {
-	/*	QLabel* personal_Label_8 = */this->createPersonalLabel("SELCALL:", QRect(40, 110, 100, standardheight), true);
-	/*	QLabel* personal_Label_7 =*/ this->createPersonalLabel("CALL:", QRect(40, 80, 100, standardheight), true);
-	/*	QLabel* personal_Label_qth=*/  this->createPersonalLabel("QTH:", QRect(40, 50, 100, standardheight));
-	/*	QLabel* personal_Label_6= */ this->createPersonalLabel("Name:", QRect(40, 20, 100, standardheight), true);
+	constexpr int width = 100;
+	constexpr int x = 40;
+	/*	QLabel* personal_Label_8 = */this->createPersonalLabel("SELCALL:", QRect(x, 110, width, standardheight), true);
+	/*	QLabel* personal_Label_7 =*/ this->createPersonalLabel("CALL:", QRect(x, 80, width, standardheight), true);
+	/*	QLabel* personal_Label_qth=*/  this->createPersonalLabel("QTH:", QRect(x, 50, width, standardheight));
+	/*	QLabel* personal_Label_6= */ this->createPersonalLabel("Name:", QRect(x, 20, width, standardheight), true);
 }
 
 QLabel *ConfigDialog::createPersonalLabel(QString text, QRect dimension, bool nofocus) {
@@ -150,11 +158,14 @@ void ConfigDialog::createPortWidget() {
 }
 
 void ConfigDialog::createPortLineEdits() {
-	port_LineEdit_dev = this->createLineEdit(port_top, "/dev/ttyS11", QRect(40, 120, 75, 20), standardheight);
-	personal_LineEdit_name = this->createLineEdit(personal_top, "TUX",  QRect(120, 20, 80, 20), standardheight);
-	personal_LineEdit_qth = this->createLineEdit(personal_top, "Nürnberg", QRect(120, 50, 80, standardheight), 30);
-	personal_LineEdit_call = this->createLineEdit(personal_top, "DK0TUX",  QRect(120, 80, 80, standardheight), 12);
-	personal_LineEdit_selcall = this->createLineEdit(personal_top, "DTUX", QRect(120, 110, 80, standardheight), 4);
+	constexpr int maxlength = 20;
+	constexpr int length = 80;
+	constexpr int x = 120;
+	port_LineEdit_dev = this->createLineEdit(port_top, "/dev/ttyS11", QRect(40, 120, 75, standardheight), maxlength);
+	personal_LineEdit_name = this->createLineEdit(personal_top, "TUX",  QRect(x, 20, length, standardheight), maxlength);
+	personal_LineEdit_qth = this->createLineEdit(personal_top, "Nürnberg", QRect(x, 50, length, standardheight), 30);
+	personal_LineEdit_call = this->createLineEdit(personal_top, "DK0TUX",  QRect(x, 80, length, standardheight), 12);
+	personal_LineEdit_selcall = this->createLineEdit(personal_top, "DTUX", QRect(x, 110, length, standardheight), 4);
 }
 
 void ConfigDialog::createSpeedComboBox() {
@@ -235,19 +246,25 @@ QLineEdit *ConfigDialog::createLineEdit(QWidget *parent, QString text, QRect dim
 }
 
 void ConfigDialog::createLogOutWidget() {
+	constexpr int x = 4;
 	logout_top = new QWidget();
+
 	logout_CheckBox_cmsg = new QCheckBox(logout_top);
 	logout_CheckBox_cmsg->setText(tr("set \"away message\""));
-	logout_CheckBox_cmsg->setGeometry(5, 5, 150, standardheight);
+	logout_CheckBox_cmsg->setGeometry(x, 5, 150, standardheight);
+
 	logout_MultiLineEdit_ctext = new QTextEdit(logout_top);
 	logout_MultiLineEdit_ctext->setGeometry(150, 5, 200, 100);
+
 	logout_CheckBox_script = new QCheckBox(logout_top);
 	logout_CheckBox_script->setText(tr("use personal logout script"));
-	logout_CheckBox_script->setGeometry(5, 130, 200, standardheight);
+	logout_CheckBox_script->setGeometry(x, 130, 200, standardheight);
+
 	logout_LineEdit_path = new QLineEdit(logout_top);
-	logout_LineEdit_path->setGeometry(5, 150, 150, standardheight);
+	logout_LineEdit_path->setGeometry(x, 150, 150, standardheight);
 	logout_PushButton_choosescript = new QPushButton(tr("choose"), logout_top);
 	logout_PushButton_choosescript->setGeometry(170, 150, 50, standardheight);
+
 	connect(logout_PushButton_choosescript, SIGNAL(	clicked()), this, SLOT(chooseLogoutFile()));
 	connect(logout_CheckBox_cmsg, SIGNAL(clicked(bool)), this, SLOT(update_widgets()));
 	connect(logout_CheckBox_script, SIGNAL(clicked(bool)), this, SLOT(update_widgets()));
