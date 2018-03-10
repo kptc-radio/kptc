@@ -18,11 +18,8 @@
  ***************************************************************************/
 
 #include <QtWidgets/QMainWindow>
-#include <QtWidgets/QMenuBar>
 #include <QtWidgets/QApplication>
 #include <QGuiApplication>
-
-#include <iostream>
 
 #include "kptc.h"
 
