@@ -1,3 +1,4 @@
+
 /***************************************************************************
 						  configdialog.cpp  -  description
 							 -------------------
@@ -18,8 +19,6 @@
  ***************************************************************************/
 
 #include "configdialog.h"
-
-#define i18n
 
 ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent){
 	resize(500, 340);
@@ -82,8 +81,8 @@ void ConfigDialog::initLeftsiteEntries() {
 }
 
 void ConfigDialog::createButtons() {
-	QPushButton *OkButton = this->createButton("OkButton", QRect(285, 310, 90, 20), "Ok");
-	QPushButton* CancelButton = this->createButton("CancelButton", QRect(395, 310, 90, 20), "Cancel");
+	QPushButton *OkButton = this->createButton("OkButton", QRect(285, 310, 90, standardheight), "Ok");
+	QPushButton *CancelButton = this->createButton("CancelButton", QRect(395, 310, 90, standardheight), "Cancel");
 
 	QObject::connect (CancelButton, SIGNAL (clicked()), this, SLOT (reject()));
 	QObject::connect (OkButton, SIGNAL(clicked(bool)), this, SLOT (writeconfig()));
@@ -92,10 +91,10 @@ void ConfigDialog::createButtons() {
 QPushButton *ConfigDialog::createButton(QString text, const QRect dimensions, QString text2) {
 	QPushButton* button = new QPushButton(text, this);
 	button->setGeometry(dimensions);
-	button->setMinimumSize(90, 20);
-	button->setMaximumSize(90, 20);
+	button->setMinimumSize(90, standardheight);
+	button->setMaximumSize(90, standardheight);
 	button->setFocusPolicy(Qt::TabFocus);
-	button->setText(i18n(text2));
+	button->setText((text2));
 	button->setAutoRepeat(false);
 	button->setDefault(false);
 	button->setAutoDefault(false);
@@ -110,8 +109,8 @@ void ConfigDialog::createPersonalWidget() {
 
 void ConfigDialog::createPersonalMessageArea() {
 	personal_CheckBox_cmsg = new QCheckBox(personal_top);
-	personal_CheckBox_cmsg->setText(i18n(QString("set \"connect message\"")));
-	personal_CheckBox_cmsg->setGeometry(120, 150, 150, 20);
+	personal_CheckBox_cmsg->setText((QString("set \"connect message\"")));
+	personal_CheckBox_cmsg->setGeometry(120, 150, 150, standardheight);
 	personal_MultiLineEdit_ctext = new QTextEdit(personal_top);
 	personal_MultiLineEdit_ctext->setGeometry(120, 170, 230, 100);
 
@@ -119,17 +118,15 @@ void ConfigDialog::createPersonalMessageArea() {
 }
 
 void ConfigDialog::createPersonalLabels() {
-	/*	QLabel* personal_Label_8 = */this->createPersonalLabel("SELCALL:", QRect(40, 110, 100, 20), true);
-	/*	QLabel* personal_Label_7 =*/ this->createPersonalLabel("CALL:", QRect(40, 80, 100, 20), true);
-	/*	QLabel* personal_Label_qth=*/  this->createPersonalLabel("QTH:", QRect(40, 50, 100, 20));
-	/*	QLabel* personal_Label_6= */ this->createPersonalLabel("Name:", QRect(40, 20, 100, 20), true);
+	/*	QLabel* personal_Label_8 = */this->createPersonalLabel("SELCALL:", QRect(40, 110, 100, standardheight), true);
+	/*	QLabel* personal_Label_7 =*/ this->createPersonalLabel("CALL:", QRect(40, 80, 100, standardheight), true);
+	/*	QLabel* personal_Label_qth=*/  this->createPersonalLabel("QTH:", QRect(40, 50, 100, standardheight));
+	/*	QLabel* personal_Label_6= */ this->createPersonalLabel("Name:", QRect(40, 20, 100, standardheight), true);
 }
 
 QLabel *ConfigDialog::createPersonalLabel(QString text, QRect dimension, bool nofocus) {
 	QLabel *label = new QLabel(personal_top);
 	label->setGeometry(dimension);
-	label->setMinimumSize(0, 0);
-	label->setMaximumSize(32767, 32767);
 
 	if (nofocus) {
 		label->setFocusPolicy(Qt::NoFocus);
@@ -138,7 +135,7 @@ QLabel *ConfigDialog::createPersonalLabel(QString text, QRect dimension, bool no
 	label->setFrameStyle(0);
 	label->setLineWidth(1);
 	label->setMidLineWidth(0);
-	label->setText(i18n(text));
+	label->setText((text));
 	label->setMargin(-1);
 
 	return label;
@@ -153,18 +150,16 @@ void ConfigDialog::createPortWidget() {
 }
 
 void ConfigDialog::createPortLineEdits() {
-	port_LineEdit_dev = this->createLineEdit(port_top, "/dev/ttyS11", QRect(40, 120, 75, 20), 20);
-	personal_LineEdit_name = this->createLineEdit(personal_top, "TUX",  QRect(120, 20, 80, 20), 20);
-	personal_LineEdit_qth = this->createLineEdit(personal_top, "Nürnberg", QRect(120, 50, 80, 20), 30);
-	personal_LineEdit_call = this->createLineEdit(personal_top, "DK0TUX",  QRect(120, 80, 80, 20), 12);
-	personal_LineEdit_selcall = this->createLineEdit(personal_top, "DTUX", QRect(120, 110, 80, 20), 4);
+	port_LineEdit_dev = this->createLineEdit(port_top, "/dev/ttyS11", QRect(40, 120, 75, 20), standardheight);
+	personal_LineEdit_name = this->createLineEdit(personal_top, "TUX",  QRect(120, 20, 80, 20), standardheight);
+	personal_LineEdit_qth = this->createLineEdit(personal_top, "Nürnberg", QRect(120, 50, 80, standardheight), 30);
+	personal_LineEdit_call = this->createLineEdit(personal_top, "DK0TUX",  QRect(120, 80, 80, standardheight), 12);
+	personal_LineEdit_selcall = this->createLineEdit(personal_top, "DTUX", QRect(120, 110, 80, standardheight), 4);
 }
 
 void ConfigDialog::createSpeedComboBox() {
 	port_ComboBox_speed = new QComboBox(port_top);
 	port_ComboBox_speed->setGeometry(200, 50, 100, 30);
-	port_ComboBox_speed->setMinimumSize(0, 0);
-	port_ComboBox_speed->setMaximumSize(32767, 32767);
 	port_ComboBox_speed->setFocusPolicy(Qt::StrongFocus);
 	port_ComboBox_speed->addItem("9600");
 	port_ComboBox_speed->addItem("19200");
@@ -176,45 +171,43 @@ void ConfigDialog::createSpeedComboBox() {
 }
 
 void ConfigDialog::createPortSelectionRadioButtons() {
+	constexpr int x = 15;
+	constexpr int width = 125;
 	port_ButtonGroup = new QButtonGroup(port_top);
 	port_ButtonGroup->setExclusive(true);
 
-	port_RadioButton1 = this->createRadioButton("ttyS0 (com 1)", QRect(15, 20, 125, 20));
+	port_RadioButton1 = this->createRadioButton("ttyS0 (com 1)", QRect(x, 20, width, standardheight));
 	port_ButtonGroup->addButton(port_RadioButton1);
 
-	port_RadioButton2 = this->createRadioButton("ttyS1 (com 2)", QRect(15, 45, 125, 20));
+	port_RadioButton2 = this->createRadioButton("ttyS1 (com 2)", QRect(x, 45, width, standardheight));
 	port_ButtonGroup->addButton(port_RadioButton2);
 
-	port_RadioButton3 = this->createRadioButton("ttyS2 (com 3)", QRect(15, 70, 125, 20));
+	port_RadioButton3 = this->createRadioButton("ttyS2 (com 3)", QRect(x, 70, width, standardheight));
 	port_ButtonGroup->addButton(port_RadioButton3);
 
-	port_RadioButton4 = this->createRadioButton("ttyS3 (com 4)", QRect(15, 95, 125, 20));
+	port_RadioButton4 = this->createRadioButton("ttyS3 (com 4)", QRect(x, 95, width, standardheight));
 	port_ButtonGroup->addButton(port_RadioButton4);
 
-	port_RadioButton5 = this->createRadioButton("", QRect(15, 120, 100, 20));
+	port_RadioButton5 = this->createRadioButton("", QRect(x, 120, width, standardheight));
 	port_ButtonGroup->addButton(port_RadioButton5);
 
 	connect(port_ButtonGroup, SIGNAL(buttonClicked(int)), this, SLOT(update_widgets()));
 }
 
 void ConfigDialog::createPortLabel() {
-	QLabel* port_Label_3 = new QLabel(port_top);
+	QLabel *port_Label_3 = new QLabel(port_top);
 	port_Label_3->setGeometry(220, 12, 100, 30);
-	port_Label_3->setMinimumSize(0, 0);
-	port_Label_3->setMaximumSize(32767, 32767);
 	port_Label_3->setFocusPolicy(Qt::NoFocus);
 	port_Label_3->setFrameStyle(0);
 	port_Label_3->setLineWidth(1);
 	port_Label_3->setMidLineWidth(0);;
-	port_Label_3->setText(i18n("port speed"));
+	port_Label_3->setText(tr("port speed"));
 	port_Label_3->setMargin(-1);
 }
 
 QRadioButton *ConfigDialog::createRadioButton(QString text, QRect dimensions) {
 	QRadioButton *radiobuttom = new QRadioButton(port_top);
 	radiobuttom->setGeometry(dimensions);
-	radiobuttom->setMinimumSize(0, 0);
-	radiobuttom->setMaximumSize(32767, 32767);
 	radiobuttom->setFocusPolicy(Qt::TabFocus);
 	radiobuttom->setText(text);
 	radiobuttom->setChecked(false);
@@ -228,8 +221,6 @@ void ConfigDialog::createPacketWidget() {
 QLineEdit *ConfigDialog::createLineEdit(QWidget *parent, QString text, QRect dimensions, int maxLength, bool strongfocus) {
 	QLineEdit *edit = new QLineEdit(parent);
 	edit->setGeometry(dimensions);
-	edit->setMinimumSize(0, 0);
-	edit->setMaximumSize(32767, 32767);
 
 	if (strongfocus) {
 		edit->setFocusPolicy(Qt::StrongFocus);
@@ -246,17 +237,17 @@ QLineEdit *ConfigDialog::createLineEdit(QWidget *parent, QString text, QRect dim
 void ConfigDialog::createLogOutWidget() {
 	logout_top = new QWidget();
 	logout_CheckBox_cmsg = new QCheckBox(logout_top);
-	logout_CheckBox_cmsg->setText(i18n("set \"away message\""));
-	logout_CheckBox_cmsg->setGeometry(5, 5, 150, 20);
+	logout_CheckBox_cmsg->setText(tr("set \"away message\""));
+	logout_CheckBox_cmsg->setGeometry(5, 5, 150, standardheight);
 	logout_MultiLineEdit_ctext = new QTextEdit(logout_top);
 	logout_MultiLineEdit_ctext->setGeometry(150, 5, 200, 100);
 	logout_CheckBox_script = new QCheckBox(logout_top);
-	logout_CheckBox_script->setText(i18n("use personal logout script"));
-	logout_CheckBox_script->setGeometry(5, 130, 200, 20);
+	logout_CheckBox_script->setText(tr("use personal logout script"));
+	logout_CheckBox_script->setGeometry(5, 130, 200, standardheight);
 	logout_LineEdit_path = new QLineEdit(logout_top);
-	logout_LineEdit_path->setGeometry(5, 150, 150, 20);
-	logout_PushButton_choosescript = new QPushButton(i18n("choose"), logout_top);
-	logout_PushButton_choosescript->setGeometry(170, 150, 50, 20);
+	logout_LineEdit_path->setGeometry(5, 150, 150, standardheight);
+	logout_PushButton_choosescript = new QPushButton(tr("choose"), logout_top);
+	logout_PushButton_choosescript->setGeometry(170, 150, 50, standardheight);
 	connect(logout_PushButton_choosescript, SIGNAL(	clicked()), this, SLOT(chooseLogoutFile()));
 	connect(logout_CheckBox_cmsg, SIGNAL(clicked(bool)), this, SLOT(update_widgets()));
 	connect(logout_CheckBox_script, SIGNAL(clicked(bool)), this, SLOT(update_widgets()));
@@ -265,12 +256,12 @@ void ConfigDialog::createLogOutWidget() {
 void ConfigDialog::createLogInWidget() {
 	login_top = new QWidget();
 	login_CheckBox_script = new QCheckBox(login_top);
-	login_CheckBox_script->setText(i18n("use personal login script"));
-	login_CheckBox_script->setGeometry(5, 5, 200, 20);
+	login_CheckBox_script->setText(tr("use personal login script"));
+	login_CheckBox_script->setGeometry(5, 5, 200, standardheight);
 	login_LineEdit_path = new QLineEdit(login_top);
-	login_LineEdit_path->setGeometry(5, 30, 150, 20);
-	login_PushButton_choosescript = new QPushButton(i18n("choose"), login_top);
-	login_PushButton_choosescript->setGeometry(170, 30, 50, 20);
+	login_LineEdit_path->setGeometry(5, 30, 150, standardheight);
+	login_PushButton_choosescript = new QPushButton(tr("choose"), login_top);
+	login_PushButton_choosescript->setGeometry(170, 30, 50, standardheight);
 
 	connect(login_PushButton_choosescript, SIGNAL(clicked()), this, SLOT(chooseLoginFile()));
 	connect(login_CheckBox_script, SIGNAL(clicked()), this, SLOT(update_widgets()));
