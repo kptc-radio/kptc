@@ -419,11 +419,21 @@ void ConfigDialog::writeconfig() {
 	configdata.setPortSpeed(port_ComboBox_speed->currentText());
 	QString port;
 
-	if (port_RadioButton1->isChecked()) port = "/dev/ttyS0";
-	else if (port_RadioButton2->isChecked()) port = "/dev/ttyS1";
-	else if (port_RadioButton3->isChecked()) port = "/dev/ttyS2";
-	else if (port_RadioButton4->isChecked()) port = "/dev/ttyS3";
-	else port =port_LineEdit_dev->text();
+	if (port_RadioButton1->isChecked()) {
+		port = "/dev/ttyS0";
+	}
+	else if (port_RadioButton2->isChecked()) {
+		port = "/dev/ttyS1";
+	}
+	else if (port_RadioButton3->isChecked()) {
+		port = "/dev/ttyS2";
+	}
+	else if (port_RadioButton4->isChecked()) {
+		port = "/dev/ttyS3";
+	}
+	else {
+		port =port_LineEdit_dev->text();
+	}
 	configdata.setPort(port);
 	configdata.setEditPort(port_LineEdit_dev->text());
 
