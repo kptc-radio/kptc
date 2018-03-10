@@ -16,13 +16,6 @@
 #define LF_PATH "/var/lock"
 #define LF_PREFIX "LCK	"
 
-#ifndef max
-	#define max(a,b) (((a) > (b)) ? (a) : (b))
-#endif
-#ifndef min
-	#define min(a,b) (((a) < (b)) ? (a) : (b))
-#endif
-
 Modem *Modem::modem = 0;
 
 Modem::Modem() :
@@ -248,7 +241,7 @@ bool Modem :: lock_device()
 		 * we must now expend effort to learn if it's stale or not.
 		 */
 		if ((lfh = open(lckf, O_RDONLY)) != -1) {
-			nb = read(lfh, &lckpidstr, min(20, buf.st_size));
+			nb = read(lfh, &lckpidstr, std::min(static_cast<__off_t>(20), buf.st_size));
 			if (nb > 0) {
 				lckpidstr[nb] = 0;
 				sscanf(lckpidstr, "%d", &lckpid);
