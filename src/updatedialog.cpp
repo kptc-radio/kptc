@@ -67,6 +67,7 @@ void UpdateDialog::initGUIElements() {
 	lineedit = new QLineEdit(this);
 	choosebutton = new QPushButton(tr("choose"), this);
 	progressbar = new QProgressBar(this);
+
 	infolabel = new QLabel(this);
 	infolabel->setFrameStyle(QFrame::Panel | QFrame::Sunken);
 	infolabel->setText("choose the new Firmware");
