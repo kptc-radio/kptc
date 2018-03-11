@@ -32,7 +32,6 @@ ModeButtons::ModeButtons(QWidget *parent) : QObject(parent) {
 	buttongroup->addButton(psk31Button, 4);
 	buttongroup->addButton(cwButton, 5);
 	buttongroup->setExclusive(true);
-// TODO Make buttons to togglebuttons?
 }
 ModeButtons::~ModeButtons() {
 	buttongroup->deleteLater();
