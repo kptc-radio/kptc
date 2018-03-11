@@ -44,8 +44,8 @@ CQDialog::CQDialog(QWidget *parent, ModeCommander  *_modecommander) : QObject(pa
 	tabDialog->addTab(CQText_CW, "CW");
 
    //TODO
-//	connect (tabDialog, &QTabWidget::applyButtonPressed, this, &CQDialog::startCall);
-//	connect (tabDialog, &QTabWidget::defaultButtonPressed, this, &CQDialog::saveText);
+	connect (static_cast<QPushButton*>(tabDialog->widget(0)), &QPushButton::clicked, this, &CQDialog::startCall);
+	connect (static_cast<QPushButton*>(tabDialog->widget(2)), &QPushButton::clicked, this, &CQDialog::saveText);
 	connect (tabDialog,&QTabWidget::tabBarClicked, this, &CQDialog::selectTab);
 }
 
