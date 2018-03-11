@@ -89,7 +89,6 @@ void CQDialog::saveText() {
 	configdata.setCQRTTY(CQText_RTTY->toPlainText());
 	configdata.setCQPSK31(CQText_PSK31->toPlainText());
 	configdata.setCQCW(CQText_CW->toPlainText());
-
 }
 
 void CQDialog::selectTab(int Tab) {
@@ -100,40 +99,40 @@ void CQDialog::selectTab(int Tab) {
 void CQDialog::startCall() {
 	////qDebug() <<"CQDialog:startCall";
 
-	QString qs;
+	QString string;
 	if (currenttab == Tabs::Pactor) {//"Pactor"
 		modecommander->changetoPactor();
 		modecommander->Unproto();
-		qs = qs = this->processString(cqtext_Pactor);
-		Modem::modem->writeLine(qs);
+		string = string = this->processString(cqtext_Pactor);
+		Modem::modem->writeLine(string);
 		modecommander->QRT();
 	}
 	else if (currenttab == Tabs::Amtor) {//"Amtor"
 		modecommander->changetoAmtor();
 		modecommander->FEC();
-		qs = qs = this->processString(CQText_Amtor);
-		Modem::modem->writeLine(qs);
+		string = string = this->processString(CQText_Amtor);
+		Modem::modem->writeLine(string);
 		modecommander->QRT();
 	}
 	else if (currenttab == Tabs::RTTY) {//"RTTY"
 		modecommander->changetoRTTY();
 		modecommander->Changeover();
-		qs = this->processString(CQText_RTTY);
-		Modem::modem->writeLine(qs);
+		string = this->processString(CQText_RTTY);
+		Modem::modem->writeLine(string);
 		modecommander->QRT();
 	}
 	else if (currenttab == Tabs::PSK31) {//"PSK31"
 		modecommander->changetoPSK31();
 		modecommander->Changeover();
-		qs = this->processString(CQText_PSK31);
-		Modem::modem->writeLine(qs);
+		string = this->processString(CQText_PSK31);
+		Modem::modem->writeLine(string);
 		modecommander->QRT();
 	}
 	else if (currenttab == Tabs::CW) {//"CW"
 		modecommander->changetoCW();
-		qs = this->processString(CQText_CW);
+		string = this->processString(CQText_CW);
 		sleep(1);
-		Modem::modem->writeLine(qs);
+		Modem::modem->writeLine(string);
 	}
 
 }
