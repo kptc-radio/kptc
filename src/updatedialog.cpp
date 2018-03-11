@@ -48,11 +48,11 @@ void UpdateDialog::initConnections() {
 		QMessageBox::warning( this, "Kptc", tr("ERROR: Handshake failed !") );
 	};
 
-	QObject::connect (cancelbutton, &QPushButton::clicked, this, &UpdateDialog::reject);
-	QObject::connect (choosebutton, &QPushButton::clicked, this, &UpdateDialog::myfileDialog);
-	QObject::connect (okbutton, &QPushButton::clicked, this, &UpdateDialog::initUpdate);
-	QObject::connect (update, &Update::progress, progressbar, &QProgressBar::setValue);
-	QObject::connect (update, &Update::message, this, &UpdateDialog::updateMessage);
+	QObject::connect(cancelbutton, &QPushButton::clicked, this, &UpdateDialog::reject);
+	QObject::connect(choosebutton, &QPushButton::clicked, this, &UpdateDialog::myfileDialog);
+	QObject::connect(okbutton, &QPushButton::clicked, this, &UpdateDialog::initUpdate);
+	QObject::connect(update, &Update::progress, progressbar, &QProgressBar::setValue);
+	QObject::connect(update, &Update::message, this, &UpdateDialog::updateMessage);
 	QObject::connect(update, &Update::fileopenerror, this,  fileerror);
 	QObject::connect(update, &Update::flashinfoerror, this, flashinfoerror );
 	QObject::connect(update, &Update::wrongsectorsize, this,  wrontsectorsize);
