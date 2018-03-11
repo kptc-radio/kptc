@@ -47,11 +47,11 @@ Q_OBJECT
 		enum class Tabs {Pactor = 0, Amtor = 1, RTTY = 2, PSK31 = 3, CW = 4};
 
 		QTabWidget *tabDialog;
-		QTextEdit *cqtext_Pactor ;
+		QTextEdit *cqtext_Pactor;
 		QTextEdit *CQText_Amtor;
-		QTextEdit *CQText_RTTY ;
-		QTextEdit *CQText_PSK31 ;
-		QTextEdit *CQText_CW ;
+		QTextEdit *CQText_RTTY;
+		QTextEdit *CQText_PSK31;
+		QTextEdit *CQText_CW;
 		ModeCommander *modecommander;
 		Tabs currenttab;
 
