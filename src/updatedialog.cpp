@@ -48,11 +48,11 @@ void UpdateDialog::initConnections() {
 		QMessageBox::warning( this, "Kptc", tr("ERROR: Handshake failed !") );
 	};
 
-	QObject::connect (cancelbutton, SIGNAL (clicked()), this, SLOT (reject()));
-	QObject::connect (choosebutton, SIGNAL (clicked()), this, SLOT (myfileDialog()));
-	QObject::connect (okbutton, SIGNAL (clicked()), this, SLOT (initUpdate()));
-	QObject::connect (update, SIGNAL (progress(int)), progressbar, SLOT (setProgress(int)));
-	QObject::connect (update, SIGNAL (message(QString)), this, SLOT (updateMessage(QString)));
+	QObject::connect (cancelbutton, &QPushButton::clicked, this, &UpdateDialog::reject);
+	QObject::connect (choosebutton, &QPushButton::clicked, this, &UpdateDialog::myfileDialog);
+	QObject::connect (okbutton, &QPushButton::clicked, this, &UpdateDialog::initUpdate);
+	QObject::connect (update, &Update::progress, progressbar, &QProgressBar::setValue);
+	QObject::connect (update, &Update::message, this, &UpdateDialog::updateMessage);
 	QObject::connect(update, &Update::fileopenerror, this,  fileerror);
 	QObject::connect(update, &Update::flashinfoerror, this, flashinfoerror );
 	QObject::connect(update, &Update::wrongsectorsize, this,  wrontsectorsize);
@@ -91,7 +91,9 @@ void UpdateDialog::initGUIElements() {
 
 void UpdateDialog::myfileDialog() {
 	//"*.pt*\n*.pt2\n*.pte\n*"
-	QString filename = QFileDialog::getOpenFileName(this, QString::null, "", "Firmware Files (*.pt* *.pt2* *.pte*)"/*, tr("choose new Firmware:")*/);
+	QString filter = tr("Firmware Files (*.pt* *.pt2* *.pte*)");
+	QString caption = tr("Choose new Firmware");
+	QString filename = QFileDialog::getOpenFileName(this, caption, "", filter);
 	if (filename.size() == 0) {
 		return;
 	}
@@ -100,9 +102,10 @@ void UpdateDialog::myfileDialog() {
 
 void UpdateDialog::initUpdate() {
 	updaterunning = true;
-	QObject::disconnect (cancelbutton, SIGNAL (clicked()), this, SLOT (reject()));
-	QObject::disconnect (choosebutton, SIGNAL (clicked()), this, SLOT (fileDialog()));
-	QObject::disconnect (okbutton, SIGNAL (clicked()), this, SLOT (initUpdate()));
+
+	QObject::disconnect (cancelbutton, &QPushButton::clicked, this,  &UpdateDialog::reject);
+	QObject::disconnect (choosebutton, &QPushButton::clicked, this, &UpdateDialog::myfileDialog);
+	QObject::disconnect (okbutton, &QPushButton::clicked, this, &UpdateDialog::initUpdate);
 
 	update->runUpdate(lineedit->text());
 

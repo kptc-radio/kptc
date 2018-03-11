@@ -35,9 +35,9 @@ CWSpeedWidget::CWSpeedWidget(QWidget *parent) : QDialog(parent) {
 	vbox->addWidget(slider);
 	vbox->addWidget(lineedit);
 	vbox->addWidget(okbutton);
-	connect(okbutton, SIGNAL(clicked()), this, SLOT(change()));
-	connect(slider, SIGNAL(valueChanged(int)), this, SLOT(updateText(int)));
-	connect(lineedit, SIGNAL(textChanged(const QString &)), this, SLOT(updateSlider(const QString &)));
+	connect(okbutton, &QPushButton::clicked, this, &CWSpeedWidget::change);
+	connect(slider, &QSlider::valueChanged, this, &CWSpeedWidget::updateText);
+	connect(lineedit, &QLineEdit::textChanged, this, &CWSpeedWidget::updateSlider);
 }
 
 void CWSpeedWidget::updateText(int i) {

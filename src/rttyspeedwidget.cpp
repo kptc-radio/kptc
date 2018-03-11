@@ -34,9 +34,9 @@ RTTYSpeedWidget::RTTYSpeedWidget(QWidget *parent) : QDialog(parent) {
 	vbox->addWidget(slider);
 	vbox->addWidget(lineedit);
 	vbox->addWidget(okbutton);
-	connect(okbutton, SIGNAL(clicked()), this, SLOT(change()));
-	connect(slider, SIGNAL(valueChanged(int)), this, SLOT(updateText(int)));
-	connect(lineedit, SIGNAL(textChanged(const QString &)), this, SLOT(updateSlider(const QString &)));
+	connect(okbutton, &QPushButton::clicked, this, &RTTYSpeedWidget::change);
+	connect(slider, &QSlider::valueChanged, this, &RTTYSpeedWidget::updateText);
+	connect(lineedit, &QLineEdit::textChanged, this, &RTTYSpeedWidget::updateSlider);
 }
 
 

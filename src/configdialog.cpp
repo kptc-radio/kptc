@@ -90,7 +90,7 @@ void ConfigDialog::initLeftsiteEntries() {
 	}
 	ListBox->setAutoScroll(true);
 
-	connect(ListBox, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(selectwidget(QListWidgetItem*)));
+	connect(ListBox, &QListWidget::itemClicked, this, &ConfigDialog::selectwidget);
 }
 
 void ConfigDialog::createButtons() {
@@ -99,8 +99,8 @@ void ConfigDialog::createButtons() {
 	QPushButton *OkButton = this->createButton("OkButton", QRect(285, y, width, standardheight), "Ok");
 	QPushButton *CancelButton = this->createButton("CancelButton", QRect(395, y, width, standardheight), "Cancel");
 
-	QObject::connect (CancelButton, SIGNAL (clicked()), this, SLOT (reject()));
-	QObject::connect (OkButton, SIGNAL(clicked(bool)), this, SLOT (writeconfig()));
+	QObject::connect (CancelButton, &QPushButton::clicked, this, &ConfigDialog::rect);
+	QObject::connect (OkButton, &QPushButton::clicked, this, &ConfigDialog::writeconfig);
 }
 
 QPushButton *ConfigDialog::createButton(QString text, const QRect dimensions, QString text2) {
@@ -131,7 +131,7 @@ void ConfigDialog::createPersonalMessageArea() {
 	personal_MultiLineEdit_ctext = new QTextEdit(personal_top);
 	personal_MultiLineEdit_ctext->setGeometry(x, 170, 230, 100);
 
-	connect(personal_CheckBox_cmsg, SIGNAL(clicked()), this, SLOT(update_widgets()));
+	connect(personal_CheckBox_cmsg, &QCheckBox::clicked, this, &ConfigDialog::update_widgets);
 }
 
 void ConfigDialog::createPersonalLabels() {
@@ -276,9 +276,9 @@ void ConfigDialog::createLogOutWidget() {
 	logout_PushButton_choosescript = new QPushButton(tr("choose"), logout_top);
 	logout_PushButton_choosescript->setGeometry(170, 150, 50, standardheight);
 
-	connect(logout_PushButton_choosescript, SIGNAL(	clicked()), this, SLOT(chooseLogoutFile()));
-	connect(logout_CheckBox_cmsg, SIGNAL(clicked(bool)), this, SLOT(update_widgets()));
-	connect(logout_CheckBox_script, SIGNAL(clicked(bool)), this, SLOT(update_widgets()));
+	connect(logout_PushButton_choosescript, &QPushButton::clicked, this, &ConfigDialog::chooseLogoutFile);
+	connect(logout_CheckBox_cmsg, &QCheckBox::clicked, this, &ConfigDialog::update_widgets);
+	connect(logout_CheckBox_script, &QCheckBox::clicked, this, &ConfigDialog::update_widgets);
 }
 
 void ConfigDialog::createLogInWidget() {
@@ -291,8 +291,8 @@ void ConfigDialog::createLogInWidget() {
 	login_PushButton_choosescript = new QPushButton(tr("choose"), login_top);
 	login_PushButton_choosescript->setGeometry(170, 30, 50, standardheight);
 
-	connect(login_PushButton_choosescript, SIGNAL(clicked()), this, SLOT(chooseLoginFile()));
-	connect(login_CheckBox_script, SIGNAL(clicked()), this, SLOT(update_widgets()));
+	connect(login_PushButton_choosescript, &QPushButton::clicked, this, &ConfigDialog::chooseLoginFile);
+	connect(login_CheckBox_script, &QCheckBox::clicked, this, &ConfigDialog::update_widgets);
 }
 
 void ConfigDialog::selectwidget(QListWidgetItem * lbi) {
@@ -329,7 +329,7 @@ void ConfigDialog::createFixTextWidget() {
 		layout->addWidget(tp);
 		list.append(tp);
 		oblist.append(tp->getChooseButtom());
-		connect (tp->getChooseButtom(), SIGNAL (clicked()), this, SLOT (chooseFile()));
+		connect (tp->getChooseButtom(), &QPushButton::clicked, this, &ConfigDialog::chooseFile);
 	}
 	layout->activate();
 }

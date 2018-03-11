@@ -19,6 +19,7 @@
 
 #include <QtWidgets/QApplication>
 #include <QGuiApplication>
+#include <QDir>
 
 #include "kptc.h"
 
@@ -30,7 +31,10 @@ int main(int argc, char *argv[])
 	app.setApplicationName("Kptc");
 	QGuiApplication::setApplicationName("Kptc");
 	QGuiApplication::setApplicationVersion("0.1 alpha");
+	//Set the current working directory to the user home directory
+	QDir::setCurrent(QDir::homePath());
 	Kptc *kptc = new Kptc();
+	QObject::connect(&app, &QApplication::lastWindowClosed, &app, &QApplication::quit);
 	kptc->show();
 	//QObject :: connect (&app, SIGNAL (lastWindowClosed ()), &app, SLOT (quit()));
 	return app.exec();
