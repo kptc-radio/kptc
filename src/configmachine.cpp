@@ -126,3 +126,4 @@ ConfigMachine::Pair ConfigMachine::login() {
 
 ConfigMachine::~ConfigMachine() {
 }
+

@@ -156,7 +156,7 @@ void Kptc::initializeMenues() {
 void Kptc::initFileMenu() {
 	filemenu = new QMenu(tr("&File"), this->menuBar());
 	QAction *action = new QAction(tr("&Quit"), this);
-	connect(action, SIGNAL(triggered(bool)), this, SLOT(fileQuit()));
+	connect(action, &QAction::triggered, this, [this](){close();});
 	filemenu->addAction(action);
 }
 
@@ -659,9 +659,9 @@ void Kptc::closeEvent(QCloseEvent *event) {
 	event->accept();
 }
 
-void Kptc::fileQuit() {
-	close();
-}
+//void Kptc::fileQuit() {
+//	close();
+//}
 
 bool Kptc::queryClose() {
 	shutdown();

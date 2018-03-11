@@ -155,7 +155,7 @@ class Kptc : public QMainWindow {
 		void showrttyspeeddialog();
 		void echoText(QString);
 		void openUpdateDialog();
-		void fileQuit();
+//		void fileQuit();
 		void closeEvent(QCloseEvent* event);
 };
 
