@@ -89,7 +89,8 @@ void UpdateDialog::initGUIElements() {
 }
 
 void UpdateDialog::myfileDialog() {
-	QString filename = QFileDialog::getOpenFileName(this, QString::null, "*.pt*\n*.pt2\n*.pte\n*", tr("choose new Firmware:"));
+	//"*.pt*\n*.pt2\n*.pte\n*"
+	QString filename = QFileDialog::getOpenFileName(this, QString::null, "", "Firmware Files (*.pt* *.pt2* *.pte*)"/*, tr("choose new Firmware:")*/);
 	if (filename.size() == 0) {
 		return;
 	}
@@ -104,9 +105,9 @@ void UpdateDialog::initUpdate() {
 
 	update->runUpdate(lineedit->text());
 
-	QObject::connect (cancelbutton, SIGNAL (clicked()), this, SLOT (reject()));
-	QObject::connect (choosebutton, SIGNAL (clicked()), this, SLOT (fileDialog()));
-	QObject::connect (okbutton, SIGNAL (clicked()), this, SLOT (initUpdate()));
+	QObject::connect (cancelbutton, &QPushButton::clicked, this, &UpdateDialog::reject);
+	QObject::connect (choosebutton, &QPushButton::clicked, this, &UpdateDialog::myfileDialog);
+	QObject::connect (okbutton, &QPushButton::clicked, this, &UpdateDialog::initUpdate);
 
 	updaterunning = false;
 }
