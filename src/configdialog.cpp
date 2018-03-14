@@ -99,7 +99,7 @@ void ConfigDialog::createButtons() {
 	QPushButton *OkButton = this->createButton("OkButton", QRect(285, y, width, standardheight), "Ok");
 	QPushButton *CancelButton = this->createButton("CancelButton", QRect(395, y, width, standardheight), "Cancel");
 
-	QObject::connect (CancelButton, &QPushButton::clicked, this, &ConfigDialog::rect);
+	QObject::connect (CancelButton, &QPushButton::clicked, this, &ConfigDialog::reject);
 	QObject::connect (OkButton, &QPushButton::clicked, this, &ConfigDialog::writeconfig);
 }
 
