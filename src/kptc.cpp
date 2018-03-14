@@ -491,13 +491,27 @@ void Kptc::setHTML(QString text) {
 
 void Kptc::updateStatusBar() {
 	statusinfo->setPrompt(modecommander->currendmod());
-	if (modecommander->currendmod() == "cmd:") showPactor();
-	else if (modecommander->currendmod() == "Amtor") showAmtor();
-	else if (modecommander->currendmod() == "AMTOR-MONITOR") showAmtor();
-	else if (modecommander->currendmod() == "RTTY") showRTTY();
-	else if (modecommander->currendmod() == "PSK31") showPSK31();
-	else if (modecommander->currendmod() == "CW") showCW();
-	else showPactor();
+	if (modecommander->currendmod() == "cmd:") {
+		showPactor();
+	}
+	else if (modecommander->currendmod() == "Amtor") {
+		showAmtor();
+	}
+	else if (modecommander->currendmod() == "AMTOR-MONITOR") {
+		showAmtor();
+	}
+	else if (modecommander->currendmod() == "RTTY") {
+		showRTTY();
+	}
+	else if (modecommander->currendmod() == "PSK31") {
+		showPSK31();
+	}
+	else if (modecommander->currendmod() == "CW") {
+		showCW();
+	}
+	else {
+		showPactor();
+	}
 }
 
 bool Kptc::isendline(char c) {
@@ -524,9 +538,10 @@ void Kptc::parsePrompt(const char c) {
 			break;
 		case 37:
 			modecommander->setcurrendmod("Pactor");
-		break;
+			break;
 		default:
 			modecommander->setcurrendmod("??????");
+			break;
 	}
 
 	updateStatusBar();
@@ -628,7 +643,7 @@ void Kptc::sendFixText(int id) {
 	QString buffer;
 
 	while (!file.atEnd()) {
-	buffer = file.readLine(1024);
+		buffer = file.readLine(1024);
 		Modem::modem->writeLine(buffer);
 	}
 	file.close() ;
@@ -646,8 +661,8 @@ void Kptc::shutdown() {
 	sleep(1);
 	ConfigMachine::Pair result = configmachine->logout();
 	if (!result.first) {
-			QMessageBox::critical(this, "",
-	("Cannot open your personal logout script file !\n Error by opening \"" + result.second +"\"" ));	 // error by opening text file
+		QMessageBox::critical(this, "",
+			("Cannot open your personal logout script file !\n Error by opening \"" + result.second +"\"" ));	 // error by opening text file
 	}
 	if (!Modem::modem->closetty()) {
 		qDebug () << Modem::modem->modemMessage();
