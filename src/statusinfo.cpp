@@ -76,7 +76,7 @@ void StatusInfo::setSize() {
 	constexpr int height = 20;
 	int wholewidth = modeWidth + statusWidth + statusMessageWidth + promptWidth +
 					 ledwidth + sendwidth + callWidth;
-	int x = ((width() - wholewidth) / 2) + 2;
+	int x = ((width() - wholewidth) / 2);
 	int ledx = x + ledwidth + distance;
 	int sendx = ledx + ledwidth + distance;
 	int promptx = sendx + sendwidth + distance;
@@ -128,5 +128,5 @@ void StatusInfo::setStatusMessage(QString message) {
 }
 
 StatusInfo::~StatusInfo() {
-
+	deleteLater();
 }
