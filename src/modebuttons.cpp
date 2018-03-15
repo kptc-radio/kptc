@@ -33,11 +33,11 @@ ModeButtons::ModeButtons(ModeCommander *commander, QWidget *parent) : commander(
 	buttongroup->addButton(cwButton, 5);
 	buttongroup->setExclusive(true);
 
-	this->addWidget(pactorButton);
-	this->addWidget(amtorButton);
-	this->addWidget(rttyButton);
-	this->addWidget(psk31Button);
-	this->addWidget(cwButton);
+	addWidget(pactorButton);
+	addWidget(amtorButton);
+	addWidget(rttyButton);
+	addWidget(psk31Button);
+	addWidget(cwButton);
 
 	connect(pactorButton, &QRadioButton::clicked, commander, &ModeCommander::changetoPactor);
 	connect(amtorButton, &QRadioButton::clicked, commander, &ModeCommander::changetoAmtor);
