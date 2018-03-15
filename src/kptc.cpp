@@ -109,11 +109,11 @@ void Kptc::initTextEdit() {
 	textedit->notify(this, SLOT(sendchar(unsigned char)));
 	splitter->show();
 	textedit->setFocus();
-	connect(textedit, SIGNAL(echoCommand(QString)), this, SLOT(echoText(QString)));
+	connect(textedit, &MyLineEdit::echoCommand, this, &Kptc::echoText);
 	connect(textedit, SIGNAL(sendit(QString)), this, SLOT(sendline(QString)));
 	termoutput = new QTextEdit(this);
 	termoutput->setEnabled(false);
-	connect(this, SIGNAL(htmlString), termoutput, SLOT(insertHtml(QString)));
+	connect(this, &Kptc::htmlString, termoutput, &QTextEdit::insertHtml);
 }
 
 void Kptc::initializeToolBar() {
@@ -150,11 +150,11 @@ void Kptc::initClearwindowMenu() {
 	clearwindow = new QMenu(tr("Clear"), menuBar());
 
 	QAction *traffic = new QAction(tr("&traffic window"), clearwindow);
-	connect(traffic, SIGNAL(triggered(bool)), this, SLOT(clearTrafficWindow()));
+	connect(traffic, &QAction::triggered, this, &Kptc::clearTrafficWindow);
 	clearwindow->addAction(traffic);
 
 	QAction *edit = new QAction(tr("&edit window"), clearwindow);
-	connect(edit, SIGNAL(triggered(bool)), this, SLOT(clearEditWindow()));
+	connect(edit, &QAction::triggered, this, &Kptc::clearEditWindow);
 	clearwindow->addAction(edit);
 }
 
@@ -163,11 +163,11 @@ void Kptc::initOptionMenu() {
 
 	QAction *configure = new QAction(tr("&Config..."), optionmenu);
 	optionmenu->addAction(configure);
-	connect(configure, SIGNAL(triggered(bool)), this, SLOT(openconfigdialog()));
+	connect(configure, &QAction::triggered, this, &Kptc::openconfigdialog);
 
 	QAction *updateFirmware = new QAction(tr("Firmware Update..."), optionmenu);
 	optionmenu->addAction(updateFirmware);
-	connect(updateFirmware, SIGNAL(triggered(bool)), this, SLOT(openUpdateDialog()));
+	connect(updateFirmware, &QAction::triggered, this, &Kptc::openUpdateDialog);
 }
 
 void Kptc::initActionMenu() {
@@ -175,27 +175,30 @@ void Kptc::initActionMenu() {
 
 	QAction *reload = new QAction(tr("Change&over"), actionmenu);
 	reload->setShortcut(QKeySequence(Qt::CTRL, 'Y'));
-	connect(reload, SIGNAL(triggered(bool)), this, SLOT(initchangeover()));
+	connect(reload, &QAction::triggered, this, &Kptc::initchangeover);
 	actionmenu->addAction(reload);
 
 	QAction *exit = new QAction(tr("QR&T"), actionmenu);
 	exit->setShortcut(QKeySequence(Qt::CTRL, 'D'));
-	connect(exit, SIGNAL(triggered(bool)), this, SLOT(initQRT()));
+	connect(exit, &QAction::triggered, this, &Kptc::initQRT);
 	actionmenu->addAction(exit);
 
 	QAction *stop = new QAction(tr("&Stand by"), actionmenu);
 	stop->setShortcut(QKeySequence(Qt::CTRL, 'S'));
-	connect(stop, SIGNAL(triggered(bool)), this, SLOT(Standby()));
+	//connect(stop, &QAction::triggered, this, SLOT(Standby()));
+	//TODO
+	connect(stop, &QAction::triggered, modecommander, &ModeCommander::Standby);
 	actionmenu->addAction(stop);
 
-	QAction *konqueror = new QAction(tr("&CQ..."), actionmenu);
-	konqueror->setShortcut(QKeySequence(Qt::CTRL, 'Q'));
-	connect(konqueror, SIGNAL(triggered(bool)), this, SLOT(openDialog()));
-	actionmenu->addAction(konqueror);
+	//TODO
+//	QAction *konqueror = new QAction(tr("&CQ..."), actionmenu);
+//	konqueror->setShortcut(QKeySequence(Qt::CTRL, 'Q'));
+//	connect(konqueror, &QAction::triggered, this, );
+//	actionmenu->addAction(konqueror);
 
 	QAction *command = new QAction(tr("&Command..."), actionmenu);
 	command->setShortcut(QKeySequence(Qt::CTRL, 19)); //Ctrl + Esc
-	connect(command, SIGNAL(triggered(bool)), this, SLOT(openCommandDialog()));
+	connect(command, &QAction::triggered, this, &Kptc::openCommandDialog);
 	actionmenu->addAction(command);
 }
 
@@ -219,7 +222,8 @@ void Kptc::initFixMenu() {
 	for (int i = 1; i <= 8; i++) {
 		number.setNum(i);
 		QAction *actionSendText = new QAction(+ "&" + number + ". " + configdata.getFixLabel(number), fixmenu);
-		connect(actionSendText, SIGNAL(triggered(bool)), this, SLOT (sendFixText(int)));
+		//TODO
+		connect(actionSendText, &QAction::triggered, this, &Kptc::sendFixText);
 
 		actionSendText->setShortcut(QKeySequence(Qt::CTRL, Qt::Key_F1, i));
 
@@ -357,7 +361,8 @@ void Kptc::useconfigmachine() {
 	for (int i = 1; i <= 8; i++) {
 		number.setNum(i);
 		QAction *action = new QAction("&" + number + ". " + configdata.getFixLabel(number), fixmenu);
-		connect(action, SIGNAL(triggered(bool)), this, SLOT (sendFixText(int)));
+		//TODO
+		connect(action, &QAction::triggered, this, &Kptc::sendFixText);
 		action->setShortcut(QKeySequence(Qt::Key_Shift, Qt::Key_F1 + i, i));
 		fixmenu->addAction(action);
 	}
