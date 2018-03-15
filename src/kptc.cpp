@@ -364,7 +364,7 @@ void Kptc::openconfigdialog() {
 void Kptc::useconfigmachine() {
 	configmachine->doconfig();
 	emit changeCall(configdata.getCall() + " (" + configdata.getSelCall() + ") ");
-//	statusinfo->setCall(configdata.getCall() + " (" + configdata.getSelCall() + ") ");
+	statusinfo->setCall(configdata.getCall() + " (" + configdata.getSelCall() + ") ");
 	updateStatusBar();
 
 	QString number;
