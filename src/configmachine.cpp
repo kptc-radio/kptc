@@ -88,8 +88,9 @@ ConfigMachine::Pair ConfigMachine::logout() {
 		Modem::modem->writeLine2(ctext);
 		//qDebug () << "configmachine::logout- "<< ctext;
 	}
-	Modem::modem->send_esc();
-	Modem::modem->writeString("term 0"); // terminal setup
+//	Modem::modem->send_esc();
+//	Modem::modem->writeString("term 0"); // terminal setup
+	Modem::modem->writeLine2("term 0"); // terminal setuü
 
 	if (configdata.isLogoutScript()) {
 
