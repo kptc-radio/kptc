@@ -83,8 +83,9 @@ ConfigMachine::Pair ConfigMachine::logout() {
 		ctext = ctext.replace(QRegExp("\n"), "#");
 		ctext.prepend("cte ");
 		ctext.append("\r");
-		Modem::modem->send_esc();
-		Modem::modem->writeString(ctext);
+//		Modem::modem->send_esc();
+//		Modem::modem->writeString(ctext);
+		Modem::modem->writeLine2(ctext);
 		//qDebug () << "configmachine::logout- "<< ctext;
 	}
 	Modem::modem->send_esc();

@@ -45,8 +45,9 @@ void CommandDialog::keyPressEvent(QKeyEvent *event) {
 		// send the command to the ptc:
 
 			////qDebug() << "CommandDialog::keyEvent" <<combo->currentText();
-			Modem::modem->send_esc();
-			Modem::modem->writeString(combo.currentText().toStdString().c_str());
+//			Modem::modem->send_esc();
+//			Modem::modem->writeString(combo.currentText().toStdString().c_str());
+			Modem::modem->writeLine2(combo.currentText().toStdString().c_str());
 			combo.clear();
 	}
 	else {
