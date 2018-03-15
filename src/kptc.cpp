@@ -92,7 +92,7 @@ void Kptc::initModem() {
 	ConfigMachine::Pair result = configmachine->login();
 	if (!result.first) {
 		QMessageBox::critical(this, "",
-			tr("Cannot open your personal login script file !\n Error by opening \"" + result.second +"\"" ));	 // error by opening text file
+			("Cannot open your personal login script file !\n Error by opening \"" + result.second +"\"" ));	 // error by opening text file
 	}
 	qDebug() << Modem::modem->modemMessage();
 	if (!bModemOk) {
@@ -467,6 +467,7 @@ void Kptc::showrttyspeeddialog() {
 	rttyspeedwidget->close();
 	rttyspeedwidget->show();
 }
+
 void Kptc::initchangeover() {
 	textedit->myinsert("[changeover]\n");
 	termoutput->append("\n[changeover]\n");
