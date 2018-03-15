@@ -20,28 +20,31 @@
 #ifndef MODEBUTTONS_H
 #define MODEBUTTONS_H
 
-#include <qobject.h>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QRadioButton>
+#include <QtWidgets/QToolBar>
+#include "modecommander.h"
 
 /**buttons for changeing the mode
   *@author Lars Schnake
   */
 
-class ModeButtons : public QObject  {
+class ModeButtons : public QToolBar  {
 
 	Q_OBJECT
 
 	public:
+		ModeButtons(ModeCommander *commander, QWidget *parent = 0);
+		~ModeButtons();
+
+	private:
 		QRadioButton *pactorButton;
 		QRadioButton *amtorButton;
 		QRadioButton *rttyButton;
 		QRadioButton *psk31Button;
 		QRadioButton *cwButton;
 		QButtonGroup *buttongroup;
-
-		ModeButtons(QWidget *parent = 0);
-		~ModeButtons();
+		ModeCommander *commander;
 };
 
 #endif

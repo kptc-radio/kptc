@@ -19,7 +19,7 @@
 
 #include "modebuttons.h"
 
-ModeButtons::ModeButtons(QWidget *parent) : QObject(parent) {
+ModeButtons::ModeButtons(ModeCommander *commander, QWidget *parent) : commander(commander), QToolBar(parent) {
 	buttongroup = new QButtonGroup(parent);
 	pactorButton = new QRadioButton("Pactor", parent);
 	amtorButton = new QRadioButton("Amtor", parent);
@@ -32,6 +32,18 @@ ModeButtons::ModeButtons(QWidget *parent) : QObject(parent) {
 	buttongroup->addButton(psk31Button, 4);
 	buttongroup->addButton(cwButton, 5);
 	buttongroup->setExclusive(true);
+
+	this->addWidget(pactorButton);
+	this->addWidget(amtorButton);
+	this->addWidget(rttyButton);
+	this->addWidget(psk31Button);
+	this->addWidget(cwButton);
+
+	connect(pactorButton, &QRadioButton::clicked, commander, &ModeCommander::changetoPactor);
+	connect(amtorButton, &QRadioButton::clicked, commander, &ModeCommander::changetoAmtor);
+	connect(rttyButton, &QRadioButton::clicked, commander, &ModeCommander::changetoRTTY);
+	connect(psk31Button, &QRadioButton::clicked, commander, &ModeCommander::changetoPSK31);
+	connect(cwButton, &QRadioButton::clicked, commander, &ModeCommander::changetoCW);
 }
 ModeButtons::~ModeButtons() {
 	buttongroup->deleteLater();

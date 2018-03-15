@@ -117,25 +117,11 @@ void Kptc::initTextEdit() {
 }
 
 void Kptc::initializeToolBar() {
-	modetoolbar = new QToolBar();
-	this->addToolBar(modetoolbar);
-
-	modebuttons = new ModeButtons(modetoolbar);
+	modebuttons = new ModeButtons(modecommander, this);
+	this->addToolBar(modebuttons);
 
 	// modebuttons in splitter window instead of modetoolbar ?! :
-	// modebuttons = new ModeButtons(splitter);
-
-	modetoolbar->addWidget(modebuttons->pactorButton);
-	modetoolbar->addWidget(modebuttons->amtorButton);
-	modetoolbar->addWidget(modebuttons->rttyButton);
-	modetoolbar->addWidget(modebuttons->psk31Button);
-	modetoolbar->addWidget(modebuttons->cwButton);
-
-	connect(modebuttons->pactorButton, SIGNAL(clicked(bool)), modecommander,SLOT(changetoPactor()));
-	connect(modebuttons->amtorButton, SIGNAL(clicked(bool)), modecommander,SLOT(changetoAmtor()));
-	connect(modebuttons->rttyButton, SIGNAL(clicked(bool)), modecommander,SLOT(changetoRTTY()));
-	connect(modebuttons->psk31Button, SIGNAL(clicked(bool)), modecommander,SLOT(changetoPSK31()));
-	connect(modebuttons->cwButton, SIGNAL(clicked(bool)), modecommander,SLOT(changetoCW()));
+	// modebuttons = new ModeButtons(splitter);	
 }
 
 void Kptc::resizeElements() {

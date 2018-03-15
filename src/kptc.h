@@ -27,7 +27,6 @@
 #include "mylineedit.h"
 #include "commanddialog.h"
 #include "modecommander.h"
-#include "kled.h"
 #include "configdialog.h"
 #include "configdata.h"
 #include "configmachine.h"
@@ -93,7 +92,6 @@ class Kptc : public QMainWindow {
 		KLed led;
 		QMenu *fixmenu;
 		QStatusBar *mystatusBar;
-		QToolBar *modetoolbar;
 		QToolBar *lefttoolbar;
 		QTextEdit *termoutput;
 		MyLineEdit *textedit;
