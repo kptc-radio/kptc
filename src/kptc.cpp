@@ -339,7 +339,7 @@ void Kptc::parseModemOut(unsigned char c) {
 }
 
 void Kptc::sendline(QString qs) {
-	Modem::modem->writeLine(qs);
+	Modem::modem->writeString(qs);
 	termoutput->append(qs);
 	termoutput->append("\n");
 	show();
@@ -644,7 +644,7 @@ void Kptc::sendFixText(int id) {
 
 	while (!file.atEnd()) {
 		buffer = file.readLine(1024);
-		Modem::modem->writeLine(buffer);
+		Modem::modem->writeString(buffer);
 	}
 	file.close() ;
 }

@@ -57,11 +57,11 @@ int Update::runUpdate(QString qsfilename ) {
 	read(hFile, &fileStamp, 4);
 
 	fileLength = lseek(hFile, 0, SEEK_END);
-	Modem::modem->writeLine("Q");
+	Modem::modem->writeString("Q");
 	usleep(200);
 
 	Modem::modem->stopNotifier(); // close connection, skip data
-	Modem::modem->writeLine("UPDATE");
+	Modem::modem->writeString("UPDATE");
 
 	readflush(Modem::modem->getFD()); /* read and ignore the UPDATE message */
 
@@ -182,7 +182,7 @@ int Update::runUpdate(QString qsfilename ) {
 
 	} while (bytesRead == flash.usSectSize);
 
-	Modem::modem->writeLine("");
+	Modem::modem->writeString("");
 	message(tr("Update complete. Press Exit now."));
 	Modem::modem->startNotifier();
 	close(hFile);

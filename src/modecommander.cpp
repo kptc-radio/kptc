@@ -34,43 +34,50 @@ void ModeCommander::setcurrendmod(QString _qscurrendmod)
 
 void ModeCommander::changetoPactor() {
 	Standby();
-	Modem::modem->send_esc();
-	Modem::modem->writeLine("PT");
+//	Modem::modem->send_esc();
+//	Modem::modem->writeString("PT");
+	Modem::modem->writeLine2("PT");
 }
 
 void ModeCommander::changetoAmtor() {
 	Standby();
-	Modem::modem->send_esc();
-	Modem::modem->writeLine("Amtor");
+//	Modem::modem->send_esc();
+//	Modem::modem->writeString("Amtor");
+	Modem::modem->writeLine2("Amtor");
 }
 
 void ModeCommander::changetoAmtorMon() {
 	Standby();
-	Modem::modem->send_esc();
-	Modem::modem->writeLine("Amtor");
+//	Modem::modem->send_esc();
+//	Modem::modem->writeString("Amtor");
+	Modem::modem->writeLine2("Amtor");
 }
 
 void ModeCommander::changetoRTTY() {
 	Standby();
-	Modem::modem->send_esc();
-	Modem::modem->writeLine("Baudot");
+//	Modem::modem->send_esc();
+//	Modem::modem->writeString("Baudot");
+	Modem::modem->writeLine2("Baudot");
 }
 
 void ModeCommander::changetoPSK31() {
 	Standby();
-	Modem::modem->send_esc();
-	Modem::modem->writeLine("PSKTerm");
+//	Modem::modem->send_esc();
+//	Modem::modem->writeString("PSKTerm");
+	Modem::modem->writeLine2("PSKTerm");
 }
 
 void ModeCommander::changetoCW() {
 	Standby();
-	Modem::modem->send_esc();
-	Modem::modem->writeLine("cwt");
+//	Modem::modem->send_esc();
+//	Modem::modem->writeString("cwt");
+	Modem::modem->writeLine2("cwt");
 }
 
 void ModeCommander::Standby() {
-	Modem::modem->send_esc();
-	Modem::modem->writeLine("dd");
+//	Modem::modem->send_esc();
+//	Modem::modem->writeString("dd");
+	Modem::modem->writeLine2("dd");
 }
 
 void ModeCommander::Changeover() {
@@ -85,19 +92,20 @@ void ModeCommander::QRT() {
 }
 
 void ModeCommander::Unproto() {
-	Modem::modem->send_esc();
-	Modem::modem->writeLine("Unproto");
+//	Modem::modem->send_esc();
+//	Modem::modem->writeString("Unproto");
+	Modem::modem->writeLine2("Unproto");
 }
 
 
 void ModeCommander::Listen() {
 	Modem::modem->send_esc();
 	if (!blisten) {
-		Modem::modem->writeLine("l 1");
+		Modem::modem->writeString("l 1");
 		blisten = true;
 	}
 	else {
-		Modem::modem->writeLine("l 0");
+		Modem::modem->writeString("l 0");
 		blisten = false;
 	}
 }
@@ -110,13 +118,15 @@ void ModeCommander::setListen(bool _blisten) {
 	blisten = _blisten; }
 
 void ModeCommander::Monitor() {
-	Modem::modem->send_esc();
-	Modem::modem->writeLine("mon");
+//	Modem::modem->send_esc();
+//	Modem::modem->writeString("mon");
+	Modem::modem->writeLine2("mon");
 }
 
 void ModeCommander::FEC() {
-	Modem::modem->send_esc();
-	Modem::modem->writeLine("fec");
+//	Modem::modem->send_esc();
+//	Modem::modem->writeString("fec");
+	Modem::modem->writeLine2("fec");
 }
 
 void ModeCommander::cwprescribe() {

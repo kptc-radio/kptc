@@ -66,7 +66,9 @@ class Modem : public QObject  {
 		/** write a char to port */
 		bool writeChar(unsigned char);
 		/** write a char[] + Enter to port*/
-        bool writeLine(QString data);
+		bool writeString(QString data);
+		bool writeLine(QString data);
+		bool writeLine2(QString data);
         bool dataMode() const {return data_mode; }
         void setDataMode(bool set) {data_mode = set; }
 		/** returns the last modem (error?)message */

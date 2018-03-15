@@ -207,12 +207,23 @@ bool Modem::writeChar(unsigned char c) {
 	return write(modemfd, &c, 1) == 1;
 }
 
-bool Modem::writeLine(QString data) {
+bool Modem::writeString(QString data) {
 	auto buf = data.toStdString().c_str();
 	write(modemfd, buf, strlen(buf));
 	//Let's send an "enter"
 	write(modemfd, "\r", 1);
 	return true;
+}
+
+bool Modem::writeLine(QString data) {
+	bool result = this->writeString(data);
+	this->send_esc();
+	return result;
+}
+
+bool Modem::writeLine2(QString data) {
+	this->send_esc();
+	return this->writeString(data);
 }
 
 void Modem::send_esc(){

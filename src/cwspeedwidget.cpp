@@ -57,7 +57,7 @@ void CWSpeedWidget::change() {
 	qs.setNum(speed);
 	qs.prepend("cws ");
 	Modem::modem->send_esc();
-	Modem::modem->writeLine(qs);
+	Modem::modem->writeString(qs);
 	accept();
 }
 

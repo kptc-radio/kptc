@@ -104,35 +104,35 @@ void CQDialog::startCall() {
 		modecommander->changetoPactor();
 		modecommander->Unproto();
 		string = string = this->processString(cqtext_Pactor);
-		Modem::modem->writeLine(string);
+		Modem::modem->writeString(string);
 		modecommander->QRT();
 	}
 	else if (currenttab == Tabs::Amtor) {//"Amtor"
 		modecommander->changetoAmtor();
 		modecommander->FEC();
 		string = string = this->processString(CQText_Amtor);
-		Modem::modem->writeLine(string);
+		Modem::modem->writeString(string);
 		modecommander->QRT();
 	}
 	else if (currenttab == Tabs::RTTY) {//"RTTY"
 		modecommander->changetoRTTY();
 		modecommander->Changeover();
 		string = this->processString(CQText_RTTY);
-		Modem::modem->writeLine(string);
+		Modem::modem->writeString(string);
 		modecommander->QRT();
 	}
 	else if (currenttab == Tabs::PSK31) {//"PSK31"
 		modecommander->changetoPSK31();
 		modecommander->Changeover();
 		string = this->processString(CQText_PSK31);
-		Modem::modem->writeLine(string);
+		Modem::modem->writeString(string);
 		modecommander->QRT();
 	}
 	else if (currenttab == Tabs::CW) {//"CW"
 		modecommander->changetoCW();
 		string = this->processString(CQText_CW);
 		sleep(1);
-		Modem::modem->writeLine(string);
+		Modem::modem->writeString(string);
 	}
 
 }
