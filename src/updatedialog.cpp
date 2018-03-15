@@ -30,7 +30,13 @@ UpdateDialog::UpdateDialog(QWidget *parent) : QDialog(parent) {
 
 void UpdateDialog::initConnections() {
 	auto fileerror = [this]  (QString string) {
-		QMessageBox::warning(this, "Kptc", tr("ERROR: opening file : ") + string );
+		if (string.isEmpty()) {
+			string = tr("ERROR: No file selected.");
+		}
+		else {
+			string = tr("ERROR: opening file : ") + string;
+		}
+		QMessageBox::warning(this, "Kptc", string);
 	};
 	auto flashinfoerror = [this] () {
 		QMessageBox::warning( this, "Kptc", tr("ERROR: receiving Flash information !") );
