@@ -29,7 +29,7 @@ void ConfigMachine::doconfig() {
 	}
 
 	Modem::modem->startNotifier();
-	//qDebug << Modem::modem->modemMessage()<< endl;
+	qDebug() << Modem::modem->modemMessage()<< endl;
 
 	Modem::modem->closetty();
 
