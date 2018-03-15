@@ -85,7 +85,7 @@ void Kptc::initModem() {
 	ConfigMachine::Pair result = configmachine->login();
 	if (!result.first) {
 		QMessageBox::critical(this, "",
-		("Cannot open your personal login script file !\n Error by opening \"" + result.second +"\"" ));	 // error by opening text file
+			("Cannot open your personal login script file !\n Error by opening \"" + result.second +"\"" ));	 // error by opening text file
 	}
 	qDebug() << Modem::modem->modemMessage();
 	if (!bModemOk) {
