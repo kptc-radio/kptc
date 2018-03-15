@@ -23,7 +23,6 @@
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QLayout>
 #include <QtWidgets/QWhatsThis>
 #include <QFontMetrics>
 #include <QResizeEvent>

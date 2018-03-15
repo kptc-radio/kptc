@@ -58,17 +58,6 @@ StatusInfo::StatusInfo(QWidget *parent) : QStatusBar(parent) {
 	call->setFrameStyle(QFrame::Sunken | QFrame::Box);
 	call->setToolTip(tr("call/selcall"));
 	call->setWhatsThis(tr("This is your call and your Amtor Selcall\nhow you have entered it in the config dialog"));
-//	QHBoxLayout layout(this);
-
-//	layout.addWidget(led);
-//	layout.addWidget(send);
-//	layout.addWidget(prompt);
-//	layout.addWidget(mode);
-//	layout.addWidget(status);
-//	layout.addWidget(statusmessage,1);
-//	layout.addStretch(1);
-//	layout.addWidget (call);
-
 	this->setSize();
 
 }
