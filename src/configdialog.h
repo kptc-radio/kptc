@@ -39,7 +39,6 @@
 #include <QtWidgets/QDialog>
 
 #include "configdata.h"
-#include "configmachine.h"
 #include "fixtextpicker.h"
 
 /**
@@ -91,6 +90,8 @@ class ConfigDialog : public QDialog  {
 		QWidget *fixtext_top;
 		QWidget *packet_top;
 		QButtonGroup *port_ButtonGroup;
+		QPushButton *OkButton;
+		QPushButton *CancelButton;
 
 		void initLeftsiteEntries();
 		void createTopWidgets();
