@@ -213,6 +213,7 @@ void Kptc::initHelpMenu() {
 	connect(helpaction, &QAction::triggered, this, [label](){
 		label->show();
 	});
+	connect(this, &Kptc::closing, label, [&label](){delete label;});
 }
 
 void Kptc::initFixMenu() {

@@ -130,6 +130,7 @@ class Kptc : public QMainWindow {
 
 	signals:
 		void htmlString(QString);
+		void closing();
 
 	public slots:
 		void parseModemOut(unsigned char);
