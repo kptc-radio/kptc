@@ -125,7 +125,7 @@ class Kptc : public QMainWindow {
 		void initMainWindow();
 		void initTextEdit();
 		QString makeHTML(QString text, QString color);
-		void setHTML(QString text);
+		void setHTML(QString text, QString color);
 		void resizeElements();
 
 	signals:

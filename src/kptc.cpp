@@ -303,11 +303,11 @@ void Kptc::parseModemOut(unsigned char c) {
 			else {
 				color = "#336600"; // rx
 			}
-			setHTML(makeHTML(QString(c), color));
+			setHTML(QString(c), color);
 			show();
 		}
 		else if (currentterm == 1) {
-			setHTML(makeHTML(QString(c), "#000000")); //black
+			setHTML(QString(c), "#000000"); //black
 			if (this->isendline(c)) {
 				if (statusmessage.contains("*** ") == 1) {
 					if (statusmessage.contains("CONNECTED") || statusmessage.contains("CALLING")) {
@@ -340,7 +340,7 @@ void Kptc::sendchar(unsigned char c) {
 }
 
 void Kptc::echoText(QString qtext) {
-	setHTML(makeHTML(qtext, "#001933")); //darkblue
+	setHTML(qtext, "#001933"); //darkblue
 	termoutput->append(qtext);
 }
 
@@ -475,7 +475,8 @@ QString Kptc::makeHTML(QString text, QString color) {
 	return text;
 }
 
-void Kptc::setHTML(QString text) {
+void Kptc::setHTML(QString text, QString color) {
+	text = makeHTML(text, color);
 	text = termoutput->toHtml() + text;
 	termoutput->setHtml(text);
 }
