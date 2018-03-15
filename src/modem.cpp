@@ -314,7 +314,7 @@ int Modem::getFD() {
 /*
  * Read from RS232 interface
  */
-int Modem::rs232_read( void *bp, int maxlen)
+int Modem::rs232_read(void *bp, int maxlen, bool breakonerror)
 {
 	fd_set set;
 	struct timeval timeout;
@@ -334,8 +334,13 @@ int Modem::rs232_read( void *bp, int maxlen)
 			fprintf(stderr, "ERROR: timed out!\n");
 			endloop = 1;
 		} else if (-1 == res) {
-			perror("rs232_read select");
-			exit(10);
+			if (breakonerror) {
+				perror("rs232_read select");
+				exit(10);
+			}
+			else {
+				break;
+			}
 		} else {
 			max += read(modemfd, bp, maxlen);
 		}

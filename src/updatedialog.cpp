@@ -107,7 +107,11 @@ void UpdateDialog::initUpdate() {
 	QObject::disconnect (choosebutton, &QPushButton::clicked, this, &UpdateDialog::myfileDialog);
 	QObject::disconnect (okbutton, &QPushButton::clicked, this, &UpdateDialog::initUpdate);
 
-	update->runUpdate(lineedit->text());
+	int result;
+	result = update->runUpdate(lineedit->text());
+	if (result == - 2) {
+		QMessageBox::critical(this, "Kptc", tr("ERROR: Update failed!"));
+	}
 
 	QObject::connect (cancelbutton, &QPushButton::clicked, this, &UpdateDialog::reject);
 	QObject::connect (choosebutton, &QPushButton::clicked, this, &UpdateDialog::myfileDialog);

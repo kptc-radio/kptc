@@ -67,9 +67,14 @@ int Update::runUpdate(QString qsfilename ) {
 
 	Modem::modem->writeChar((char) 6 );	/* send ack */
 
-	Modem::modem->rs232_read(&manCode, 1);
-	Modem::modem->rs232_read(&devID, 1);
-	Modem::modem->rs232_read(&flashStamp, 4);
+	int error = 0;
+	error = Modem::modem->rs232_read(&manCode, 1, false);
+	error = Modem::modem->rs232_read(&devID, 1, false);
+	error = Modem::modem->rs232_read(&flashStamp, 4, false);
+
+	if (error == -1) {
+		return -2;
+	}
 
 	if (GetFlash(manCode, devID, &flash) != 0) {
 		//QMessageBox::warning( updatewidget, "Kptc", tr("ERROR: receiving Flash information !") );
@@ -136,7 +141,11 @@ int Update::runUpdate(QString qsfilename ) {
 	ch = (char) sectors;
 	Modem::modem->writeChar(ch);
 
-	Modem::modem->rs232_read(&ch, 1);
+	error = Modem::modem->rs232_read(&ch, 1, false);
+
+	if (error == -1) {
+		return -2;
+	}
 
 	if (ch != ack) {
 		//QMessageBox::warning( updatewidget, "Kptc", tr("ERROR: Handshake failed !") );
@@ -161,7 +170,12 @@ int Update::runUpdate(QString qsfilename ) {
 
 		sectorsWritten++;
 
-		Modem::modem->rs232_read(&ch, 1);
+		error = Modem::modem->rs232_read(&ch, 1, false);
+
+		if (error == -1) {
+			return -2;
+		}
+
 		if (ch != ack) {
 			//QMessageBox::warning( new QWidget, "Kptc", tr("ERROR: Handshake failed !") );
 			emit handshakefailed();

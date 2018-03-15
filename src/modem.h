@@ -80,7 +80,7 @@ class Modem : public QObject  {
 		/** send escape to change to command mode*/
 		void send_esc();
 		/** simple read from port */
-		int rs232_read(void *, int);
+		int rs232_read(void *, int, bool breakonerror);
 		int getFD();
 
 	signals:
