@@ -50,6 +50,13 @@ Kptc::Kptc(QWidget *parent) : QMainWindow(parent)
 	this->initializeMenuBar();
 	this->initializeToolBar();
 	this->resizeElements();
+
+	connect(this, &Kptc::status, statusinfo, &StatusInfo::setStatus);
+	connect(this, &Kptc::mode, statusinfo, &StatusInfo::setMode);
+	connect(this, &Kptc::direction, statusinfo, &StatusInfo::setLED);
+	connect(this, &Kptc::changePrompt, statusinfo, &StatusInfo::setPrompt);
+	connect(this, &Kptc::changeCall, statusinfo, &StatusInfo::setCall);
+	connect(this, &Kptc::changeStatusMessage, statusinfo, &StatusInfo::setStatusMessage);
 }
 
 bool Kptc::handleFirstStart() {
@@ -85,7 +92,7 @@ void Kptc::initModem() {
 	ConfigMachine::Pair result = configmachine->login();
 	if (!result.first) {
 		QMessageBox::critical(this, "",
-			("Cannot open your personal login script file !\n Error by opening \"" + result.second +"\"" ));	 // error by opening text file
+			tr("Cannot open your personal login script file !\n Error by opening \"" + result.second +"\"" ));	 // error by opening text file
 	}
 	qDebug() << Modem::modem->modemMessage();
 	if (!bModemOk) {
@@ -205,7 +212,7 @@ void Kptc::initActionMenu() {
 void Kptc::initHelpMenu() {
 	helpmenu = new QMenu(tr("Help"), menuBar());
 
-	QAction *helpaction = new QAction("About", helpmenu);
+	QAction *helpaction = new QAction(tr("About"), helpmenu);
 	helpmenu->addAction(helpaction);
 
 	static QString about = tr("Kptc 0.2\n user interface for the SCS-PTC-II\n\n (C) 2001 Lars Schnake\nmail@lars-schnake.de\n");
@@ -314,10 +321,12 @@ void Kptc::parseModemOut(unsigned char c) {
 					if (statusmessage.contains("CONNECTED") || statusmessage.contains("CALLING")) {
 						statusmessage.replace(QRegExp("[*]"), "");
 						statusmessage = statusmessage.trimmed();
-						statusinfo->setStatusMessage(statusmessage);
+						emit changeStatusMessage(statusmessage);
+						//statusinfo->setStatusMessage(statusmessage);
 					}
 					else if (statusmessage.contains("STBY")) {
-						statusinfo->setStatusMessage("");
+						emit changeStatusMessage("");
+//						statusinfo->setStatusMessage("");
 					}
 				}
 				statusmessage = "";
@@ -354,7 +363,8 @@ void Kptc::openconfigdialog() {
 
 void Kptc::useconfigmachine() {
 	configmachine->doconfig();
-	statusinfo->setCall(configdata.getCall() + " (" + configdata.getSelCall() + ") ");
+	emit changeCall(configdata.getCall() + " (" + configdata.getSelCall() + ") ");
+//	statusinfo->setCall(configdata.getCall() + " (" + configdata.getSelCall() + ") ");
 	updateStatusBar();
 
 	QString number;
@@ -484,6 +494,7 @@ void Kptc::setHTML(QString text, QString color) {
 
 void Kptc::updateStatusBar() {
 	statusinfo->setPrompt(modecommander->currendmod());
+//	statusinfo->setPrompt(modecommander->currendmod());
 	if (modecommander->currendmod() == "cmd:") {
 		showPactor();
 	}
@@ -543,10 +554,12 @@ void Kptc::parsePrompt(const char c) {
 void Kptc::parseStatus(const char c) {
 	// check DIRECTION bit (SEND-LED)
 	if ((c & 0x08) > 0) {
-		statusinfo->setLED(true);
+		emit direction(true);
+//		statusinfo->setLED(true);
 	}
 	else {
-		statusinfo->setLED(false);
+		emit direction(false);
+//		statusinfo->setLED(false);
 	}
 
 	//TODO
@@ -582,7 +595,8 @@ void Kptc::parseStatus(const char c) {
 			break;
 	}
 
-	statusinfo->setStatus(status);
+	emit this->status(status);
+//	statusinfo->setStatus(status);
 
 	// check MODE bits
 	QString mode;
@@ -612,7 +626,9 @@ void Kptc::parseStatus(const char c) {
 			mode = "channel busy";
 			break;
 	}
-	statusinfo->setMode(mode);
+
+	emit this->mode(mode);
+//	statusinfo->setMode(mode);
 
 	// read listen mode from status byte ??
 	if (mode == "LISTEN") {
@@ -666,10 +682,6 @@ void Kptc::closeEvent(QCloseEvent *event) {
 	emit shutdown();
 	event->accept();
 }
-
-//void Kptc::fileQuit() {
-//	close();
-//}
 
 bool Kptc::queryClose() {
 	shutdown();

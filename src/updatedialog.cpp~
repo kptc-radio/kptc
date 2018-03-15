@@ -36,7 +36,11 @@ void UpdateDialog::initConnections() {
 		else {
 			string = tr("ERROR: opening file : ") + string;
 		}
+<<<<<<< HEAD
 		QMessageBox::warning(this, "Kptc", string);
+=======
+		QMessageBox::warning(this, "Kptc", string );
+>>>>>>> fd18c845bfd8117249609e3c56322aa38ca2f452
 	};
 	auto flashinfoerror = [this] () {
 		QMessageBox::warning( this, "Kptc", tr("ERROR: receiving Flash information !") );

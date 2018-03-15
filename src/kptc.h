@@ -83,10 +83,11 @@ class Kptc : public QMainWindow {
 		bool bStatusByteFollows;
 		int parsePromptText;
 		CommandDialog commanddialog;
+		ModeButtons *modebuttons;
 		ModeCommander *modecommander;
 		StatusInfo *statusinfo;
 		CWSpeedWidget  *cwspeedwidget;
-		RTTYSpeedWidget * rttyspeedwidget;
+		RTTYSpeedWidget *rttyspeedwidget;
 		QString statusmessage;
 		QString prompt;
 		KLed led;
@@ -96,7 +97,6 @@ class Kptc : public QMainWindow {
 		QTextEdit *termoutput;
 		MyLineEdit *textedit;
 		CQDialog *cqdialog;
-		ModeButtons *modebuttons;
 		ConfigMachine *configmachine;
 		QMenu *filemenu;
 		QMenu *actionmenu;
@@ -131,6 +131,12 @@ class Kptc : public QMainWindow {
 	signals:
 		void htmlString(QString);
 		void closing();
+		void status(QString);
+		void mode(QString);
+		void direction(bool);
+		void changePrompt(QString);
+		void changeCall(QString);
+		void changeStatusMessage(QString);
 
 	public slots:
 		void parseModemOut(unsigned char);

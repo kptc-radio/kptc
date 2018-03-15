@@ -96,8 +96,13 @@ void ConfigDialog::initLeftsiteEntries() {
 void ConfigDialog::createButtons() {
 	constexpr int width = 90;
 	constexpr int y = 310;
+<<<<<<< HEAD
 	OkButton = this->createButton("OkButton", QRect(285, y, width, standardheight), "Ok");
 	CancelButton = this->createButton("CancelButton", QRect(395, y, width, standardheight), "Cancel");
+=======
+	QPushButton *OkButton = this->createButton("OkButton", QRect(285, y, width, standardheight), tr("Ok"));
+	QPushButton *CancelButton = this->createButton("CancelButton", QRect(395, y, width, standardheight), tr("Cancel"));
+>>>>>>> fd18c845bfd8117249609e3c56322aa38ca2f452
 
 	QObject::connect (CancelButton, &QPushButton::clicked, this, &ConfigDialog::reject);
 	QObject::connect (OkButton, &QPushButton::clicked, this, &ConfigDialog::writeconfig);

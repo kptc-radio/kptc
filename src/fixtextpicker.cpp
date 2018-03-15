@@ -23,7 +23,7 @@ FixTextPicker::FixTextPicker(QWidget *parent) : QWidget(parent) {
 	choosebutton = new QPushButton(tr("choose..."), this);
 	editpath = new QLineEdit(this);
 	editlabel = new QLineEdit(this);
-	numlabel = new QLabel("number", this);
+	numlabel = new QLabel(tr("number"), this);
 
 	QHBoxLayout *layout = new QHBoxLayout(this);
 	layout->addWidget(numlabel);

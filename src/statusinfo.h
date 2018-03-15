@@ -42,26 +42,28 @@ class StatusInfo : public QStatusBar  {
 	public:
 		StatusInfo(QWidget *parent = 0);
 		~StatusInfo();
+
+	protected:
+		 void resizeEvent(QResizeEvent *event) override;
+
+	private:
+		QLabel *prompt;
+		QLabel *status;
+		QLabel *mode;
+		KLed *led;
+		QLabel *send;
+		QLabel *statusmessage;
+		QLabel *call;
+
+		void setSize();
+
+	public slots:
 		void setLED(bool);
 		void setStatus(QString);
 		void setMode(QString);
 		void setCall(QString);
 		void setStatusMessage(QString);
 		void setPrompt(QString);
-
-	protected:
-		 void resizeEvent(QResizeEvent *event) override;
-
-	private:
-		 QLabel *prompt;
-		 QLabel *status;
-		 QLabel *mode;
-		 KLed *led;
-		 QLabel *send;
-		 QLabel *statusmessage;
-		 QLabel *call;
-
-		void setSize();
 };
 
 #endif

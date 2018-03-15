@@ -31,7 +31,7 @@ StatusInfo::StatusInfo(QWidget *parent) : QStatusBar(parent) {
 	led->setWhatsThis(tr("The Send LED show the direction\nof the information flow.\nOn means: sending text\noff means: receiving text"));
 
 	send = new QLabel(this);
-	send->setText("SEND");
+	send->setText(tr("SEND"));
 
 	prompt = new QLabel(this);
 	prompt->setFrameStyle(QFrame::Sunken | QFrame::Box);
@@ -40,7 +40,7 @@ StatusInfo::StatusInfo(QWidget *parent) : QStatusBar(parent) {
 
 	mode = new QLabel(this);
 	mode->setFrameStyle(QFrame::Sunken | QFrame::Box);
-	mode->setText("NO RESPONSE !");
+	mode->setText(tr("NO RESPONSE !"));
 	mode->setToolTip(tr("mode"));
 	mode->setWhatsThis(tr("Here are information about\nthe current mode showen."));
 

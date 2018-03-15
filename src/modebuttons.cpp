@@ -26,6 +26,7 @@ ModeButtons::ModeButtons(ModeCommander *commander, QWidget *parent) : commander(
 	rttyButton = new QRadioButton("RTTY", parent);
 	psk31Button = new QRadioButton("PSK31", parent);
 	cwButton = new QRadioButton("CW", parent);
+
 	buttongroup->addButton(pactorButton, 1);
 	buttongroup->addButton(amtorButton, 2);
 	buttongroup->addButton(rttyButton, 3);
@@ -45,6 +46,7 @@ ModeButtons::ModeButtons(ModeCommander *commander, QWidget *parent) : commander(
 	connect(psk31Button, &QRadioButton::clicked, commander, &ModeCommander::changetoPSK31);
 	connect(cwButton, &QRadioButton::clicked, commander, &ModeCommander::changetoCW);
 }
+
 ModeButtons::~ModeButtons() {
-	buttongroup->deleteLater();
+	deleteLater();
 }
