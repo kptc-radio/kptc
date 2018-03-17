@@ -20,7 +20,7 @@ Modem *Modem::modem = 0;
 
 Modem::Modem() :
 	modemfd(-1),
-	sn(0L),
+	notifier(0L),
 	data_mode(false),
 	dataMask(0xFF)
 
@@ -183,22 +183,22 @@ void Modem::stop() {
 
 void Modem::startNotifier() {
 	if(modemfd >= 0) {
-		if(sn == 0) {
-			sn = new QSocketNotifier(modemfd, QSocketNotifier::Read, this);
-			connect(sn, SIGNAL(activated(int)), SLOT(readtty(int)));
+		if(notifier == 0) {
+			notifier = new QSocketNotifier(modemfd, QSocketNotifier::Read, this);
+			connect(notifier, SIGNAL(activated(int)), SLOT(readtty(int)));
 			qDebug() << "QSocketNotifier started!" << endl;
 		} else {
-			sn->setEnabled(true);
+			notifier->setEnabled(true);
 		}
 	}
 }
 
 void Modem::stopNotifier() {
-	if(sn != 0) {
-		sn->setEnabled(false);
-		disconnect(sn);
-		delete sn;
-		sn = 0;
+	if(notifier != 0) {
+		notifier->setEnabled(false);
+		disconnect(notifier);
+		delete notifier;
+		notifier = 0;
 		qDebug() << "QSocketNotifier stopped!" << endl;
 	}
 }

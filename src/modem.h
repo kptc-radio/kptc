@@ -98,7 +98,7 @@ class Modem : public QObject  {
 		int modemfd;
 		unsigned char dataMask;
 		bool data_mode;
-		QSocketNotifier *sn;
+		QSocketNotifier *notifier;
 		QString errmsg;
 		struct termios initial_tty;
 		struct termios tty;
