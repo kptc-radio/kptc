@@ -128,6 +128,10 @@ void MyLineEdit::insertChar(unsigned char character) {
 }
 
 void MyLineEdit::myinsert(QString string) {
+	//WARNING Have to be tested
+	int position = cursorPosition();
+	setSelection(position, 0);
+	insert(string);
 //TODO
 	/* // get cursor position
   int line, col;
