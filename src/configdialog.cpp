@@ -100,7 +100,7 @@ void ConfigDialog::createButtons() {
 
 	QObject::connect(CancelButton, &QPushButton::clicked, this, &ConfigDialog::reject);
 	QObject::connect(OkButton, &QPushButton::clicked, this, &ConfigDialog::writeconfig);
-	//TODO react to enter pressed eventsc
+	//TODO react to enter pressed events
 }
 
 QPushButton *ConfigDialog::createButton(QString text, const QRect dimensions, QString text2) {
