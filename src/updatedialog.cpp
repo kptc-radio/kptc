@@ -39,19 +39,19 @@ void UpdateDialog::initConnections() {
 		QMessageBox::warning(this, "Kptc", string);
 	};
 	auto flashinfoerror = [this] () {
-		QMessageBox::warning( this, "Kptc", tr("ERROR: Receiving Flash information!") );
+		QMessageBox::warning(this, "Kptc", tr("ERROR: Receiving Flash information!"));
 	};
 	auto wrontsectorsize = [this] () {
-		QMessageBox::warning( this, "Kptc", tr("ERROR: Wrong sector size!") );
+		QMessageBox::warning(this, "Kptc", tr("ERROR: Wrong sector size!") );
 	};
 	auto wrongtimestamp = [this] () {
-		QMessageBox::warning( this, "Kptc", tr("WARNING: Invalid Flash time stamp.\nPossibly no firmware installed.\nUpdate will proceed.") );
+		QMessageBox::warning(this, "Kptc", tr("WARNING: Invalid Flash time stamp.\nPossibly no firmware installed.\nUpdate will proceed."));
 	};
 	auto filetoolarge = [this] (unsigned long flashFree) {
-		QMessageBox::warning( this, "Kptc", tr("ERROR: File too large!\nFile should not be longer than ") + flashFree + QString(" bytes.") );
+		QMessageBox::warning(this, "Kptc", tr("ERROR: File too large!\nFile should not be longer than ") + flashFree + QString(" bytes."));
 	};
 	auto handshakefailed = [this] () {
-		QMessageBox::warning( this, "Kptc", tr("ERROR: Handshake failed!") );
+		QMessageBox::warning(this, "Kptc", tr("ERROR: Handshake failed!"));
 	};
 
 	QObject::connect(cancelbutton, &QPushButton::clicked, this, &UpdateDialog::reject);
