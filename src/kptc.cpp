@@ -57,6 +57,8 @@ Kptc::Kptc(QWidget *parent) : QMainWindow(parent)
 	connect(this, &Kptc::changePrompt, statusinfo, &StatusInfo::setPrompt);
 	connect(this, &Kptc::changeCall, statusinfo, &StatusInfo::setCall);
 	connect(this, &Kptc::changeStatusMessage, statusinfo, &StatusInfo::setStatusMessage);
+
+	statusinfo->setCall(configdata.getCall() + " (" + configdata.getSelCall() + ") ");
 }
 
 bool Kptc::handleFirstStart() {
@@ -363,8 +365,6 @@ void Kptc::openconfigdialog() {
 
 void Kptc::useconfigmachine() {
 	configmachine->doconfig();
-	emit changeCall(configdata.getCall() + " (" + configdata.getSelCall() + ") ");
-	statusinfo->setCall(configdata.getCall() + " (" + configdata.getSelCall() + ") ");
 	updateStatusBar();
 
 	QString number;
