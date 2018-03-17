@@ -22,14 +22,12 @@
 
 #include "configdata.h"
 
+#include <QObject>
+#include <QDir>
+#include <QRegExp>
+#include <QSocketNotifier>
+
 #include <algorithm>
-
-#include <qobject.h>
-
-#include <qdir.h>
-#include <qregexp.h>
-#include <qtimer.h>
-#include <qsocketnotifier.h>
 
 #include <stdio.h>
 #include <signal.h>
