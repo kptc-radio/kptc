@@ -105,6 +105,7 @@ void ConfigDialog::createButtons() {
 }
 
 QPushButton *ConfigDialog::createButton(QString text, const QRect dimensions, QString text2) {
+	//TODO why to textes?c
 	QPushButton* button = new QPushButton(text, this);
 	constexpr int x = 90;
 	button->setGeometry(dimensions);
