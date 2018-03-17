@@ -35,6 +35,7 @@
 #include "modebuttons.h"
 #include "cwspeedwidget.h"
 #include "updatedialog.h"
+#include "dataparser.h"
 
 #include <QPair>
 #include <QFile>
@@ -83,6 +84,7 @@ class Kptc : public QMainWindow {
 		bool bStatusByteFollows;
 		int parsePromptText;
 		CommandDialog commanddialog;
+		DataParser dataparser;
 		ModeButtons *modebuttons;
 		ModeCommander *modecommander;
 		StatusInfo *statusinfo;
@@ -105,8 +107,6 @@ class Kptc : public QMainWindow {
 		QMenu *helpmenu;
 
 		void useconfigmachine();
-		void parsePrompt(const char);
-		void parseStatus(const char);
 		bool queryClose ();
 		void expandToolBar(QString text, char *slot, QObject *obj,  QToolBar *bar);
 		void initializeToolBar();
@@ -137,6 +137,8 @@ class Kptc : public QMainWindow {
 		void changePrompt(QString);
 		void changeCall(QString);
 		void changeStatusMessage(QString);
+		void getstatus(char);
+		void getprompt(char);
 
 	public slots:
 		void parseModemOut(unsigned char);

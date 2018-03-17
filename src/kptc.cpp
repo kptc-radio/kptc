@@ -58,6 +58,13 @@ Kptc::Kptc(QWidget *parent) : QMainWindow(parent)
 	connect(this, &Kptc::changeCall, statusinfo, &StatusInfo::setCall);
 	connect(this, &Kptc::changeStatusMessage, statusinfo, &StatusInfo::setStatusMessage);
 
+	connect(this, &Kptc::getprompt, &dataparser, &DataParser::parsePrompt);
+	connect(this, &Kptc::getstatus, &dataparser, &DataParser::parseStatus);
+	connect(&dataparser, &DataParser::direction, statusinfo, &StatusInfo::setLED);
+	connect(&dataparser, &DataParser::status, statusinfo, &StatusInfo::setStatus);
+	connect(&dataparser, &DataParser::mode, statusinfo, &StatusInfo::setMode);
+	connect(&dataparser, &DataParser::listen, modecommander, &ModeCommander::setListen);
+
 	statusinfo->setCall(configdata.getCall() + " (" + configdata.getSelCall() + ") ");
 }
 
@@ -267,7 +274,7 @@ void Kptc::parseModemOut(unsigned char c) {
 	}
 	if (bStatusByteFollows) {
 		bStatusByteFollows = false;
-		parseStatus(c);
+		getstatus(c);
 	}
 	else if (value == 30) {
 		bStatusByteFollows = true;
@@ -276,7 +283,7 @@ void Kptc::parseModemOut(unsigned char c) {
 		bPromptInfoFollows = true; // command prompt info follows
 	}
 	else if (bPromptInfoFollows) {
-		parsePrompt(c);
+		getprompt(c);
 		bPromptInfoFollows = false;
 		parsePromptText = 20;
 	}
@@ -521,123 +528,6 @@ void Kptc::updateStatusBar() {
 
 bool Kptc::isendline(char c) {
 	return c == '\n' || c == '\r' ;
-}
-
-void Kptc::parsePrompt(const char c) {
-	// analyze prompt
-	switch(c) {
-		case 32:
-			modecommander->setcurrendmod("cmd:");
-			break;
-		case 33:
-			modecommander->setcurrendmod("AMTOR");
-			break;
-		case 34:
-			modecommander->setcurrendmod("AMTOR-MONITOR");
-			break;
-		case 35:
-			modecommander->setcurrendmod("RTTY");
-			break;
-		case 36:
-			modecommander->setcurrendmod("CW");
-			break;
-		case 37:
-			modecommander->setcurrendmod("Pactor");
-			break;
-		default:
-			modecommander->setcurrendmod("??????");
-			break;
-	}
-
-	updateStatusBar();
-}
-
-void Kptc::parseStatus(const char c) {
-	// check DIRECTION bit (SEND-LED)
-	if ((c & 0x08) > 0) {
-		emit direction(true);
-//		statusinfo->setLED(true);
-	}
-	else {
-		emit direction(false);
-//		statusinfo->setLED(false);
-	}
-
-	//TODO
-	// check STATUS bits
-	QString status;
-	switch (c & 0x07) {
-		case 0:
-			status = "ERROR";
-			break;
-		case 1:
-			status = "REQUEST";
-			break;
-		case 2:
-			status = "TRAFFIC";
-			break;
-		case 3:
-			status = "IDLE";
-			break;
-		case 4:
-			status = "OVER";
-			break;
-		case 5:
-			status = "PHASE";
-			break;
-		case 6:
-			status = "SYNCH";
-			break;
-		case 7:
-			status = "";
-			break;
-		default:
-			status = "??????";
-			break;
-	}
-
-	emit this->status(status);
-//	statusinfo->setStatus(status);
-
-	// check MODE bits
-	QString mode;
-	switch ((c & 112) >> 4) {
-		case 0:
-			mode = "STAND BY";
-			break;
-		case 1:
-			mode = "AMTOR-ARQ";
-			break;
-		case 2:
-			mode = "PACTOR-ARQ";
-			break;
-		case 3:
-			mode = "AMTOR-FEC";
-			break;
-		case 4:
-			mode = "PACTOR-FEC";
-			break;
-		case 5:
-			mode = "RTTY / CW";
-			break;
-		case 6:
-			mode = "LISTEN";
-			break;
-		case 7:
-			mode = "channel busy";
-			break;
-	}
-
-	emit this->mode(mode);
-//	statusinfo->setMode(mode);
-
-	// read listen mode from status byte ??
-	if (mode == "LISTEN") {
-		modecommander->setListen(true);
-	}
-	else {
-		modecommander->setListen(false);
-	}
 }
 
 void Kptc::sendFixText(int id) {
