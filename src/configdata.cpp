@@ -284,7 +284,7 @@ QString ConfigData::getCQPactor() {
 
 void ConfigData::setCQAmtor(const QString &qtext) {
 	this->setData(AMTOR, qtext);
-	this->setValue(Group::CQTEXT, "AMTOR", qtext);
+//	this->setValue(Group::CQTEXT, "AMTOR", qtext);
 }
 
 QString ConfigData::getCQAmtor() {
