@@ -410,6 +410,7 @@ void ConfigDialog::resetLogInWidget() {
 
 void ConfigDialog::resetFixTextWidget() {
 	FixTextPicker  *FixDummy;
+
 	//TODO
 
 //  for (FixDummy=list.first(); FixDummy != 0; FixDummy=list.next())   {

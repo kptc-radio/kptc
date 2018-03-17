@@ -195,7 +195,7 @@ void KLed::setColor(const QColor &color)
 void KLed::setDarkFactor(int darkFactor)
 {
 	if (d->darkFactor == darkFactor) {
-	 return;
+		return;
 	}
 	d->darkFactor = darkFactor;
 	updateCachedPixmap();
@@ -209,7 +209,7 @@ int KLed::darkFactor() const
 void KLed::setLook(Look look)
 {
 	if (d->look == look) {
-	 return;
+		return;
 	}
 
 	d->look = look;

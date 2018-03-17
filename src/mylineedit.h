@@ -32,7 +32,7 @@ reimplementation of QLineEdit
 
 class MyLineEdit : public QLineEdit  {
 
-   Q_OBJECT
+	Q_OBJECT
 
 	public:
 		MyLineEdit(QWidget *parent = 0);

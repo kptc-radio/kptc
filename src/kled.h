@@ -40,7 +40,7 @@ class KLed : public QWidget {
 	Q_PROPERTY(int darkFactor READ darkFactor WRITE setDarkFactor)
 
 	public:
-        enum State {Off, On };
+		enum State {Off, On };
 		enum Shape {Rectangular, Circular};
 		enum Look  {Flat, Raised, Sunken};
 
