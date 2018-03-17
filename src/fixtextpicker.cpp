@@ -20,10 +20,10 @@
 #include "fixtextpicker.h"
 
 FixTextPicker::FixTextPicker(QWidget *parent) : QWidget(parent) {
-	choosebutton = new QPushButton(tr("choose..."), this);
+	choosebutton = new QPushButton(tr("Choose..."), this);
 	editpath = new QLineEdit(this);
 	editlabel = new QLineEdit(this);
-	numlabel = new QLabel(tr("number"), this);
+	numlabel = new QLabel(tr("Number"), this);
 
 	QHBoxLayout *layout = new QHBoxLayout(this);
 	layout->addWidget(numlabel);

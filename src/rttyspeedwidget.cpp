@@ -30,7 +30,7 @@ RTTYSpeedWidget::RTTYSpeedWidget(QWidget *parent) : QDialog(parent) {
 	slider->setGeometry(20, 300, 1, 45);
 	lineedit = new QLineEdit(this);
 	lineedit->setText("45");
-	okbutton = new QPushButton(tr("OK"), this);
+	okbutton = new QPushButton(tr("Ok"), this);
 	vbox->addWidget(slider);
 	vbox->addWidget(lineedit);
 	vbox->addWidget(okbutton);

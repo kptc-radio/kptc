@@ -20,7 +20,7 @@
 #include "cwspeedwidget.h"
 
 CWSpeedWidget::CWSpeedWidget(QWidget *parent) : QDialog(parent) {
-	setWindowTitle(tr("cw tx speed"));
+	setWindowTitle(tr("CW TX speed"));
 	resize(200,80);
 	setMinimumSize(200, 80);
 
@@ -31,7 +31,7 @@ CWSpeedWidget::CWSpeedWidget(QWidget *parent) : QDialog(parent) {
 
 	lineedit = new QLineEdit(this);
 	lineedit->setText("160");
-	okbutton = new QPushButton(tr("OK"), this);
+	okbutton = new QPushButton(tr("Ok"), this);
 	vbox->addWidget(slider);
 	vbox->addWidget(lineedit);
 	vbox->addWidget(okbutton);

@@ -127,7 +127,7 @@ void ConfigDialog::createPersonalWidget() {
 void ConfigDialog::createPersonalMessageArea() {
 	constexpr int x = 120;
 	personal_CheckBox_cmsg = new QCheckBox(personal_top);
-	personal_CheckBox_cmsg->setText((QString("set \"connect message\"")));
+	personal_CheckBox_cmsg->setText((QString("Set \"connect message\"")));
 	personal_CheckBox_cmsg->setGeometry(x, 150, 150, standardheight);
 	personal_MultiLineEdit_ctext = new QTextEdit(personal_top);
 	personal_MultiLineEdit_ctext->setGeometry(x, 170, 230, 100);
@@ -285,7 +285,7 @@ void ConfigDialog::createLogOutWidget() {
 void ConfigDialog::createLogInWidget() {
 	login_top = new QWidget();
 	login_CheckBox_script = new QCheckBox(login_top);
-	login_CheckBox_script->setText(tr("use personal login script"));
+	login_CheckBox_script->setText(tr("Use personal login script"));
 	login_CheckBox_script->setGeometry(5, 5, 200, standardheight);
 	login_LineEdit_path = new QLineEdit(login_top);
 	login_LineEdit_path->setGeometry(5, 30, 150, standardheight);

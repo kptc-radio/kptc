@@ -34,24 +34,24 @@ void UpdateDialog::initConnections() {
 			string = tr("ERROR: No file selected.");
 		}
 		else {
-			string = tr("ERROR: opening file : ") + string;
+			string = tr("ERROR: Cannot open file: ") + string;
 		}
 		QMessageBox::warning(this, "Kptc", string);
 	};
 	auto flashinfoerror = [this] () {
-		QMessageBox::warning( this, "Kptc", tr("ERROR: receiving Flash information !") );
+		QMessageBox::warning( this, "Kptc", tr("ERROR: Receiving Flash information!") );
 	};
 	auto wrontsectorsize = [this] () {
-		QMessageBox::warning( this, "Kptc", tr("ERROR: wrong sector size !") );
+		QMessageBox::warning( this, "Kptc", tr("ERROR: Wrong sector size!") );
 	};
 	auto wrongtimestamp = [this] () {
-		QMessageBox::warning( this, "Kptc", tr("WARNING: Invalid Flash time stamp.\nPossibly no firmware installed.\n Update will proceed.") );
+		QMessageBox::warning( this, "Kptc", tr("WARNING: Invalid Flash time stamp.\nPossibly no firmware installed.\nUpdate will proceed.") );
 	};
 	auto filetoolarge = [this] (unsigned long flashFree) {
-		QMessageBox::warning( this, "Kptc", tr("ERROR: File too large !\nFile should not be longer than ") + flashFree + QString(" bytes.") );
+		QMessageBox::warning( this, "Kptc", tr("ERROR: File too large!\nFile should not be longer than ") + flashFree + QString(" bytes.") );
 	};
 	auto handshakefailed = [this] () {
-		QMessageBox::warning( this, "Kptc", tr("ERROR: Handshake failed !") );
+		QMessageBox::warning( this, "Kptc", tr("ERROR: Handshake failed!") );
 	};
 
 	QObject::connect(cancelbutton, &QPushButton::clicked, this, &UpdateDialog::reject);
@@ -68,15 +68,15 @@ void UpdateDialog::initConnections() {
 }
 
 void UpdateDialog::initGUIElements() {
-	okbutton = new QPushButton(tr("start Update"), this);
+	okbutton = new QPushButton(tr("Start Update"), this);
 	cancelbutton = new QPushButton(tr("Exit"), this);
 	lineedit = new QLineEdit(this);
-	choosebutton = new QPushButton(tr("choose"), this);
+	choosebutton = new QPushButton(tr("Choose"), this);
 	progressbar = new QProgressBar(this);
 
 	infolabel = new QLabel(this);
 	infolabel->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-	infolabel->setText(tr("choose the new Firmware"));
+	infolabel->setText(tr("Choose the new Firmware"));
 
 	QBoxLayout *toplayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
 	QBoxLayout *buttonlayout = new QBoxLayout(QBoxLayout::LeftToRight, this);
