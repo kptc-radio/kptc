@@ -140,4 +140,6 @@ void UpdateDialog::closeEvent(QCloseEvent* event)
 	}
 }
 
-UpdateDialog::~UpdateDialog() {}
+UpdateDialog::~UpdateDialog() {
+	deleteLater();
+}
