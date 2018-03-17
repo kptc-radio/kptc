@@ -244,11 +244,6 @@ void Kptc::initFixMenu() {
 		actionSendText->setShortcut(QKeySequence(Qt::CTRL, Qt::Key_F1, i));
 
 		fixmenu->addAction(actionSendText);
-
-		//	 fixmenu->insertItem ("&" + s + ". " + configdata.getFixLabel(s),
-		//			 this, SLOT (sendFixText(int)), CTRL + SHIFT + (Key_F1 +(i)) , i);
-		//			((fixmenu->setItemParameter (i, i);
-
 	}
 }
 
