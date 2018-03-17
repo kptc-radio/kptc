@@ -37,7 +37,7 @@ class KLed::Private
 
 		QPixmap cachedPixmap[2]; // for both states
 		QStyle::ControlElement ce_indicatorKLedCircular;
-	QStyle::ControlElement ce_indicatorKLedRectangular;
+		QStyle::ControlElement ce_indicatorKLedRectangular;
 };
 
 
