@@ -63,6 +63,8 @@ Kptc::Kptc(QWidget *parent) : QMainWindow(parent)
 	connect(&dataparser, &DataParser::status, statusinfo, &StatusInfo::setStatus);
 	connect(&dataparser, &DataParser::mode, statusinfo, &StatusInfo::setMode);
 	connect(&dataparser, &DataParser::listen, modecommander, &ModeCommander::setListen);
+	connect(&dataparser, &DataParser::line, this, &Kptc::apppendToTermoutput);
+	connect(&dataparser, &DataParser::currentmode, this, &Kptc::updateStatusBar);
 
 	statusinfo->setCall(configdata.getCall() + " (" + configdata.getSelCall() + ") ");
 }
