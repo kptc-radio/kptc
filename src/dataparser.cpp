@@ -1,7 +1,8 @@
 #include "dataparser.h"
 
 DataParser::DataParser(QObject *parent) : QObject(parent) {
-
+	bPromptInfoFollows = false;
+	currentterm = Term::MessageWindow;
 }
 
 void DataParser::parsePrompt(const char c) {
@@ -119,4 +120,69 @@ void DataParser::parseStatus(const char c) {
 	else {
 		emit listen(false);
 	}
+}
+
+void DataParser::parseModemOut(unsigned char c) {
+	int value = static_cast<int>(c);
+	if (value == 6) {
+		qDebug ()<< "Packet-STATUSINFO";
+	}
+	if (bStatusByteFollows) {
+		bStatusByteFollows = false;
+		parseStatus(c);
+	}
+	else if (value == 30) {
+		bStatusByteFollows = true;
+	}
+	else if (c == 4) {
+		bPromptInfoFollows = true; // command prompt info follows
+	}
+	else if (bPromptInfoFollows) {
+		parsePrompt(c);
+		bPromptInfoFollows = false;
+		parsePromptText = 20;
+	}
+	else if (parsePromptText > 0) {
+	if (value == 1) {
+		parsePromptText = 0;
+		currentterm = Term::MessageWindow;
+		emit prompt();
+	} // prompt end
+		else {
+			parsePromptText--;
+			if (this->isendline(c)) {
+				emit character(c);
+			}
+		}
+	}
+	else if (value == 3) {
+			currentterm = Term::DelayedEcho;
+	}	// delayed echo
+	else if (value == 2) {
+			currentterm = Term::RecWindow;
+	}	// rx
+	else if (value == 1) {
+			currentterm = Term::MessageWindow;
+	}	// prompt , errors , ...
+	else if (value == 7) ; // klingeling :-) , changeover bell, do some ring ring here !?
+	else {
+		if ((currentterm == Term::RecWindow) || (currentterm == Term::DelayedEcho)) {
+			QString color;
+			if (currentterm == Term::DelayedEcho) {
+				color = "#FF3333"; // red
+			}
+			else {
+				color = "#336600"; // rx
+			}
+			emit line(c, color);
+		}
+		else if (currentterm == Term::MessageWindow) {
+			bool endline = isendline(c);
+			emit statusMessage(c, endline);
+		}
+	}
+}
+
+bool DataParser::isendline(char c) {
+	return c == '\n' || c == '\r' ;
 }

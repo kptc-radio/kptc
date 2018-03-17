@@ -75,14 +75,6 @@ class Kptc : public QMainWindow {
 		const QString speed_down = tr("speed down");
 		const QString tx_speed = tr("tx speed");
 		const QString baudrate = tr("baudrate");
-		int currentterm;
-		// meaning of currentterm :
-		// 1: (ctrl-A) : prescripe/message window
-		// 2: (ctrl-B) : rec window
-		// 3: (ctrl-C) : delayed echo
-		bool bPromptInfoFollows;
-		bool bStatusByteFollows;
-		int parsePromptText;
 		CommandDialog commanddialog;
 		DataParser dataparser;
 		ModeButtons *modebuttons;
@@ -119,7 +111,6 @@ class Kptc : public QMainWindow {
 		void initClearwindowMenu();
 		void initializeStatusBar();
 		void initializeMenuBar();
-		bool isendline(char c);
 		bool handleFirstStart();
 		void initModem();
 		void initMainWindow();
@@ -137,11 +128,8 @@ class Kptc : public QMainWindow {
 		void changePrompt(QString);
 		void changeCall(QString);
 		void changeStatusMessage(QString);
-		void getstatus(char);
-		void getprompt(char);
 
 	public slots:
-		void parseModemOut(unsigned char);
 		void sendline(QString);
 		void sendchar(unsigned char);
 		void openconfigdialog();
@@ -163,6 +151,10 @@ class Kptc : public QMainWindow {
 		void echoText(QString);
 		void openUpdateDialog();
 		void closeEvent(QCloseEvent* event);
+		void showPrompt();
+		void appendToPrompt(char);
+		void apppendToTermoutput(char c, QString color);
+		void setStatusMessage(char c, bool endline);
 };
 
 #endif

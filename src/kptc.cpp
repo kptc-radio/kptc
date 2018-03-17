@@ -29,8 +29,6 @@ Kptc::Kptc(QWidget *parent) : QMainWindow(parent)
 	this->lefttoolbar = new QToolBar();
 	this->addToolBar(lefttoolbar);
 	this->addToolBarBreak();
-	currentterm = 1;
-	bPromptInfoFollows = false;
 
 	modecommander = new ModeCommander(this);
 	cqdialog = new CQDialog(this, modecommander);
@@ -58,8 +56,9 @@ Kptc::Kptc(QWidget *parent) : QMainWindow(parent)
 	connect(this, &Kptc::changeCall, statusinfo, &StatusInfo::setCall);
 	connect(this, &Kptc::changeStatusMessage, statusinfo, &StatusInfo::setStatusMessage);
 
-	connect(this, &Kptc::getprompt, &dataparser, &DataParser::parsePrompt);
-	connect(this, &Kptc::getstatus, &dataparser, &DataParser::parseStatus);
+	connect(&dataparser, &DataParser::statusMessage, this, &Kptc::setStatusMessage);
+	connect(&dataparser, &DataParser::character, this, &Kptc::appendToPrompt);
+	connect(&dataparser, &DataParser::prompt, this, &Kptc::showPrompt);
 	connect(&dataparser, &DataParser::direction, statusinfo, &StatusInfo::setLED);
 	connect(&dataparser, &DataParser::status, statusinfo, &StatusInfo::setStatus);
 	connect(&dataparser, &DataParser::mode, statusinfo, &StatusInfo::setMode);
@@ -78,7 +77,7 @@ bool Kptc::handleFirstStart() {
 	ConfigDialog configdialog ;
 	if (configdialog.exec() == QDialog::Accepted) {
 		bModemOk = Modem::modem->opentty() ;
-		Modem::modem->notify(this, SLOT(parseModemOut(unsigned char)));
+		Modem::modem->notify(&dataparser, SLOT(parseModemOut(unsigned char)));
 		configdata.setfirststart(false);
 		useconfigmachine();
 		//lefttoolbar->setBarPos(KToolBar::Left);
@@ -95,7 +94,7 @@ void Kptc::initModem() {
 	}
 	else {
 		bModemOk = Modem::modem->opentty();
-		Modem::modem->notify(this, SLOT(parseModemOut(unsigned char)));
+		Modem::modem->notify(&dataparser, SLOT(parseModemOut(unsigned char)));
 		useconfigmachine();
 	}
 	ConfigMachine::Pair result = configmachine->login();
@@ -265,86 +264,6 @@ void Kptc::initializeMenuBar() {
 	menuBar()->addMenu(optionmenu);
 	menuBar()->addMenu(clearwindow);
 	menuBar()->addMenu(helpmenu);
-}
-
-void Kptc::parseModemOut(unsigned char c) {
-	int value = static_cast<int>(c);
-	if (value == 6) {
-		qDebug ()<< "Packet-STATUSINFO";
-	}
-	if (bStatusByteFollows) {
-		bStatusByteFollows = false;
-		getstatus(c);
-	}
-	else if (value == 30) {
-		bStatusByteFollows = true;
-	}
-	else if (c == 4) {
-		bPromptInfoFollows = true; // command prompt info follows
-	}
-	else if (bPromptInfoFollows) {
-		getprompt(c);
-		bPromptInfoFollows = false;
-		parsePromptText = 20;
-	}
-	else if (parsePromptText > 0) {
-	if (value == 1) {
-		parsePromptText = 0;
-		currentterm = 1;
-		textedit->setPrompt(prompt.trimmed());
-		prompt.clear();
-	} // prompt end
-		else {
-			parsePromptText--;
-			if (this->isendline(c)) {
-				prompt.append(c);
-			}
-		}
-	}
-	else if (value == 3) {
-			currentterm = 3;
-	}	// delayed echo
-	else if (value == 2) {
-			currentterm = 2;
-	}	// rx
-	else if (value == 1) {
-			currentterm = 1;
-	}	// prompt , errors , ...
-	else if (value == 7) ; // klingeling :-) , changeover bell, do some ring ring here !?
-	else {
-		if ((currentterm == 2) || (currentterm == 3)) {
-			QString color;
-			if (currentterm == 3) {
-				color = "#FF3333"; // red
-			}
-			else {
-				color = "#336600"; // rx
-			}
-			setHTML(QString(c), color);
-			show();
-		}
-		else if (currentterm == 1) {
-			setHTML(QString(c), "#000000"); //black
-			if (this->isendline(c)) {
-				if (statusmessage.contains("*** ") == 1) {
-					if (statusmessage.contains("CONNECTED") || statusmessage.contains("CALLING")) {
-						statusmessage.replace(QRegExp("[*]"), "");
-						statusmessage = statusmessage.trimmed();
-						emit changeStatusMessage(statusmessage);
-						//statusinfo->setStatusMessage(statusmessage);
-					}
-					else if (statusmessage.contains("STBY")) {
-						emit changeStatusMessage("");
-//						statusinfo->setStatusMessage("");
-					}
-				}
-				statusmessage = "";
-			}
-			else {
-				statusmessage.append(c);
-			}
-		}
-	}
 }
 
 void Kptc::sendline(QString qs) {
@@ -526,10 +445,6 @@ void Kptc::updateStatusBar() {
 	}
 }
 
-bool Kptc::isendline(char c) {
-	return c == '\n' || c == '\r' ;
-}
-
 void Kptc::sendFixText(int id) {
 	QString idstring;
 	idstring.setNum(id);
@@ -577,6 +492,42 @@ void Kptc::closeEvent(QCloseEvent *event) {
 bool Kptc::queryClose() {
 	shutdown();
 	return true;
+}
+
+void Kptc::showPrompt() {
+	textedit->setPrompt(prompt.trimmed());
+	prompt.clear();
+}
+
+void Kptc::appendToPrompt(char c) {
+	prompt.append(c);
+}
+
+void Kptc::apppendToTermoutput(char c, QString color) {
+	setHTML(QString(c), color);
+	show();
+}
+
+void Kptc::setStatusMessage(char c, bool endline) {
+	setHTML(QString(c), "#000000"); //black
+	if (endline) {
+		if (statusmessage.contains("*** ") == 1) {
+			if (statusmessage.contains("CONNECTED") || statusmessage.contains("CALLING")) {
+				statusmessage.replace(QRegExp("[*]"), "");
+				statusmessage = statusmessage.trimmed();
+				emit changeStatusMessage(statusmessage);
+				//statusinfo->setStatusMessage(statusmessage);
+			}
+			else if (statusmessage.contains("STBY")) {
+				emit changeStatusMessage("");
+//					statusinfo->setStatusMessage("");
+			}
+		}
+		statusmessage = "";
+	}
+	else {
+		statusmessage.append(c);
+	}
 }
 
 void Kptc::resizeEvent(QResizeEvent *event) {
