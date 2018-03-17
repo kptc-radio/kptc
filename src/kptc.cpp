@@ -447,7 +447,7 @@ void Kptc::sendFixText(int id) {
 	QFile file (filename);
 	if (!file.open(QIODevice::ReadOnly)) {
 		QMessageBox::critical(this, "",
-		("Cannot open fix text file !\n Error by opening \"" + filename +"\"" ));	 // error by opening text file
+			("Cannot open fix text file !\n Error by opening \"" + filename +"\"" ));	 // error by opening text file
 		return;
 	}
 	QString buffer;
