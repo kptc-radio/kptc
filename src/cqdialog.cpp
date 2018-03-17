@@ -93,7 +93,7 @@ void CQDialog::saveText() {
 
 void CQDialog::selectTab(int Tab) {
 	currenttab = static_cast<Tabs>(Tab);
-	//qDebug ()<<"CQDialog-currenttab: "<< Tab ;
+	qDebug()<<"CQDialog-currenttab: "<< Tab ;
 }
 
 void CQDialog::startCall() {

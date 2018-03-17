@@ -26,6 +26,7 @@
 #include <QtWidgets/QPushButton>
 #include <QString>
 #include <QRegExp>
+#include <QDebug>
 
 #include "configdata.h"
 #include "modem.h"
