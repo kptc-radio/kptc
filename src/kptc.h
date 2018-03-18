@@ -100,7 +100,7 @@ class Kptc : public QMainWindow {
 
 		void useconfigmachine();
 		bool queryClose ();
-		void expandToolBar(QString text, char *slot, QObject *obj,  QToolBar *bar);
+		void expandToolBar(QString text, auto slot, auto obj,  QToolBar &bar);
 		void initializeToolBar();
 		void initializeMenues();
 		void initFileMenu();

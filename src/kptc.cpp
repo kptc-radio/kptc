@@ -319,66 +319,66 @@ void Kptc::clearEditWindow() {
 //TODO Check which correct QObject has to been called
 
 void Kptc::showPactor() {
-	lefttoolbar->clear();
-	this->expandToolBar("Stand by", "Standby", modecommander, lefttoolbar);
-	this->expandToolBar("QRT", "initQRT", this, lefttoolbar);
-	this->expandToolBar("changeover", "initchangeover", this, lefttoolbar);
-	this->expandToolBar(" CQ ", "openDialog", cqdialog, lefttoolbar);
-	this->expandToolBar("Unproto TX", "Unproto", modecommander, lefttoolbar);
-	this->expandToolBar("Listen", "Listen", modecommander, lefttoolbar);
+//	lefttoolbar->clear();
+	this->expandToolBar("Stand by", &ModeCommander::Standby, modecommander, *lefttoolbar);
+	this->expandToolBar("QRT", &Kptc::initQRT, this, *lefttoolbar);
+	this->expandToolBar("changeover", &Kptc::initchangeover, this, *lefttoolbar);
+	this->expandToolBar(" CQ ", &CQDialog::openDialog, cqdialog, *lefttoolbar);
+	this->expandToolBar("Unproto TX", &ModeCommander::Unproto, modecommander, *lefttoolbar);
+	this->expandToolBar("Listen", &ModeCommander::Listen, modecommander, *lefttoolbar);
 // lefttoolbar->setToggle(6);
 //	lefttoolbar->setButton(6,modecommander->isListen());
 }
 
 void Kptc::showAmtor() {
 	//modebuttons->buttongroup->setButton(2);
-	lefttoolbar->clear();
-	this->expandToolBar("Stand by", "Standby", modecommander, lefttoolbar);
-	this->expandToolBar("QRT", "initQRT", this, lefttoolbar);
-	this->expandToolBar("changeover", "initchangeover", this, lefttoolbar);
-	this->expandToolBar(" CQ ", "openDialog", cqdialog, lefttoolbar);
-	this->expandToolBar("FEC TX", "FEC", modecommander, lefttoolbar);
-	this->expandToolBar("Monitor", "Monitor", modecommander, lefttoolbar);
+//	lefttoolbar->clear();
+	this->expandToolBar("Stand by", &ModeCommander::Standby, modecommander, *lefttoolbar);
+	this->expandToolBar("QRT", &Kptc::initQRT, this, *lefttoolbar);
+	this->expandToolBar("changeover", &Kptc::initchangeover, this, *lefttoolbar);
+	this->expandToolBar(" CQ ", &CQDialog::openDialog, cqdialog, *lefttoolbar);
+	this->expandToolBar("FEC TX", &ModeCommander::FEC, modecommander, *lefttoolbar);
+	this->expandToolBar("Monitor", &ModeCommander::Monitor, modecommander, *lefttoolbar);
 }
 
 void Kptc::showRTTY() {
 	// modetoolbar->toggleButton(3);
-	lefttoolbar->clear();
-	this->expandToolBar(standby, "Standby", modecommander, lefttoolbar);
-	this->expandToolBar(qrt, "initQRT", this, lefttoolbar);
-	this->expandToolBar(changeover, "initchangeover", this, lefttoolbar);
-	this->expandToolBar(baudrate, "showrttyspeeddialog", this, lefttoolbar);
-	this->expandToolBar(cqws, "openDialog", cqdialog, lefttoolbar);
+//	lefttoolbar->clear();
+	this->expandToolBar(standby, &ModeCommander::Standby, modecommander, *lefttoolbar);
+	this->expandToolBar(qrt, &Kptc::initQRT, this, *lefttoolbar);
+	this->expandToolBar(changeover, &Kptc::initchangeover, this, *lefttoolbar);
+	this->expandToolBar(baudrate, &Kptc::showrttyspeeddialog, this, *lefttoolbar);
+	this->expandToolBar(cqws, &CQDialog::openDialog, cqdialog, *lefttoolbar);
 }
 
 void Kptc::showPSK31() {
 	//modetoolbar->toggleButton(4);
-	//modebuttons->buttongroup->setButton(4);
+//	modebuttons->buttongroup->setButton(4);
 	lefttoolbar->clear();
-	this->expandToolBar(standby, "Standby", modecommander, lefttoolbar);
-	this->expandToolBar(qrt, "initQRT", this, lefttoolbar);
-	this->expandToolBar(changeover, "initchangeover", this, lefttoolbar);
-	this->expandToolBar(cq, "openDialog", cqdialog, lefttoolbar);
+	this->expandToolBar(standby, &ModeCommander::Standby, modecommander, *lefttoolbar);
+	this->expandToolBar(qrt, &Kptc::initQRT, this, *lefttoolbar);
+	this->expandToolBar(changeover, &Kptc::initchangeover, this, *lefttoolbar);
+	this->expandToolBar(cq, &CQDialog::openDialog, cqdialog, *lefttoolbar);
 }
 
 void Kptc::showCW() {
 	//modebuttons->buttongroup->setButton(5);
 	lefttoolbar->clear();
-	this->expandToolBar(standby, "StandBy", modecommander, lefttoolbar);
-	this->expandToolBar(prescribe, "cwprescribe", modecommander, lefttoolbar);
-	this->expandToolBar(flush, "cwflush", modecommander, lefttoolbar);
-	this->expandToolBar(fix_speed, "cwautospeed", modecommander, lefttoolbar);
-	this->expandToolBar(speed_up, "increaseCWSpeed", modecommander, lefttoolbar);
-	this->expandToolBar(speed_down, "decreaseCWSpeed", modecommander, lefttoolbar);
-	this->expandToolBar(tx_speed, "showcwspeeddialog", this, lefttoolbar);
-	this->expandToolBar(cqws, "openDialog", cqdialog, lefttoolbar);
+	this->expandToolBar(standby, &ModeCommander::Standby, modecommander, *lefttoolbar);
+	this->expandToolBar(prescribe, &ModeCommander::cwprescribe, modecommander, *lefttoolbar);
+	this->expandToolBar(flush, &ModeCommander::cwflush, modecommander, *lefttoolbar);
+	this->expandToolBar(fix_speed, &ModeCommander::cwautospeed, modecommander, *lefttoolbar);
+	this->expandToolBar(speed_up, &ModeCommander::increaseCWSpeed, modecommander, *lefttoolbar);
+	this->expandToolBar(speed_down, &ModeCommander::decreaseCWSpeed, modecommander, *lefttoolbar);
+	this->expandToolBar(tx_speed, &Kptc::showcwspeeddialog, this, *lefttoolbar);
+	this->expandToolBar(cqws, &CQDialog::openDialog, cqdialog, *lefttoolbar);
 }
 
-void Kptc::expandToolBar(QString text, char *slot, QObject *obj, QToolBar *bar) {
-	QAction *temp = new QAction(text, this->lefttoolbar);
-	bar->addAction(temp);
+void Kptc::expandToolBar(QString text, auto slot, auto obj, QToolBar &bar) {
+	QAction *temp = new QAction(text, &bar);
+	bar.addAction(temp);
 
-	connect(temp, SIGNAL(triggered(bool)), obj, slot);
+	connect(temp, &QAction::triggered, obj, slot);
 }
 
 void Kptc::showcwspeeddialog() {
