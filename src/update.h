@@ -104,7 +104,7 @@ class Update : public QObject  {
 
 	private:
 		time_t convtime(FDTIME);
-		int GetFlash (char, char, FLASH *);
+		bool GetFlash (char, char, FLASH *);
 		int readflush(int);
 
 	signals:

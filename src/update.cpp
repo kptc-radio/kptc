@@ -77,7 +77,7 @@ int Update::runUpdate(QString qsfilename ) {
 		return -2;
 	}
 
-	if (GetFlash(manCode, devID, &flash) != 0) {
+	if (GetFlash(manCode, devID, &flash)) {
 		//QMessageBox::warning( updatewidget, "Kptc", tr("ERROR: receiving Flash information !") );
 		emit flashinfoerror();
 		// fprintf(stderr, "ERROR: receiving Flash information!\n");
