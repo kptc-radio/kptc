@@ -2,7 +2,7 @@
 
 QT += core gui widgets
 
-QMAKE_CXXFLAGS += -std=c++14
+QMAKE_CXXFLAGS += -std=c++17
 CONFIG += release
 TARGET = kptc
 TEMPLATE = app

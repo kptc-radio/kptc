@@ -39,7 +39,8 @@ int Update::runUpdate(QString qsfilename ) {
 	int hFile;
 	unsigned long fileLength;
 
-	int res;
+	[[maybe_unused]]
+	int res; //NOTE is this variable used anywhere?
 
 	FDTIME fileStamp;
 	FDTIME flashStamp;
