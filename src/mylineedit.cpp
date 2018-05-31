@@ -20,7 +20,7 @@
 #include "mylineedit.h"
 
 MyLineEdit::MyLineEdit(QWidget *parent) : QLineEdit(parent) {
-	this->setFont(QFont("courier",12,QFont::Normal));
+	this->setFont(QFont("courier", 12, QFont::Normal));
 	setReadOnly (false);
 	setMinimumSize(400, 30);
 	setMaximumHeight(30);
