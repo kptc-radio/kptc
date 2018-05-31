@@ -29,11 +29,11 @@
 
 #include <algorithm>
 
-#include <stdio.h>
-#include <signal.h>
-#include <stdlib.h>
-#include <assert.h>
-#include <signal.h>
+#include <cstdio>
+#include <csignal>
+#include <cstdlib>
+#include <cassert>
+#include <csignal>
 
 #include <sys/types.h>
 #include <termios.h>
