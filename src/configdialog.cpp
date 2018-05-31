@@ -302,7 +302,7 @@ void ConfigDialog::selectwidget(QListWidgetItem * lbi) {
 	}
 	int selectedIndex = 4;
 
-	for (auto i = 0u; i < categories.size(); ++i) {
+	for (auto i = 0; i < categories.size(); ++i) {
 		if (lbi->text() == categories[i]) {
 			selectedIndex = i;
 			break;
