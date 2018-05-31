@@ -376,10 +376,9 @@ void ConfigDialog::resetDeviceSelection() {
 }
 
 void ConfigDialog::resetPortSpeed() {
-	QString portspeed = configdata.getPortSpeed();
 	constexpr std::array<int, 5> speeds = {9600, 19200, 38400, 57600,115200};
 	int selectedIndex = 4;
-	int speed = portspeed.toInt();
+	int speed = configdata.getPortSpeed();
 	for (size_t i = 0; i < speeds.size(); ++i) {
 		if (speed == speeds[i]) {
 			selectedIndex = i;
@@ -429,7 +428,7 @@ void ConfigDialog::resetFixTextWidget() {
 }
 
 void ConfigDialog::writeconfig() {
-	configdata.setPortSpeed(port_ComboBox_speed->currentText());
+	configdata.setPortSpeed(port_ComboBox_speed->currentText().toInt());
 	QString port;
 
 	if (port_RadioButton1->isChecked()) {
@@ -445,7 +444,7 @@ void ConfigDialog::writeconfig() {
 		port = devices[3];
 	}
 	else {
-		port =port_LineEdit_dev->text();
+		port = port_LineEdit_dev->text();
 	}
 	configdata.setPort(port);
 	configdata.setEditPort(port_LineEdit_dev->text());

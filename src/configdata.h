@@ -20,6 +20,10 @@
 #ifndef CONFIGDATA_H
 #define CONFIGDATA_H
 
+#include <unordered_map>
+#include <utility>
+#include <iostream>
+
 #include <QSettings>
 #include <QRegExp>
 #include <QHash>
@@ -40,8 +44,8 @@ class ConfigData {
 		QString getPort();
 		void setEditPort(const QString &dev);
 		QString getEditPort();
-		void setPortSpeed(const QString &speed);
-		QString getPortSpeed();
+		void setPortSpeed(const int &speed);
+		int getPortSpeed();
 		void setCall(const QString&);
 		QString getCall();
 		void setSelCall(const QString&);
@@ -84,9 +88,11 @@ class ConfigData {
 	private:
 		enum class Group;
 		struct Triple {
+				Triple(Group group = Group::NO, QVariant name = "", QVariant defaultvalue = "") :
+				group{group}, name{name}, defaultvalue{defaultvalue} {}
 			Group group;
-			QString name;
-			QString defaultvalue;
+			QVariant name;
+			QVariant defaultvalue;
 		};
 		enum class Group {PORT, PERSONAL, GENERAL, LOGOUT, CQTEXT, FIXTEXT, LOGIN, NO};
 		enum class Types {PORTDEVICE, PORTDEVICE_EDIT, PORTSPEED, CALL,
@@ -96,14 +102,42 @@ class ConfigData {
 							 LOGOUTSCRIPT, LOGINSCRIPT};
 
 		QSettings *settings;
+		std::unordered_map<Types, Triple> triples = {
+		std::make_pair(Types::PORTDEVICE, Triple(Group::PORT, QString("PORTDEVICE_EDIT"), QString("/dev/ttyS0"))),
+		std::make_pair(Types::PORTDEVICE_EDIT, Triple(Group::PORT, "PORTDEVICE_EDIT", "/dev/ttyS11")),
+		std::make_pair(Types::PORTSPEED, Triple(Group::PORT, "PORTSPEED", "38400")),
+		std::make_pair(Types::CALL, Triple(Group::PERSONAL, "CALL", "DK0TUX")),
+		std::make_pair(Types::SELCALL, Triple(Group::PERSONAL, "SELCALL", "DTUX")),
+		std::make_pair(Types::FIRSTSTART, Triple(Group::GENERAL, "FIRSTSTART", "TRUE")),
+		std::make_pair(Types::AWAYMSG, Triple(Group::LOGOUT,"AWAYMSG", "Here is %MYCALL% from %MYQTH%,\n\ncurrently terminal is not active!\n\n73 de %MYNAME%.")),
+		std::make_pair(Types::USEAWAYMSG, Triple(Group::LOGOUT, "USEAWAYMSG", "TRUE")),
+		std::make_pair(Types::CMSG, Triple(Group::PERSONAL, "CMSG", "Here is %MYCALL% from %MYQTH%!")),
+		std::make_pair(Types::PACTOR, Triple(Group::CQTEXT, "PACTOR", "CQ CQ CQ de %MYCALL%\nCQ CQ CQ de %MYCALL%\nCQ CQ CQ de %MYCALL%\npse K\n")),
+		std::make_pair(Types::AMTOR, Triple(Group::CQTEXT, "AMTOR", "CQ CQ CQ de %MYCALL%\nCQ CQ CQ de %MYCALL%\nCQ CQ CQ de %MYCALL%\npse K\n")),
+		std::make_pair(Types::RTTY, Triple(Group::CQTEXT, "RTTY", "ryryryryryry\nCQ CQ CQ de %MYSELCALL%\nCQ CQ CQ de %MYSELCALL%\npse K\n")),
+		std::make_pair(Types::PSK31, Triple(Group::CQTEXT, "PSK31", "CQ CQ CQ de %MYCALL%\nCQ CQ CQ de %MYCALL%\nCQ CQ CQ de %MYCALL%\npse K\n")),
+		std::make_pair(Types::CW, Triple(Group::CQTEXT, "PSK31", "CQ CQ CQ de %MYCALL%\nCQ CQ CQ de %MYCALL%\nCQ CQ CQ de %MYCALL%\npse K\n")),
+		std::make_pair(Types::PATH_LOGIN, Triple(Group::LOGIN, "PATH", "")),
+		std::make_pair(Types::PATH_LOGOUT, Triple(Group::LOGOUT, "PATH", "")),
+		std::make_pair(Types::NAME, Triple(Group::PERSONAL, "NAME", "Tux")),
+		std::make_pair(Types::QTH, Triple(Group::PERSONAL, "QTH", "Antarctic")),
+		std::make_pair(Types::LOGOUTSCRIPT, Triple(Group::LOGOUT, "LOGOUTSCRIPT", "FALSE	")),
+		std::make_pair(Types::LOGINSCRIPT, Triple(Group::LOGIN, "LOGINSCRIPT", "FALSE"))
+		};
+		std::unordered_map<Group, QString> groups = {
+		std::make_pair(Group::PORT, "PORT"),
+		std::make_pair(Group::PERSONAL, "PERSONAL"),
+		std::make_pair(Group::GENERAL, "GENERAL"),
+		std::make_pair(Group::LOGIN, "LOGIN"),
+		std::make_pair(Group::LOGOUT, "LOGOUT"),
+		std::make_pair(Group::CQTEXT, "CQTEXT"),
+		};
 
-		QString getGroupName(Group group) const;
-		void setValue(Group group, const QString &key, const QString &value);
-		QString getValue(Group group, const QString &key, const QString &defaultvalue) const;
-		bool stringIsTrue (const QString &string);
-		QString boolToString(bool value) const;
-		void setData(Types type, QString value = "");
-		QString getData(Types type);
+		QString getGroupName(Group group);
+		void setValue(Group group, const QString &key, const QVariant &value);
+		QVariant getValue(Group group, const QVariant &key, const QVariant &defaultvalue);
+		void setData(Types type, QVariant value = "");
+		QVariant getData(Types type);
 		Triple getTripleByType(Types type);
 };
 
