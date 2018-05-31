@@ -204,77 +204,77 @@ int Update::runUpdate(QString qsfilename ) {
 	return 0;
 }
 
-int Update::GetFlash(char manCode, char devID, FLASH *flash)
+bool Update::GetFlash(char manCode, char devID, FLASH *flash)
 {
 	int result;
 	switch((unsigned char)manCode) {
 		/* AMD Flash wird zwar erkannt aber für Programmierung nicht unterstützt */
 		case 0x01:
-			flash->Manufacturer = "AMD";
+			flash->Manufacturer = const_cast<char *>(std::string("AMD").c_str());
 			switch((unsigned char)devID) {
 				case 0xa4:
-					flash->Type = "Am29F040";
+					flash->Type = const_cast<char *>(std::string("Am29F040").c_str());;
 					flash->usSectSize = 65535;
 					flash->ulFlashSize = 524288;
-					result = 0;
+					result = false;
 					break;
 				default:
-					flash->Type = "UNKNOWN";
-					flash->usSectSize = 0;
-					flash->ulFlashSize = 0;
-					result = -1;
+					flash->Type = const_cast<char *>(std::string("UNKNOWN").c_str());
+					flash->usSectSize = false;
+					flash->ulFlashSize = false;
+					result = true;
 					break;
 				}
 				break;
 
 		case 0x1f:
-			flash->Manufacturer = "Atmel";
+			flash->Manufacturer = const_cast<char *>(std::string("Atmel").c_str());
 			switch((unsigned char)devID) {
 				case 0x5d:
-					flash->Type = "AT29C512";
+					flash->Type = const_cast<char *>(std::string("AT29C512").c_str());
 					flash->usSectSize = 128;
 					flash->ulFlashSize = 65535;
-					result = 0;
+					result = false;
 					break;
 				case 0xd5:
-					flash->Type = "AT29C010";
+					flash->Type = const_cast<char *>(std::string("AT29C010").c_str());
 					flash->usSectSize = 128;
 					flash->ulFlashSize = 131072;
-					result = 0;
+					result = false;
 					break;
 				case 0xda:
-					flash->Type = "AT29C020";
+					flash->Type = const_cast<char *>(std::string("AT29C020").c_str());
 					flash->usSectSize = 256;
 					flash->ulFlashSize = 262144;
-					result = 0;
+					result = false;
 					break;
 				case 0x5b:
-					flash->Type = "AT29C040";
+					flash->Type = const_cast<char *>(std::string("AT29C040").c_str());
 					flash->usSectSize = 512;
 					flash->ulFlashSize = 524288;
-					result = 0;
+					result = false;
 					break;
 				case 0xa4:
-					flash->Type = "AT29C040A";
+					flash->Type = const_cast<char *>(std::string("AT29C040A").c_str());
 					flash->usSectSize = 256;
 					flash->ulFlashSize = 524288;
-					result = 0;
+					result = false;
 					break;
 				default:
-					flash->Type = "UNKNOWN";
-					flash->usSectSize = 0;
-					flash->ulFlashSize = 0;
-					result = -1;
+					flash->Type = const_cast<char *>(std::string("UNKNOWN").c_str());
+					flash->usSectSize = false;
+					flash->ulFlashSize = false;
+					result = true;
 					break;
 				}
 				break;
 
 		default:
-			flash->Manufacturer = "INVALID";
-			flash->Type = "INVALID";
-			flash->usSectSize = 0;
-			flash->ulFlashSize = 0;
-			result = -1;
+			flash->Manufacturer = const_cast<char *>(std::string("INVALID").c_str());
+			flash->Type = const_cast<char *>(std::string("INVALID").c_str());
+			flash->usSectSize = false;
+			flash->ulFlashSize = false;
+			result = true;
 			break;
 		}
 

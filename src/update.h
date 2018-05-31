@@ -23,6 +23,8 @@
 #include <QObject>
 #include <QtWidgets/QMessageBox>
 
+#include <string>
+
 #include "modem.h"
 
 #include <sys/types.h>
