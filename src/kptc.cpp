@@ -83,7 +83,6 @@ bool Kptc::handleFirstStart() {
 		Modem::modem->notify(&dataparser, SLOT(parseModemOut(unsigned char)));
 		configdata.setfirststart(false);
 		useconfigmachine();
-		//lefttoolbar->setBarPos(KToolBar::Left);
 	}
 	return bModemOk;
 }
@@ -114,7 +113,6 @@ void Kptc::initModem() {
 
 void Kptc::initMainWindow() {
 	setWindowTitle(tr("Kptc - the PTC-II for penguins "));
-	// connect(kapp, SIGNAL(shutDown()), this, SLOT(shutdown()));
 	this->resize(650, 450);
 }
 
@@ -203,8 +201,6 @@ void Kptc::initActionMenu() {
 
 	QAction *stop = new QAction(tr("&Stand by"), actionmenu);
 	stop->setShortcut(QKeySequence(Qt::CTRL, 'S'));
-	//connect(stop, &QAction::triggered, this, SLOT(Standby()));
-	//TODO
 	connect(stop, &QAction::triggered, modecommander, &ModeCommander::Standby);
 	actionmenu->addAction(stop);
 
@@ -276,7 +272,7 @@ void Kptc::sendchar(unsigned char c) {
 }
 
 void Kptc::echoText(QString qtext) {
-	setHTML(qtext, "#001933"); //darkblue
+	setHTML(qtext, Kptc::darkblue);
 	termoutput->append(qtext);
 }
 
@@ -507,18 +503,16 @@ void Kptc::apppendToTermoutput(char c, QString color) {
 }
 
 void Kptc::setStatusMessage(char c, bool endline) {
-	setHTML(QString(c), "#000000"); //black
+	setHTML(QString(c), Kptc::black); //black
 	if (endline) {
 		if (statusmessage.contains("*** ") == 1) {
 			if (statusmessage.contains("CONNECTED") || statusmessage.contains("CALLING")) {
 				statusmessage.replace(QRegExp("[*]"), "");
 				statusmessage = statusmessage.trimmed();
 				emit changeStatusMessage(statusmessage);
-				//statusinfo->setStatusMessage(statusmessage);
 			}
 			else if (statusmessage.contains("STBY")) {
 				emit changeStatusMessage("");
-//					statusinfo->setStatusMessage("");
 			}
 		}
 		statusmessage = "";

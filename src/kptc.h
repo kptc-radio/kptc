@@ -75,6 +75,9 @@ class Kptc : public QMainWindow {
 		const QString speed_down = tr("speed down");
 		const QString tx_speed = tr("tx speed");
 		const QString baudrate = tr("baudrate");
+		const QString darkblue = "#001933";
+		const QString black = "#000000";
+
 		CommandDialog commanddialog;
 		DataParser dataparser;
 		ModeButtons *modebuttons;
