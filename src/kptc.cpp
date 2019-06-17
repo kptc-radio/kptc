@@ -71,10 +71,11 @@ Kptc::Kptc(QWidget *parent) : QMainWindow(parent)
 
 bool Kptc::handleFirstStart() {
 	bool bModemOk = false;
-	QMessageBox::information(this, (QString(tr("Thank you for installing Kptc !\n")) +
+	QMessageBox::information(this, QString(tr("Welcome to Kptc !")),
+		QString(tr("Thank you for installing Kptc !\n")) +
 		QString(tr("This is a Ham Radio software for the SCS-PTC-II\nRemember: This sofware is still beta !\n\n")) +
 		QString(tr("Connect the PTC to your computer\nand switch it on now.\nThen let?s continue with some configurations.\n")) +
-		QString(tr("Have Fun ! 73 de Lars DL3YFC"))), QString(tr("Welcome to Kptc !")));
+		QString(tr("Have Fun! 73 de Lars DL3YFC")));
 
 	ConfigDialog configdialog ;
 	if (configdialog.exec() == QDialog::Accepted) {
