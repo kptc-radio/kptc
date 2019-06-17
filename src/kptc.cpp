@@ -272,7 +272,7 @@ void Kptc::sendline(QString qs) {
 }
 
 void Kptc::sendchar(unsigned char c) {
-	if (Modem::modem->writeChar(c));//TODO Why?
+	Modem::modem->writeChar(c);
 }
 
 void Kptc::echoText(QString qtext) {
