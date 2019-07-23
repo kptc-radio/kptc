@@ -89,14 +89,14 @@ bool Modem::opentty() {
 	qdev = configdata.getPort();
 	// lock the device:
 	if ( lock_device() == false ) {
-		errmsg = /*i18n*/("Error by device locking");
+		errmsg = /*i18n*/tr("Error by device locking");
 		return false;
 	}
 	//	int flags;
 	const char *const devString = qdev.toStdString().c_str();
 	modemfd = open(devString, O_RDWR | O_NOCTTY);
 	if(modemfd	< 0) {
-		errmsg = /*i18n*/("Sorry, can't open modem.");
+		errmsg = /*i18n*/tr("Sorry, can't open modem.");
 		return false;
 	}
 	tcdrain (modemfd);
@@ -107,7 +107,7 @@ bool Modem::opentty() {
 		tcsendbreak(modemfd, 0);
 		sleep(1);
 		if(tcgetattr(modemfd, &tty) < 0){
-			errmsg = /*i18n*/("Sorry, the modem is busy.");
+			errmsg = /*i18n*/tr("Sorry, the modem is busy.");
 			::close(modemfd);
 			modemfd = -1;
 			return false;
@@ -130,12 +130,12 @@ bool Modem::opentty() {
 	tcdrain(modemfd);
 	const auto setResult = tcsetattr(modemfd, TCSANOW, &tty);
 	if(setResult < 0){
-		errmsg = /*i18n*/("Sorry, the modem is busy.");
+		errmsg = /*i18n*/tr("Sorry, the modem is busy.");
 		::close(modemfd);
 		modemfd=-1;
 		return false;
 	}
-	errmsg = /*i18n*/("Modem Ready.");
+	errmsg = /*i18n*/tr("Modem Ready.");
 	return true;
 }
 
@@ -146,7 +146,7 @@ bool Modem::closetty() {
 		tcflush(modemfd, TCIOFLUSH);
 		const int setResult = tcsetattr(modemfd, TCSANOW, &initial_tty);
 		if(setResult < 0){
-			errmsg = /*i18n*/("Can't restore tty settings: tcsetattr()\n");
+			errmsg = /*i18n*/tr("Can't restore tty settings: tcsetattr()\n");
 			::close(modemfd);
 			modemfd = -1;
 			return false;
@@ -155,7 +155,7 @@ bool Modem::closetty() {
 		modemfd = -1;
 	}
 	if (unlock_device() == false) {
-		errmsg = /*i18n*/("cannot unlock device !"); return false;
+		errmsg = /*i18n*/tr("cannot unlock device !"); return false;
 	}
 	return true;
 }
@@ -190,7 +190,7 @@ void Modem::startNotifier() {
 		if(notifier == 0) {
 			notifier = new QSocketNotifier(modemfd, QSocketNotifier::Read, this);
 			connect(notifier, SIGNAL(activated(int)), SLOT(readtty(int)));
-			qDebug() << "QSocketNotifier started!" << endl;
+			qDebug() << tr("QSocketNotifier started!") << endl;
 		} else {
 			notifier->setEnabled(true);
 		}
@@ -203,7 +203,7 @@ void Modem::stopNotifier() {
 		disconnect(notifier);
 		delete notifier;
 		notifier = 0;
-		qDebug() << "QSocketNotifier stopped!" << endl;
+		qDebug() << tr("QSocketNotifier stopped!") << endl;
 	}
 }
 
@@ -266,7 +266,7 @@ bool Modem :: lock_device()
 				sscanf(lckpidstr, "%d", &lckpid);
 				const auto killResult = kill(lckpid, 0);
 				if (killResult == 0) {
-					qDebug() << "Device " << device <<" is locked by process " << lckpid << endl;
+					qDebug() << tr("Device ") << device << tr(" is locked by process ") << lckpid << endl;
 					return false;
 				}
 
@@ -274,21 +274,21 @@ bool Modem :: lock_device()
 				 * The lock file is stale. Remove it.
 				 */
 				if (unlink(lckf)) {
-					qDebug() << "Unable to unlink stale lock file: " << lckf << endl;
+					qDebug() << tr("Unable to unlink stale lock file: ") << lckf << endl;
 					return false;
 				}
 			} else {
-				qDebug() << "Cannot read from lock file: "<< lckf << endl ;
+				qDebug() << tr("Cannot read from lock file: ") << lckf << endl ;
 				return false;
 			}
 		} else {
-			qDebug() << "Cannot open existing lock file: " << lckf	<< endl;
+			qDebug() << tr("Cannot open existing lock file: ") << lckf	<< endl;
 			return false;
 		}
 	}
 	lfh = open(lckf, O_WRONLY | O_CREAT | O_EXCL,	S_IWRITE | S_IREAD | S_IRGRP | S_IROTH);
 	if (lfh < 0) {
-		qDebug() << "Cannot create lockfile. Sorry." << endl;
+		qDebug() << tr("Cannot create lockfile. Sorry.") << endl;
 		return false;
 	}
 	sprintf(lckpidstr, "%10d\n", getpid());
@@ -302,7 +302,7 @@ bool Modem :: lock_device()
 bool Modem :: unlock_device()
 {
 	if(!modem_is_locked && qdev == "") {
-		qDebug() << "confused by unlock device, sorry !"<< endl;
+		qDebug() << tr("confused by unlock device, sorry !") << endl;
 		return false;
 	}
 	char *device;
@@ -312,7 +312,7 @@ bool Modem :: unlock_device()
 	devicename = strrchr(device, '/');
 	sprintf(lckf, "%s/%s%s", LF_PATH, LF_PREFIX, (devicename ? (devicename + 1) : device));
 	if (unlink(lckf)) {
-		qDebug() << "Unable to unlink lock file: " << lckf << endl;
+		qDebug() << tr("Unable to unlink lock file: ") << lckf << endl;
 		return false;
 	}
 	return true;
