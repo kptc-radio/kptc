@@ -252,7 +252,8 @@ bool Modem :: lock_device()
 	/*
 	 * Check if there's already a LCK	* file
 	 */
-	if (stat(lckf, &buf) == 0) {
+	const auto statResult = stat(lckf, &buf);
+	if (statResult == 0) {
 		/*
 		 * we must now expend effort to learn if it's stale or not.
 		 */
@@ -263,7 +264,8 @@ bool Modem :: lock_device()
 			if (nb > 0) {
 				lckpidstr[nb] = 0;
 				sscanf(lckpidstr, "%d", &lckpid);
-				if (kill(lckpid, 0) == 0) {
+				const auto killResult = kill(lckpid, 0);
+				if (killResult == 0) {
 					qDebug() << "Device " << device <<" is locked by process " << lckpid << endl;
 					return false;
 				}
