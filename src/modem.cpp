@@ -256,8 +256,8 @@ bool Modem :: lock_device()
 		/*
 		 * we must now expend effort to learn if it's stale or not.
 		 */
-		const auto openResult = lfh = open(lckf, O_RDONLY);
-		if (openResult != -1) {
+		lfh = open(lckf, O_RDONLY);
+		if (lfh != -1) {
 			const auto byteToRead = std::min(static_cast<__off_t>(20), buf.st_size);
 			nb = read(lfh, &lckpidstr, byteToRead);
 			if (nb > 0) {
