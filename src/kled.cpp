@@ -59,7 +59,7 @@ KLed::KLed(const QColor& color, State state, Look look, Shape shape, QWidget *pa
 	d->look = look;
 	d->shape = shape;
 	setColor(color);
-	}
+}
 
 KLed::~KLed()
 {
@@ -169,7 +169,12 @@ void KLed::setState(State state)
 	if (d->state == state) {
 		return;
 	}
-	d->state = (state == Off ? Off : On);
+	if (state == Off) {
+		d->state = Off;
+	}
+	else {
+		d->state = On;
+	}
 	updateCachedPixmap();
 }
 
@@ -276,9 +281,17 @@ void KLed::paintKLed(Shape shape, Look look)
 	image.fill(0);
 
 	QRadialGradient fillGradient(center, smallestSize / 2.0, QPointF(center.x(), size.height() / 3.0));
-	const QColor fillColor = d->state != Off ? d->color : d->color.dark(d->darkFactor);
-	fillGradient.setColorAt(0.0, fillColor.light(250));
-	fillGradient.setColorAt(0.5, fillColor.light(130));
+	auto color = [=]() {
+		if (d->state != Off) {
+			return d->color;
+		}
+		else {
+			return d->color.darker(d->darkFactor);
+		}
+	};
+	const QColor fillColor = color();
+	fillGradient.setColorAt(0.0, fillColor.lighter(250));
+	fillGradient.setColorAt(0.5, fillColor.lighter(130));
 	fillGradient.setColorAt(1.0, fillColor);
 
 	QConicalGradient borderGradient(center, look == Sunken ? 90 : -90);

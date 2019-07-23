@@ -20,8 +20,8 @@
 	 Sebastian Martin Dicke
  */
 
- #ifndef KLed_H
- #define KLed_H
+#ifndef KLed_H
+#define KLed_H
 
 #include <QtGui/QPainter>
 #include <QtGui/QImage>
@@ -40,7 +40,7 @@ class KLed : public QWidget {
 	Q_PROPERTY(int darkFactor READ darkFactor WRITE setDarkFactor)
 
 	public:
-		enum State {Off, On };
+		enum State {Off, On};
 		enum Shape {Rectangular, Circular};
 		enum Look  {Flat, Raised, Sunken};
 
