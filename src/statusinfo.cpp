@@ -66,10 +66,10 @@ void StatusInfo::setSize() {
 	QFontMetrics metric(this->font());
 	constexpr int promptWidth = 80;
 	constexpr int distance = 0;
-	int modeWidth = metric.width(mode->text());
-	int statusWidth = metric.width(mode->text());
-	int statusMessageWidth = metric.width(mode->text());
-	int callWidth = metric.width(call->text());
+	int modeWidth = metric.horizontalAdvance(mode->text());
+	int statusWidth = metric.horizontalAdvance(mode->text());
+	int statusMessageWidth = metric.horizontalAdvance(mode->text());
+	int callWidth = metric.horizontalAdvance(call->text());
 	constexpr int ledwidth = 16;
 	constexpr int sendwidth = 30;
 	constexpr int y = 0;
