@@ -332,7 +332,7 @@ int Modem::rs232_read(void *bp, int maxlen, bool breakonerror)
 		if (0 == res) {
 			fprintf(stderr, "ERROR: timed out!\n");
 			endloop = 1;
-		} else if (-1 == res) {
+		} else if (res == -1) {
 			if (breakonerror) {
 				perror("rs232_read select");
 				exit(10);
