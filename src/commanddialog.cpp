@@ -47,7 +47,7 @@ void CommandDialog::keyPressEvent(QKeyEvent *event) {
 			////qDebug() << "CommandDialog::keyEvent" <<combo->currentText();
 //			Modem::modem->send_esc();
 //			Modem::modem->writeString(combo.currentText().toStdString().c_str());
-			Modem::modem->writeLine2(combo.currentText().toStdString().c_str());
+			Modem::modem()->writeLine2(combo.currentText().toStdString().c_str());
 			combo.clear();
 	}
 	else {

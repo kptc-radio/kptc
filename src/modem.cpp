@@ -15,7 +15,11 @@
 constexpr char LF_PATH[10] = "/var/lock";
 constexpr char LF_PREFIX[5] = "LCK	";
 
-Modem *Modem::modem = 0;
+Modem *Modem::modem()
+{
+	static Modem instance;
+	return &instance;
+}
 
 Modem::Modem() :
 	modemfd(-1),
@@ -24,15 +28,11 @@ Modem::Modem() :
 	dataMask(0xFF)
 
 {
-	assert(modem == 0);
-	modem = this;
 	modem_is_locked = false;
 	qdev = "";
 }
 
-Modem::~Modem() {
-	modem = 0;
-}
+Modem::~Modem() {}
 
 speed_t Modem::modemspeed() {
 	// convert the string modem speed to a t_speed type

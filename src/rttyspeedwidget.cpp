@@ -56,8 +56,8 @@ void RTTYSpeedWidget::change() {
 	QString qs;
 	qs.setNum(speed);
 	qs.prepend("bau ");
-	Modem::modem->send_esc();
-	Modem::modem->writeString(qs);
+	Modem::modem()->send_esc();
+	Modem::modem()->writeString(qs);
 	accept();
 }
 

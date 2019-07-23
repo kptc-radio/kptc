@@ -53,10 +53,9 @@ class Modem : public QObject  {
 	Q_OBJECT
 
 	public:
-		static Modem *modem;
-
-		Modem();
 		~Modem();
+		/*Create a single Modem instance*/
+		static Modem *modem();
 		/** lock and open serial port with settings of ConfigData*/
 		bool opentty();
 		/** unlock and close serial port */
@@ -104,6 +103,7 @@ class Modem : public QObject  {
 		struct termios tty;
 		QString qdev;
 
+		Modem();
 		speed_t modemspeed();  // parse modem speed
 		bool lock_device();
 		bool unlock_device();

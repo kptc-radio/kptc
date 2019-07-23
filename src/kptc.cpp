@@ -79,8 +79,8 @@ bool Kptc::handleFirstStart() {
 
 	ConfigDialog configdialog ;
 	if (configdialog.exec() == QDialog::Accepted) {
-		bModemOk = Modem::modem->opentty() ;
-		Modem::modem->notify(&dataparser, SLOT(parseModemOut(unsigned char)));
+		bModemOk = Modem::modem()->opentty() ;
+		Modem::modem()->notify(&dataparser, SLOT(parseModemOut(unsigned char)));
 		configdata.setfirststart(false);
 		useconfigmachine();
 	}
@@ -88,15 +88,14 @@ bool Kptc::handleFirstStart() {
 }
 
 void Kptc::initModem() {
-	(void) new Modem;
 	bool bModemOk = false;
 
 	if (configdata.firststart()) {
 		bModemOk = this->handleFirstStart();
 	}
 	else {
-		bModemOk = Modem::modem->opentty();
-		Modem::modem->notify(&dataparser, SLOT(parseModemOut(unsigned char)));
+		bModemOk = Modem::modem()->opentty();
+		Modem::modem()->notify(&dataparser, SLOT(parseModemOut(unsigned char)));
 		useconfigmachine();
 	}
 	ConfigMachine::Pair result = configmachine->login();
@@ -104,7 +103,7 @@ void Kptc::initModem() {
 		QMessageBox::critical(this, "",
 			("Cannot open your personal login script file !\n Error by opening \"" + result.second +"\"" ));	 // error by opening text file
 	}
-	qDebug() << Modem::modem->modemMessage();
+	qDebug() << Modem::modem()->modemMessage();
 	if (!bModemOk) {
 		QMessageBox::information(this,
 			tr("Cannot open modem device !"), "Kptc");
@@ -261,14 +260,14 @@ void Kptc::initializeMenuBar() {
 }
 
 void Kptc::sendline(QString qs) {
-	Modem::modem->writeString(qs);
+	Modem::modem()->writeString(qs);
 	termoutput->append(qs);
 	termoutput->append("\n");
 	show();
 }
 
 void Kptc::sendchar(unsigned char c) {
-	Modem::modem->writeChar(c);
+	Modem::modem()->writeChar(c);
 }
 
 void Kptc::echoText(QString qtext) {
@@ -453,7 +452,7 @@ void Kptc::sendFixText(int id) {
 
 	while (!file.atEnd()) {
 		buffer = file.readLine(1024);
-		Modem::modem->writeString(buffer);
+		Modem::modem()->writeString(buffer);
 	}
 	file.close() ;
 }
@@ -461,7 +460,7 @@ void Kptc::sendFixText(int id) {
 void Kptc::openUpdateDialog() {
 	UpdateDialog updatedialog;
 	if (updatedialog.exec() == QDialog::Accepted) {
-		Modem::modem->startNotifier();
+		Modem::modem()->startNotifier();
 	}
 }
 
@@ -473,8 +472,8 @@ void Kptc::shutdown() {
 		QMessageBox::critical(this, "",
 			("Cannot open your personal logout script file !\n Error by opening \"" + result.second +"\"" ));	 // error by opening text file
 	}
-	if (!Modem::modem->closetty()) {
-		qDebug () << Modem::modem->modemMessage();
+	if (!Modem::modem()->closetty()) {
+		qDebug () << Modem::modem()->modemMessage();
 	}
 }
 

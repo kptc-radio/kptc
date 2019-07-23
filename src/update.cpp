@@ -58,20 +58,20 @@ int Update::runUpdate(QString qsfilename ) {
 	read(hFile, &fileStamp, 4);
 
 	fileLength = lseek(hFile, 0, SEEK_END);
-	Modem::modem->writeString("Q");
+	Modem::modem()->writeString("Q");
 	usleep(200);
 
-	Modem::modem->stopNotifier(); // close connection, skip data
-	Modem::modem->writeString("UPDATE");
+	Modem::modem()->stopNotifier(); // close connection, skip data
+	Modem::modem()->writeString("UPDATE");
 
-	readflush(Modem::modem->getFD()); /* read and ignore the UPDATE message */
+	readflush(Modem::modem()->getFD()); /* read and ignore the UPDATE message */
 
-	Modem::modem->writeChar((char) 6 );	/* send ack */
+	Modem::modem()->writeChar((char) 6 );	/* send ack */
 
 	int error = 0;
-	error = Modem::modem->rs232_read(&manCode, 1, false);
-	error = Modem::modem->rs232_read(&devID, 1, false);
-	error = Modem::modem->rs232_read(&flashStamp, 4, false);
+	error = Modem::modem()->rs232_read(&manCode, 1, false);
+	error = Modem::modem()->rs232_read(&devID, 1, false);
+	error = Modem::modem()->rs232_read(&flashStamp, 4, false);
 
 	if (error == -1) {
 		return -2;
@@ -81,7 +81,7 @@ int Update::runUpdate(QString qsfilename ) {
 		//QMessageBox::warning( updatewidget, "Kptc", tr("ERROR: receiving Flash information !") );
 		emit flashinfoerror();
 		// fprintf(stderr, "ERROR: receiving Flash information!\n");
-		Modem::modem->send_esc();	/* send esc */
+		Modem::modem()->send_esc();	/* send esc */
 		close(hFile);
 		return -1;
 	}
@@ -94,7 +94,7 @@ int Update::runUpdate(QString qsfilename ) {
 		//QMessageBox::warning( updatewidget, "Kptc", tr("ERROR: wrong sector size !") );
 		emit wrongsectorsize();
 		//fprintf(stderr, "ERROR: wrong sector size!\n");
-		Modem::modem->send_esc();	/* send esc */
+		Modem::modem()->send_esc();	/* send esc */
 		close(hFile);
 		return -1;
 	}
@@ -109,7 +109,7 @@ int Update::runUpdate(QString qsfilename ) {
 		//QMessageBox::warning( updatewidget, "Kptc", tr("ERROR: File too large !\nFile should not be longer than ") + flashFree + QString(" bytes.") );
 		emit filetoolarge(flashFree);
 		//fprintf(stderr, "ERROR: File too large!\n       File should not be longer than %ld bytes.\n", FlashFree);
-		Modem::modem->send_esc();	/* send esc */
+		Modem::modem()->send_esc();	/* send esc */
 		close(hFile);
 		return -1;
 	}
@@ -128,21 +128,21 @@ int Update::runUpdate(QString qsfilename ) {
 		tr("Proceed"), tr("Quit"), 0, 0, 1 )) {
 			case 1: // Quit or escape
 			// exit
-			Modem::modem->send_esc();
+			Modem::modem()->send_esc();
 			close(hFile);
 			return -2;
 			break;
 		}
 	}
 
-	Modem::modem->writeChar((char) 6);	/* send ack */
+	Modem::modem()->writeChar((char) 6);	/* send ack */
 
 	ch = (char) (sectors >> 8);
-	Modem::modem->writeChar (ch);
+	Modem::modem()->writeChar (ch);
 	ch = (char) sectors;
-	Modem::modem->writeChar(ch);
+	Modem::modem()->writeChar(ch);
 
-	error = Modem::modem->rs232_read(&ch, 1, false);
+	error = Modem::modem()->rs232_read(&ch, 1, false);
 
 	if (error == -1) {
 		return -2;
@@ -152,7 +152,7 @@ int Update::runUpdate(QString qsfilename ) {
 		//QMessageBox::warning( updatewidget, "Kptc", tr("ERROR: Handshake failed !") );
 		emit handshakefailed();
 		//fprintf(stderr, "\a\aERROR: Handshake failed!\n");
-		Modem::modem->send_esc();	/* send esc */
+		Modem::modem()->send_esc();	/* send esc */
 		close(hFile);
 		return -1;
 	}
@@ -167,11 +167,11 @@ int Update::runUpdate(QString qsfilename ) {
 		if(bytesRead < flash.usSectSize) {
 			memset(buffer + bytesRead, 0, flash.usSectSize-bytesRead);
 		}
-		write(Modem::modem->getFD(), &buffer, flash.usSectSize);
+		write(Modem::modem()->getFD(), &buffer, flash.usSectSize);
 
 		sectorsWritten++;
 
-		error = Modem::modem->rs232_read(&ch, 1, false);
+		error = Modem::modem()->rs232_read(&ch, 1, false);
 
 		if (error == -1) {
 			return -2;
@@ -181,7 +181,7 @@ int Update::runUpdate(QString qsfilename ) {
 			//QMessageBox::warning( new QWidget, "Kptc", tr("ERROR: Handshake failed !") );
 			emit handshakefailed();
 			//fprintf(stderr, "\a\aERROR: Handshake failed!\n");
-			Modem::modem->send_esc();	/* send esc */
+			Modem::modem()->send_esc();	/* send esc */
 			close(hFile);
 			return -1;
 		}
@@ -197,9 +197,9 @@ int Update::runUpdate(QString qsfilename ) {
 
 	} while (bytesRead == flash.usSectSize);
 
-	Modem::modem->writeString("");
+	Modem::modem()->writeString("");
 	message(tr("Update complete. Press Exit now."));
-	Modem::modem->startNotifier();
+	Modem::modem()->startNotifier();
 	close(hFile);
 	return 0;
 }
