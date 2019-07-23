@@ -56,6 +56,8 @@ class ConfigDialog : public QDialog  {
 
 	private:
 		static constexpr int standardheight = 20;
+		static constexpr int personalEditLength = 230;
+
 		QStackedWidget *widgetstack;
 		QRadioButton *port_RadioButton1;
 		QRadioButton *port_RadioButton2;
@@ -106,7 +108,7 @@ class ConfigDialog : public QDialog  {
 		void createPersonalMessageArea();
 		void createPortWidget();
 		void createPersonalLabels();
-		void createPortLineEdits();
+		void createPersonalLineEdits();
 		QLineEdit *createLineEdit(QWidget *parent, QString text, QRect dimensions, int maxLength, bool strongfocus = true);
 		void createPacketWidget();
 		void createLogInWidget();
