@@ -38,7 +38,7 @@ speed_t Modem::modemspeed() {
 	// convert the string modem speed to a t_speed type
 	// to set the modem.	The constants here should all be ifdef'd because
 	// other systems may not have them
- int i = configdata.getPortSpeed() /100;
+ int i = configdata.getPortSpeed() / 100;
 	switch(i) {
 	case 24:
 	return B2400;
@@ -93,8 +93,8 @@ bool Modem::opentty() {
 		return false;
 	}
 	//	int flags;
-	modemfd = open(qdev.toStdString().c_str(), O_RDWR | O_NOCTTY );
-	if(modemfd	<0) {
+	modemfd = open(qdev.toStdString().c_str(), O_RDWR | O_NOCTTY);
+	if(modemfd	< 0) {
 		errmsg = /*i18n*/("Sorry, can't open modem.");
 		return false;
 	}
@@ -137,7 +137,7 @@ bool Modem::opentty() {
 }
 
 bool Modem::closetty() {
-	if(modemfd >=0 ) {
+	if(modemfd >= 0) {
 		stop();
 		/* discard data not read or transmitted */
 		tcflush(modemfd, TCIOFLUSH);
