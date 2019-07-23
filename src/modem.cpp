@@ -168,8 +168,8 @@ void Modem::readtty(int) {
 	int charsRead = len = ::read(modemfd, buffer, 50);
 	if(charsRead > 0) {
 	// split buffer into single characters for further processing
-		for(int i = 0; i < len; i++) {
-			c = buffer[i] & dataMask;
+		for (auto &current : buffer) {
+			c = current & dataMask;
 			emit charWaiting(c);
 		}
 	}
