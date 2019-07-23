@@ -28,7 +28,7 @@ CommandDialog::CommandDialog(QWidget *parent) : QDialog (parent) {
 	combo.setGeometry(15, 10, 150, 30);
 	combo.setFocusPolicy(Qt::StrongFocus);
 	combo.setMaxCount(20);
-	combo.setAutoCompletion(true);
+	combo.setAutoCompletion(true); //TODO Replace this deprecated function call
 	combo.setInsertPolicy(QComboBox::InsertPolicy::InsertAtTop);
 
 }
