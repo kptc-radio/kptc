@@ -93,14 +93,16 @@ bool Modem::opentty() {
 		return false;
 	}
 	//	int flags;
-	modemfd = open(qdev.toStdString().c_str(), O_RDWR | O_NOCTTY);
+	const char *const devString = qdev.toStdString().c_str();
+	modemfd = open(devString, O_RDWR | O_NOCTTY);
 	if(modemfd	< 0) {
 		errmsg = /*i18n*/("Sorry, can't open modem.");
 		return false;
 	}
 	tcdrain (modemfd);
 	tcflush (modemfd, TCIOFLUSH);
-	if(tcgetattr(modemfd, &tty) < 0){
+	const auto getResult = tcgetattr(modemfd, &tty);
+	if(getResult < 0){
 		// this helps in some cases
 		tcsendbreak(modemfd, 0);
 		sleep(1);
@@ -126,7 +128,8 @@ bool Modem::opentty() {
 	cfsetospeed(&tty, modemspeed());
 	cfsetispeed(&tty, modemspeed());
 	tcdrain(modemfd);
-	if(tcsetattr(modemfd, TCSANOW, &tty) < 0){
+	const auto setResult = tcsetattr(modemfd, TCSANOW, &tty);
+	if(setResult < 0){
 		errmsg = /*i18n*/("Sorry, the modem is busy.");
 		::close(modemfd);
 		modemfd=-1;
@@ -141,7 +144,8 @@ bool Modem::closetty() {
 		stop();
 		/* discard data not read or transmitted */
 		tcflush(modemfd, TCIOFLUSH);
-		if(tcsetattr(modemfd, TCSANOW, &initial_tty) < 0){
+		const int setResult = tcsetattr(modemfd, TCSANOW, &initial_tty);
+		if(setResult < 0){
 			errmsg = /*i18n*/("Can't restore tty settings: tcsetattr()\n");
 			::close(modemfd);
 			modemfd = -1;
@@ -150,7 +154,7 @@ bool Modem::closetty() {
 		::close(modemfd);
 		modemfd = -1;
 	}
-	if ( unlock_device() == false )	{
+	if (unlock_device() == false) {
 		errmsg = /*i18n*/("cannot unlock device !"); return false;
 	}
 	return true;
@@ -161,7 +165,8 @@ void Modem::readtty(int) {
 	unsigned char c;
 	int len;
 	// read data in chunks of up to 50 bytes
-	if((len = ::read(modemfd, buffer, 50)) > 0) {
+	int charsRead = len = ::read(modemfd, buffer, 50);
+	if(charsRead > 0) {
 	// split buffer into single characters for further processing
 		for(int i = 0; i < len; i++) {
 			c = buffer[i] & dataMask;
@@ -203,7 +208,8 @@ void Modem::stopNotifier() {
 }
 
 bool Modem::writeChar(unsigned char c) {
-	return write(modemfd, &c, 1) == 1;
+	auto result = write(modemfd, &c, 1);
+	return result == 1;
 }
 
 bool Modem::writeString(QString data) {
@@ -215,7 +221,7 @@ bool Modem::writeString(QString data) {
 }
 
 bool Modem::writeLine(QString data) {
-	bool result = this->writeString(data);
+	auto result = this->writeString(data);
 	this->send_esc();
 	return result;
 }
@@ -250,8 +256,10 @@ bool Modem :: lock_device()
 		/*
 		 * we must now expend effort to learn if it's stale or not.
 		 */
-		if ((lfh = open(lckf, O_RDONLY)) != -1) {
-			nb = read(lfh, &lckpidstr, std::min(static_cast<__off_t>(20), buf.st_size));
+		const auto openResult = lfh = open(lckf, O_RDONLY);
+		if (openResult != -1) {
+			const auto byteToRead = std::min(static_cast<__off_t>(20), buf.st_size);
+			nb = read(lfh, &lckpidstr, byteToRead);
 			if (nb > 0) {
 				lckpidstr[nb] = 0;
 				sscanf(lckpidstr, "%d", &lckpid);
@@ -276,14 +284,16 @@ bool Modem :: lock_device()
 			return false;
 		}
 	}
-	if ((lfh = open(lckf, O_WRONLY | O_CREAT | O_EXCL,	S_IWRITE | S_IREAD | S_IRGRP | S_IROTH)) < 0) {
+	lfh = open(lckf, O_WRONLY | O_CREAT | O_EXCL,	S_IWRITE | S_IREAD | S_IRGRP | S_IROTH);
+	if (lfh < 0) {
 		qDebug() << "Cannot create lockfile. Sorry." << endl;
 		return false;
 	}
 	sprintf(lckpidstr, "%10d\n", getpid());
-	write(lfh, lckpidstr, strlen(lckpidstr));
+	const auto lckpidstrLength = strlen(lckpidstr);
+	write(lfh, lckpidstr, lckpidstrLength);
 	close(lfh);
-		modem_is_locked = true;
+	modem_is_locked = true;
 	return true;
 }
 
@@ -329,7 +339,7 @@ int Modem::rs232_read(void *bp, int maxlen, bool breakonerror)
 		FD_ZERO(&set);
 		FD_SET(modemfd, &set);
 		res = select(FD_SETSIZE, &set, NULL, NULL, &timeout);
-		if (0 == res) {
+		if (res == 0) {
 			fprintf(stderr, "ERROR: timed out!\n");
 			endloop = 1;
 		} else if (res == -1) {
