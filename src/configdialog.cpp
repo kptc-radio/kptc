@@ -493,7 +493,7 @@ void ConfigDialog::writeconfig() {
 
 void ConfigDialog::chooseFile() {
 
-QString s(QFileDialog::getOpenFileName(this, QString::null, ""));
+QString s(QFileDialog::getOpenFileName(this, QString(), ""));
 	  if (s.isEmpty()) {
 		return;
 	}
