@@ -316,12 +316,12 @@ void Kptc::clearEditWindow() {
 
 void Kptc::showPactor() {
 //	lefttoolbar->clear();
-	this->expandToolBar("Stand by", &ModeCommander::Standby, modecommander, *lefttoolbar);
-	this->expandToolBar("QRT", &Kptc::initQRT, this, *lefttoolbar);
-	this->expandToolBar("changeover", &Kptc::initchangeover, this, *lefttoolbar);
-	this->expandToolBar(" CQ ", &CQDialog::openDialog, cqdialog, *lefttoolbar);
-	this->expandToolBar("Unproto TX", &ModeCommander::Unproto, modecommander, *lefttoolbar);
-	this->expandToolBar("Listen", &ModeCommander::Listen, modecommander, *lefttoolbar);
+	this->expandToolBar(tr("Stand by"), &ModeCommander::Standby, modecommander, *lefttoolbar);
+	this->expandToolBar(tr("QRT"), &Kptc::initQRT, this, *lefttoolbar);
+	this->expandToolBar(tr("changeover"), &Kptc::initchangeover, this, *lefttoolbar);
+	this->expandToolBar(tr(" CQ "), &CQDialog::openDialog, cqdialog, *lefttoolbar);
+	this->expandToolBar(tr("Unproto TX"), &ModeCommander::Unproto, modecommander, *lefttoolbar);
+	this->expandToolBar(tr("Listen"), &ModeCommander::Listen, modecommander, *lefttoolbar);
 // lefttoolbar->setToggle(6);
 //	lefttoolbar->setButton(6,modecommander->isListen());
 }
@@ -329,12 +329,12 @@ void Kptc::showPactor() {
 void Kptc::showAmtor() {
 	//modebuttons->buttongroup->setButton(2);
 //	lefttoolbar->clear();
-	this->expandToolBar("Stand by", &ModeCommander::Standby, modecommander, *lefttoolbar);
-	this->expandToolBar("QRT", &Kptc::initQRT, this, *lefttoolbar);
-	this->expandToolBar("changeover", &Kptc::initchangeover, this, *lefttoolbar);
-	this->expandToolBar(" CQ ", &CQDialog::openDialog, cqdialog, *lefttoolbar);
-	this->expandToolBar("FEC TX", &ModeCommander::FEC, modecommander, *lefttoolbar);
-	this->expandToolBar("Monitor", &ModeCommander::Monitor, modecommander, *lefttoolbar);
+	this->expandToolBar(tr("Stand by"), &ModeCommander::Standby, modecommander, *lefttoolbar);
+	this->expandToolBar(tr("QRT"), &Kptc::initQRT, this, *lefttoolbar);
+	this->expandToolBar(tr("changeover"), &Kptc::initchangeover, this, *lefttoolbar);
+	this->expandToolBar(tr(" CQ "), &CQDialog::openDialog, cqdialog, *lefttoolbar);
+	this->expandToolBar(tr("FEC TX"), &ModeCommander::FEC, modecommander, *lefttoolbar);
+	this->expandToolBar(tr("Monitor"), &ModeCommander::Monitor, modecommander, *lefttoolbar);
 }
 
 void Kptc::showRTTY() {
