@@ -38,47 +38,47 @@ speed_t Modem::modemspeed() {
 	// convert the string modem speed to a t_speed type
 	// to set the modem.	The constants here should all be ifdef'd because
 	// other systems may not have them
- int speed = configdata.getPortSpeed() / 100;
+	int speed = configdata.getPortSpeed() / 100;
 	switch(speed) {
-	case 24:
-	return B2400;
-	break;
-	case 96:
-	return B9600;
-	break;
-	case 192:
-	return B19200;
-	break;
-	case 384:
-	return B38400;
-	break;
-#ifdef B57600
-	case 576:
-	return B57600;
-	break;
-#endif
+		case 24:
+			return B2400;
+			break;
+		case 96:
+			return B9600;
+			break;
+		case 192:
+			return B19200;
+			break;
+		case 384:
+			return B38400;
+			break;
+	#ifdef B57600
+		case 576:
+			return B57600;
+			break;
+	#endif
 
-#ifdef B115200
-	case 1152:
-	return B115200;
-	break;
-#endif
+	#ifdef B115200
+		case 1152:
+			return B115200;
+			break;
+	#endif
 
-#ifdef B230400
-	case 2304:
-	return B230400;
-	break;
-#endif
+	#ifdef B230400
+		case 2304:
+			return B230400;
+			break;
+	#endif
 
-#ifdef B460800
-	case 4608:
-	return 4608;
-	break;
-#endif
+	#ifdef B460800
+		case 4608:
+			return 4608;
+			break;
+	#endif
 
-	default:
-	return B38400;
-	break;
+		default:
+			return B38400;
+			break;
 	}
 }
 
@@ -115,16 +115,7 @@ bool Modem::opentty() {
 	}
 	memset(&initial_tty, '\0', sizeof(initial_tty));
 	initial_tty = tty;
-	tty.c_cc[VMIN] = 0; // nonblocking
-	tty.c_cc[VTIME] = 0;
-	tty.c_oflag = 0;
-	tty.c_lflag = 0;
-	tty.c_cflag &= ~(CSIZE | CSTOPB | PARENB);
-	tty.c_cflag |= CS8 | CREAD;
-	tty.c_cflag |= CLOCAL;					 // ignore modem status lines
-	tty.c_iflag = IGNBRK | IGNPAR /* | ISTRIP */ ;
-	tty.c_lflag &= ~ICANON;					// non-canonical mode
-	tty.c_lflag &= ~(ECHO|ECHOE|ECHOK|ECHOKE);
+	this->initTty();
 	cfsetospeed(&tty, modemspeed());
 	cfsetispeed(&tty, modemspeed());
 	tcdrain(modemfd);
@@ -137,6 +128,19 @@ bool Modem::opentty() {
 	}
 	errmsg = /*i18n*/tr("Modem Ready.");
 	return true;
+}
+
+void Modem::initTty() {
+	tty.c_cc[VMIN] = 0; // nonblocking
+	tty.c_cc[VTIME] = 0;
+	tty.c_oflag = 0;
+	tty.c_lflag = 0;
+	tty.c_cflag &= ~(CSIZE | CSTOPB | PARENB);
+	tty.c_cflag |= CS8 | CREAD;
+	tty.c_cflag |= CLOCAL;					 // ignore modem status lines
+	tty.c_iflag = IGNBRK | IGNPAR /* | ISTRIP */ ;
+	tty.c_lflag &= ~ICANON;					// non-canonical mode
+	tty.c_lflag &= ~(ECHO|ECHOE|ECHOK|ECHOKE);
 }
 
 bool Modem::closetty() {
@@ -162,15 +166,14 @@ bool Modem::closetty() {
 
 void Modem::readtty(int) {
 	char buffer[50];
-	unsigned char c;
-	int len;
+	int length;
 	// read data in chunks of up to 50 bytes
-	int charsRead = len = ::read(modemfd, buffer, 50);
+	const int charsRead = length = ::read(modemfd, buffer, 50);
 	if(charsRead > 0) {
 	// split buffer into single characters for further processing
 		for (auto &current : buffer) {
-			c = current & dataMask;
-			emit charWaiting(c);
+			const unsigned char character = current & dataMask;
+			emit charWaiting(character);
 		}
 	}
 }
@@ -213,8 +216,8 @@ bool Modem::writeChar(unsigned char c) {
 }
 
 bool Modem::writeString(QString data) {
-	auto buf = data.toStdString().c_str();
-	write(modemfd, buf, strlen(buf));
+	const auto buffer = data.toStdString().c_str();
+	write(modemfd, buffer, strlen(buffer));
 	//Let's send an "enter"
 	write(modemfd, "\r", 1);
 	return true;
@@ -232,8 +235,8 @@ bool Modem::writeLine2(QString data) {
 }
 
 void Modem::send_esc(){
-	constexpr char esc = 27;
-	writeChar(esc);
+	constexpr char escape = 27;
+	writeChar(escape);
 }
 
 bool Modem :: lock_device()

@@ -105,6 +105,7 @@ class Modem : public QObject  {
 
 		Modem();
 		speed_t modemspeed();  // parse modem speed
+		void initTty();
 		bool lock_device();
 		bool lock_device_internal(int &lfh, char *lckf, char *lckpidstr, struct stat *buf, char *device);
 		bool unlock_device();
