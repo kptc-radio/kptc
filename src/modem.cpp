@@ -3,7 +3,7 @@
 							 -------------------
 	begin                : Wed Feb 14 2001
 	copyright            : (C) 2001 by Lars Schnake
-													based on Bernd Johannes Wuebben´s version for (Kppp)
+													based on Bernd Johannes WuebbenÂ´s version for (Kppp)
 	email                : mail@lars-schnake.de
 	Changed slightly by Sebastian Martin Dicke
  ***************************************************************************/

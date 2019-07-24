@@ -208,7 +208,7 @@ bool Update::GetFlash(char manCode, char devID, FLASH *flash)
 {
 	int result;
 	switch((unsigned char)manCode) {
-		/* AMD Flash wird zwar erkannt aber für Programmierung nicht unterstützt */
+		/* AMD Flash wird zwar erkannt aber fÃ¼r Programmierung nicht unterstÃ¼tzt */
 		case 0x01:
 			flash->Manufacturer = const_cast<char *>(std::string("AMD").c_str());
 			switch((unsigned char)devID) {
