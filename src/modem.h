@@ -107,6 +107,7 @@ class Modem : public QObject  {
 		speed_t modemspeed();  // parse modem speed
 		bool lock_device();
 		bool unlock_device();
+		void rs232ErrorHandler(bool breakonerror);
 };
 
 #endif

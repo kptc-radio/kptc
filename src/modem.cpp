@@ -329,34 +329,34 @@ int Modem::rs232_read(void *bp, int maxlen, bool breakonerror)
 {
 	fd_set set;
 	struct timeval timeout;
-	int  max;
-	int endloop;
-	int res;
-	max = 0;
-	endloop = 0;
+	int  max = 0;
+	bool endloop = false;
+	int result;
 	do {
 		timeout.tv_sec = 0;
 		timeout.tv_usec = 500000; /* 0.5 seconds */
 
 		FD_ZERO(&set);
 		FD_SET(modemfd, &set);
-		res = select(FD_SETSIZE, &set, NULL, NULL, &timeout);
-		if (res == 0) {
+		result = select(FD_SETSIZE, &set, NULL, NULL, &timeout);
+		if (result == 0) {
 			fprintf(stderr, "ERROR: timed out!\n");
-			endloop = 1;
-		} else if (res == -1) {
-			if (breakonerror) {
-				perror("rs232_read select");
-				exit(10);
-			}
-			else {
-				break;
-			}
+			endloop = true;
+		} else if (result == -1) {
+			rs232ErrorHandler(breakonerror);
+			break;
 		} else {
 			max += read(modemfd, bp, maxlen);
 		}
 	} while ((max < maxlen) && !endloop);
-	return res;
+	return result;
+}
+
+void Modem::rs232ErrorHandler(bool breakonerror) {
+	if (breakonerror) {
+		perror("rs232_read select");
+		exit(10);
+	}
 }
 
 const QString Modem::modemMessage() {
