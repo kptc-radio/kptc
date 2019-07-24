@@ -23,9 +23,9 @@ Modem *Modem::modem()
 
 Modem::Modem() :
 	modemfd(-1),
-	notifier(0L),
+	dataMask(0xFF),
 	data_mode(false),
-	dataMask(0xFF)
+	notifier(0L)
 
 {
 	modem_is_locked = false;
@@ -242,10 +242,8 @@ bool Modem :: lock_device()
 	device = (char *) qdev.toStdString().data();
 	char lckf[128];
 	int lfh;
-	pid_t lckpid;
 	char *devicename;
 	char lckpidstr[20];
-	int nb;
 	struct stat buf;
 	devicename = strrchr(device, '/');
 	sprintf(lckf, "%s/%s%s", LF_PATH, LF_PREFIX, (devicename ? (devicename + 1) : device));
@@ -254,35 +252,8 @@ bool Modem :: lock_device()
 	 */
 	const auto statResult = stat(lckf, &buf);
 	if (statResult == 0) {
-		/*
-		 * we must now expend effort to learn if it's stale or not.
-		 */
-		lfh = open(lckf, O_RDONLY);
-		if (lfh != -1) {
-			const auto byteToRead = std::min(static_cast<__off_t>(20), buf.st_size);
-			nb = read(lfh, &lckpidstr, byteToRead);
-			if (nb > 0) {
-				lckpidstr[nb] = 0;
-				sscanf(lckpidstr, "%d", &lckpid);
-				const auto killResult = kill(lckpid, 0);
-				if (killResult == 0) {
-					qDebug() << tr("Device ") << device << tr(" is locked by process ") << lckpid << endl;
-					return false;
-				}
-
-				/*
-				 * The lock file is stale. Remove it.
-				 */
-				if (unlink(lckf)) {
-					qDebug() << tr("Unable to unlink stale lock file: ") << lckf << endl;
-					return false;
-				}
-			} else {
-				qDebug() << tr("Cannot read from lock file: ") << lckf << endl ;
-				return false;
-			}
-		} else {
-			qDebug() << tr("Cannot open existing lock file: ") << lckf	<< endl;
+		const bool innerResult = lock_device_internal(lfh, lckf, lckpidstr, &buf, device);
+		if (innerResult == false) {
 			return false;
 		}
 	}
@@ -296,6 +267,43 @@ bool Modem :: lock_device()
 	write(lfh, lckpidstr, lckpidstrLength);
 	close(lfh);
 	modem_is_locked = true;
+	return true;
+}
+
+bool Modem::lock_device_internal(int &lfh, char *lckf, char *lckpidstr, struct stat *buf, char* device) {
+	pid_t lckpid;
+	int bytesRead;
+	/*
+	 * we must now expend effort to learn if it's stale or not.
+	 */
+	lfh = open(lckf, O_RDONLY);
+	if (lfh != -1) {
+		const auto byteToRead = std::min(static_cast<__off_t>(20), buf->st_size);
+		bytesRead = read(lfh, &lckpidstr, byteToRead);
+		if (bytesRead > 0) {
+			lckpidstr[bytesRead] = 0;
+			sscanf(lckpidstr, "%d", &lckpid);
+			const auto killResult = kill(lckpid, 0);
+			if (killResult == 0) {
+				qDebug() << tr("Device ") << device << tr(" is locked by process ") << lckpid << endl;
+				return false;
+			}
+
+			/*
+			 * The lock file is stale. Remove it.
+			 */
+			if (unlink(lckf)) {
+				qDebug() << tr("Unable to unlink stale lock file: ") << lckf << endl;
+				return false;
+			}
+		} else {
+			qDebug() << tr("Cannot read from lock file: ") << lckf << endl ;
+			return false;
+		}
+	} else {
+		qDebug() << tr("Cannot open existing lock file: ") << lckf	<< endl;
+		return false;
+	}
 	return true;
 }
 
