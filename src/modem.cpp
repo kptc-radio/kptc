@@ -38,8 +38,8 @@ speed_t Modem::modemspeed() {
 	// convert the string modem speed to a t_speed type
 	// to set the modem.	The constants here should all be ifdef'd because
 	// other systems may not have them
- int i = configdata.getPortSpeed() / 100;
-	switch(i) {
+ int speed = configdata.getPortSpeed() / 100;
+	switch(speed) {
 	case 24:
 	return B2400;
 	break;
@@ -88,7 +88,7 @@ bool Modem::opentty() {
 	// get device from config file
 	qdev = configdata.getPort();
 	// lock the device:
-	if ( lock_device() == false ) {
+	if (lock_device() == false) {
 		errmsg = /*i18n*/tr("Error by device locking");
 		return false;
 	}
