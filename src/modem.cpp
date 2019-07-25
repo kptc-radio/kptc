@@ -38,7 +38,7 @@ speed_t Modem::modemspeed() {
 	// convert the string modem speed to a t_speed type
 	// to set the modem.	The constants here should all be ifdef'd because
 	// other systems may not have them
-	int speed = configdata.getPortSpeed() / 100;
+	const int speed = configdata.getPortSpeed() / 100;
 	switch(speed) {
 		case 24:
 			return B2400;
