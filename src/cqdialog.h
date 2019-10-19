@@ -47,16 +47,17 @@ Q_OBJECT
 	private:
 		enum class Tabs {Pactor = 0, Amtor = 1, RTTY = 2, PSK31 = 3, CW = 4};
 
-		QTabWidget *tabDialog;
-		QTextEdit *cqtext_Pactor;
-		QTextEdit *CQText_Amtor;
-		QTextEdit *CQText_RTTY;
-		QTextEdit *CQText_PSK31;
-		QTextEdit *CQText_CW;
+		QTabWidget tabDialog;
+		QTextEdit cqtext_Pactor;
+		QTextEdit CQText_Amtor;
+		QTextEdit CQText_RTTY;
+		QTextEdit CQText_PSK31;
+		QTextEdit CQText_CW;
 		ModeCommander *modecommander;
 		Tabs currenttab;
 
-		QString processString(QTextEdit *edit);
+		QString processString(const QTextEdit &edit) const;
+		void initTextEdit(QTextEdit &edit, const QString &text, QWidget &parent);
 
 	public slots:
 		void openDialog();

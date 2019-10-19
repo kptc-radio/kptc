@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "commanddialog.h"
+#include <QDebug>
 
 CommandDialog::CommandDialog(QWidget *parent) : QDialog (parent) {
 	resize(180, 50);
@@ -40,13 +41,8 @@ CommandDialog::~CommandDialog() {
 void CommandDialog::keyPressEvent(QKeyEvent *event) {
 	event->accept();
 	if(event->key() == QKeyEvent::Enter) {
-//		case QKeyEvent::Enter:   ;
-		//////////////////////////////////////////////
 		// send the command to the ptc:
-
-			////qDebug() << "CommandDialog::keyEvent" <<combo->currentText();
-//			Modem::modem->send_esc();
-//			Modem::modem->writeString(combo.currentText().toStdString().c_str());
+			qDebug() << "CommandDialog::keyEvent" <<combo.currentText();
 			Modem::modem()->writeLine2(combo.currentText().toStdString().c_str());
 			combo.clear();
 	}

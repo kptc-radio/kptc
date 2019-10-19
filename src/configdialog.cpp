@@ -152,7 +152,7 @@ void ConfigDialog::createPersonalLineEdits() {
 	constexpr int height = ConfigDialog::standardheight;
 	constexpr int x = 120;
 	personal_LineEdit_name = this->createLineEdit(personal_top, "TUX",  QRect(x, 20, length, height), maxlength);
-	personal_LineEdit_qth = this->createLineEdit(personal_top, "Nürnberg", QRect(x, 50, length, height), 30);
+	personal_LineEdit_qth = this->createLineEdit(personal_top, "NÃ¼rnberg", QRect(x, 50, length, height), 30);
 	personal_LineEdit_call = this->createLineEdit(personal_top, "DK0TUX",  QRect(x, 80, length, height), 12);
 	personal_LineEdit_selcall = this->createLineEdit(personal_top, "DTUX", QRect(x, 110, length, height), 4);
 }

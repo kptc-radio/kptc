@@ -3,7 +3,7 @@
 							 -------------------
 	begin                : Wed Feb 14 2001
 	copyright            : (C) 2001 by Lars Schnake
-													based on Bernd Johannes Wuebben´s version for (Kppp)
+													based on Bernd Johannes WuebbenÂ´s version for (Kppp)
 	email                : mail@lars-schnake.de
 	Changed slightly by Sebastian Martin Dicke
  ***************************************************************************/
@@ -23,9 +23,9 @@ Modem *Modem::modem()
 
 Modem::Modem() :
 	modemfd(-1),
-	notifier(0L),
+	dataMask(0xFF),
 	data_mode(false),
-	dataMask(0xFF)
+	notifier(0L)
 
 {
 	modem_is_locked = false;
@@ -38,47 +38,47 @@ speed_t Modem::modemspeed() {
 	// convert the string modem speed to a t_speed type
 	// to set the modem.	The constants here should all be ifdef'd because
 	// other systems may not have them
- int i = configdata.getPortSpeed() / 100;
-	switch(i) {
-	case 24:
-	return B2400;
-	break;
-	case 96:
-	return B9600;
-	break;
-	case 192:
-	return B19200;
-	break;
-	case 384:
-	return B38400;
-	break;
-#ifdef B57600
-	case 576:
-	return B57600;
-	break;
-#endif
+	const int speed = configdata.getPortSpeed() / 100;
+	switch(speed) {
+		case 24:
+			return B2400;
+			break;
+		case 96:
+			return B9600;
+			break;
+		case 192:
+			return B19200;
+			break;
+		case 384:
+			return B38400;
+			break;
+	#ifdef B57600
+		case 576:
+			return B57600;
+			break;
+	#endif
 
-#ifdef B115200
-	case 1152:
-	return B115200;
-	break;
-#endif
+	#ifdef B115200
+		case 1152:
+			return B115200;
+			break;
+	#endif
 
-#ifdef B230400
-	case 2304:
-	return B230400;
-	break;
-#endif
+	#ifdef B230400
+		case 2304:
+			return B230400;
+			break;
+	#endif
 
-#ifdef B460800
-	case 4608:
-	return 4608;
-	break;
-#endif
+	#ifdef B460800
+		case 4608:
+			return 4608;
+			break;
+	#endif
 
-	default:
-	return B38400;
-	break;
+		default:
+			return B38400;
+			break;
 	}
 }
 
@@ -88,7 +88,7 @@ bool Modem::opentty() {
 	// get device from config file
 	qdev = configdata.getPort();
 	// lock the device:
-	if ( lock_device() == false ) {
+	if (lock_device() == false) {
 		errmsg = /*i18n*/tr("Error by device locking");
 		return false;
 	}
@@ -115,16 +115,7 @@ bool Modem::opentty() {
 	}
 	memset(&initial_tty, '\0', sizeof(initial_tty));
 	initial_tty = tty;
-	tty.c_cc[VMIN] = 0; // nonblocking
-	tty.c_cc[VTIME] = 0;
-	tty.c_oflag = 0;
-	tty.c_lflag = 0;
-	tty.c_cflag &= ~(CSIZE | CSTOPB | PARENB);
-	tty.c_cflag |= CS8 | CREAD;
-	tty.c_cflag |= CLOCAL;					 // ignore modem status lines
-	tty.c_iflag = IGNBRK | IGNPAR /* | ISTRIP */ ;
-	tty.c_lflag &= ~ICANON;					// non-canonical mode
-	tty.c_lflag &= ~(ECHO|ECHOE|ECHOK|ECHOKE);
+	this->initTty();
 	cfsetospeed(&tty, modemspeed());
 	cfsetispeed(&tty, modemspeed());
 	tcdrain(modemfd);
@@ -137,6 +128,19 @@ bool Modem::opentty() {
 	}
 	errmsg = /*i18n*/tr("Modem Ready.");
 	return true;
+}
+
+void Modem::initTty() {
+	tty.c_cc[VMIN] = 0; // nonblocking
+	tty.c_cc[VTIME] = 0;
+	tty.c_oflag = 0;
+	tty.c_lflag = 0;
+	tty.c_cflag &= ~(CSIZE | CSTOPB | PARENB);
+	tty.c_cflag |= CS8 | CREAD;
+	tty.c_cflag |= CLOCAL;					 // ignore modem status lines
+	tty.c_iflag = IGNBRK | IGNPAR /* | ISTRIP */ ;
+	tty.c_lflag &= ~ICANON;					// non-canonical mode
+	tty.c_lflag &= ~(ECHO|ECHOE|ECHOK|ECHOKE);
 }
 
 bool Modem::closetty() {
@@ -162,15 +166,14 @@ bool Modem::closetty() {
 
 void Modem::readtty(int) {
 	char buffer[50];
-	unsigned char c;
-	int len;
+	int length;
 	// read data in chunks of up to 50 bytes
-	int charsRead = len = ::read(modemfd, buffer, 50);
+	const int charsRead = length = ::read(modemfd, buffer, 50);
 	if(charsRead > 0) {
 	// split buffer into single characters for further processing
 		for (auto &current : buffer) {
-			c = current & dataMask;
-			emit charWaiting(c);
+			const unsigned char character = current & dataMask;
+			emit charWaiting(character);
 		}
 	}
 }
@@ -213,8 +216,8 @@ bool Modem::writeChar(unsigned char c) {
 }
 
 bool Modem::writeString(QString data) {
-	auto buf = data.toStdString().c_str();
-	write(modemfd, buf, strlen(buf));
+	const auto buffer = data.toStdString().c_str();
+	write(modemfd, buffer, strlen(buffer));
 	//Let's send an "enter"
 	write(modemfd, "\r", 1);
 	return true;
@@ -232,8 +235,8 @@ bool Modem::writeLine2(QString data) {
 }
 
 void Modem::send_esc(){
-	constexpr char esc = 27;
-	writeChar(esc);
+	constexpr char escape = 27;
+	writeChar(escape);
 }
 
 bool Modem :: lock_device()
@@ -242,10 +245,8 @@ bool Modem :: lock_device()
 	device = (char *) qdev.toStdString().data();
 	char lckf[128];
 	int lfh;
-	pid_t lckpid;
 	char *devicename;
 	char lckpidstr[20];
-	int nb;
 	struct stat buf;
 	devicename = strrchr(device, '/');
 	sprintf(lckf, "%s/%s%s", LF_PATH, LF_PREFIX, (devicename ? (devicename + 1) : device));
@@ -254,35 +255,8 @@ bool Modem :: lock_device()
 	 */
 	const auto statResult = stat(lckf, &buf);
 	if (statResult == 0) {
-		/*
-		 * we must now expend effort to learn if it's stale or not.
-		 */
-		lfh = open(lckf, O_RDONLY);
-		if (lfh != -1) {
-			const auto byteToRead = std::min(static_cast<__off_t>(20), buf.st_size);
-			nb = read(lfh, &lckpidstr, byteToRead);
-			if (nb > 0) {
-				lckpidstr[nb] = 0;
-				sscanf(lckpidstr, "%d", &lckpid);
-				const auto killResult = kill(lckpid, 0);
-				if (killResult == 0) {
-					qDebug() << tr("Device ") << device << tr(" is locked by process ") << lckpid << endl;
-					return false;
-				}
-
-				/*
-				 * The lock file is stale. Remove it.
-				 */
-				if (unlink(lckf)) {
-					qDebug() << tr("Unable to unlink stale lock file: ") << lckf << endl;
-					return false;
-				}
-			} else {
-				qDebug() << tr("Cannot read from lock file: ") << lckf << endl ;
-				return false;
-			}
-		} else {
-			qDebug() << tr("Cannot open existing lock file: ") << lckf	<< endl;
+		const bool innerResult = lock_device_internal(lfh, lckf, lckpidstr, &buf, device);
+		if (innerResult == false) {
 			return false;
 		}
 	}
@@ -296,6 +270,43 @@ bool Modem :: lock_device()
 	write(lfh, lckpidstr, lckpidstrLength);
 	close(lfh);
 	modem_is_locked = true;
+	return true;
+}
+
+bool Modem::lock_device_internal(int &lfh, char *lckf, char *lckpidstr, struct stat *buf, char* device) {
+	pid_t lckpid;
+	int bytesRead;
+	/*
+	 * we must now expend effort to learn if it's stale or not.
+	 */
+	lfh = open(lckf, O_RDONLY);
+	if (lfh != -1) {
+		const auto byteToRead = std::min(static_cast<__off_t>(20), buf->st_size);
+		bytesRead = read(lfh, &lckpidstr, byteToRead);
+		if (bytesRead > 0) {
+			lckpidstr[bytesRead] = 0;
+			sscanf(lckpidstr, "%d", &lckpid);
+			const auto killResult = kill(lckpid, 0);
+			if (killResult == 0) {
+				qDebug() << tr("Device ") << device << tr(" is locked by process ") << lckpid << endl;
+				return false;
+			}
+
+			/*
+			 * The lock file is stale. Remove it.
+			 */
+			if (unlink(lckf)) {
+				qDebug() << tr("Unable to unlink stale lock file: ") << lckf << endl;
+				return false;
+			}
+		} else {
+			qDebug() << tr("Cannot read from lock file: ") << lckf << endl ;
+			return false;
+		}
+	} else {
+		qDebug() << tr("Cannot open existing lock file: ") << lckf	<< endl;
+		return false;
+	}
 	return true;
 }
 
@@ -329,34 +340,34 @@ int Modem::rs232_read(void *bp, int maxlen, bool breakonerror)
 {
 	fd_set set;
 	struct timeval timeout;
-	int  max;
-	int endloop;
-	int res;
-	max = 0;
-	endloop = 0;
+	int  max = 0;
+	bool endloop = false;
+	int result;
 	do {
 		timeout.tv_sec = 0;
 		timeout.tv_usec = 500000; /* 0.5 seconds */
 
 		FD_ZERO(&set);
 		FD_SET(modemfd, &set);
-		res = select(FD_SETSIZE, &set, NULL, NULL, &timeout);
-		if (res == 0) {
+		result = select(FD_SETSIZE, &set, NULL, NULL, &timeout);
+		if (result == 0) {
 			fprintf(stderr, "ERROR: timed out!\n");
-			endloop = 1;
-		} else if (res == -1) {
-			if (breakonerror) {
-				perror("rs232_read select");
-				exit(10);
-			}
-			else {
-				break;
-			}
+			endloop = true;
+		} else if (result == -1) {
+			rs232ErrorHandler(breakonerror);
+			break;
 		} else {
 			max += read(modemfd, bp, maxlen);
 		}
 	} while ((max < maxlen) && !endloop);
-	return res;
+	return result;
+}
+
+void Modem::rs232ErrorHandler(bool breakonerror) {
+	if (breakonerror) {
+		perror("rs232_read select");
+		exit(10);
+	}
 }
 
 const QString Modem::modemMessage() {
