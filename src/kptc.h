@@ -101,10 +101,19 @@ class Kptc : public QMainWindow {
 		QMenu *clearwindow;
 		QMenu *optionmenu;
 		QMenu *helpmenu;
+		QLabel helplabel;
 
 		void useconfigmachine();
 		bool queryClose ();
-		void expandToolBar(QString text, auto slot, auto obj,  QToolBar &bar);
+
+		template<typename Slot, typename Object>
+		void expandToolBar(QString text, Slot slot, Object obj, QToolBar &bar) {
+			QAction *temp = new QAction(text, &bar);
+			bar.addAction(temp);
+
+			connect(temp, &QAction::triggered, obj, slot);
+		}
+
 		void initializeToolBar();
 		void initializeMenues();
 		void initFileMenu();

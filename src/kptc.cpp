@@ -222,11 +222,10 @@ void Kptc::initHelpMenu() {
 	helpmenu->addAction(helpaction);
 
 	static QString about = tr("Kptc 0.2\n user interface for the SCS-PTC-II\n\n (C) 2001 Lars Schnake\nmail@lars-schnake.de\n");
-	static QLabel *label = new QLabel(about);
-	connect(helpaction, &QAction::triggered, this, [label](){
-		label->show();
+	helplabel.setText(about);
+	connect(helpaction, &QAction::triggered, this, [this](){
+		this->helplabel.show();
 	});
-	connect(this, &Kptc::closing, label, [&label](){delete label;});
 }
 
 void Kptc::initFixMenu() {
@@ -368,13 +367,6 @@ void Kptc::showCW() {
 	this->expandToolBar(speed_down, &ModeCommander::decreaseCWSpeed, modecommander, *lefttoolbar);
 	this->expandToolBar(tx_speed, &Kptc::showcwspeeddialog, this, *lefttoolbar);
 	this->expandToolBar(cqws, &CQDialog::openDialog, cqdialog, *lefttoolbar);
-}
-
-void Kptc::expandToolBar(QString text, auto slot, auto obj, QToolBar &bar) {
-	QAction *temp = new QAction(text, &bar);
-	bar.addAction(temp);
-
-	connect(temp, &QAction::triggered, obj, slot);
 }
 
 void Kptc::showcwspeeddialog() {
