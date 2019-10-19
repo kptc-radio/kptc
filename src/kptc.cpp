@@ -116,13 +116,13 @@ void Kptc::initMainWindow() {
 }
 
 void Kptc::initTextEdit() {
-	QSplitter *splitter = new QSplitter(this);
-	splitter->setOrientation(Qt::Vertical);
-	splitter->setOpaqueResize(true);
-	setCentralWidget(splitter);
-	textedit = new MyLineEdit(splitter);
+	this->splitter.setParent(this);
+	splitter.setOrientation(Qt::Vertical);
+	splitter.setOpaqueResize(true);
+	setCentralWidget(&splitter);
+	textedit = new MyLineEdit(&splitter);
 	textedit->notify(this, SLOT(sendchar(unsigned char)));
-	splitter->show();
+	splitter.show();
 	textedit->setFocus();
 	connect(textedit, &MyLineEdit::echoCommand, this, &Kptc::echoText);
 	connect(textedit, SIGNAL(sendit(QString)), this, SLOT(sendline(QString)));
@@ -136,7 +136,7 @@ void Kptc::initializeToolBar() {
 	this->addToolBar(modebuttons);
 
 	// modebuttons in splitter window instead of modetoolbar ?! :
-	// modebuttons = new ModeButtons(splitter);	
+	// modebuttons = new ModeButtons(splitter);
 }
 
 void Kptc::resizeElements() {

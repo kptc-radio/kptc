@@ -85,6 +85,7 @@ class Kptc : public QMainWindow {
 		StatusInfo *statusinfo;
 		CWSpeedWidget  *cwspeedwidget;
 		RTTYSpeedWidget *rttyspeedwidget;
+		QSplitter splitter;
 		QString statusmessage;
 		QString prompt;
 		KLed led;
