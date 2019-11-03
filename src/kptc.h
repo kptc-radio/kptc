@@ -128,8 +128,8 @@ class Kptc : public QMainWindow {
 		void initModem();
 		void initMainWindow();
 		void initTextEdit();
-		QString makeHTML(QString text, QString color);
-		void setHTML(QString text, QString color);
+		QString makeHTML(const QString &text, const QString &color);
+		void setHTML(const QString &text, const QString &color);
 		void resizeElements();
 
 	signals:

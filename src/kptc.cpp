@@ -391,21 +391,21 @@ void Kptc::initQRT() {
 	modecommander->QRT();
 }
 
-QString Kptc::makeHTML(QString text, QString color) {
-	text = "<p style=\"color: " + color +
+QString Kptc::makeHTML(const QString &text, const QString &color) {
+	const  QString ntext = "<p style=\"color: " + color +
 	"; font-family: courier; font-size: 12; font-style: normal;\">"
 	+ text + "</p>";
-	return text;
+	return ntext;
 }
 
-void Kptc::setHTML(QString text, QString color) {
-	text = makeHTML(text, color);
-	text = termoutput->toHtml() + text;
-	termoutput->setHtml(text);
+void Kptc::setHTML(const QString &text, const QString &color) {
+	QString html = makeHTML(text, color);
+	QString nhtml = termoutput->toHtml() + text;
+	termoutput->setHtml(nhtml);
 }
 
 void Kptc::updateStatusBar() {
-	statusinfo->setPrompt(modecommander->currendmod());
+	statusinfo.setPrompt(modecommander->currendmod());
 //	statusinfo->setPrompt(modecommander->currendmod());
 	if (modecommander->currendmod() == "cmd:") {
 		showPactor();
