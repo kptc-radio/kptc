@@ -115,7 +115,7 @@ void UpdateDialog::initUpdate() {
 
 	int result;
 	result = update->runUpdate(lineedit->text());
-	if (result == - 2) {
+	if (result == -2) {
 		QMessageBox::critical(this, "Kptc", tr("ERROR: Update failed!"));
 	}
 
