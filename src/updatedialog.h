@@ -45,13 +45,13 @@ class UpdateDialog : public QDialog  {
 
 	private:
 		bool updaterunning;
-		QPushButton *okbutton;
-		QPushButton *cancelbutton;
-		QLineEdit *lineedit;
-		QPushButton *choosebutton;
-		QProgressBar *progressbar;
-		QLabel *infolabel;
-		Update *update;
+		QPushButton okbutton;
+		QPushButton cancelbutton;
+		QLineEdit lineedit;
+		QPushButton choosebutton;
+		QProgressBar progressbar;
+		QLabel infolabel;
+		Update update;
 
 		void initConnections();
 		void initGUIElements();

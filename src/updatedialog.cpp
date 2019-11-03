@@ -21,7 +21,6 @@
 
 UpdateDialog::UpdateDialog(QWidget *parent) : QDialog(parent) {
 	updaterunning = false;
-	update = new Update();
 
 	this->setWindowTitle(tr("PTC Firmware Update"));
 	this->initGUIElements();
@@ -54,45 +53,53 @@ void UpdateDialog::initConnections() {
 		QMessageBox::warning(this, "Kptc", tr("ERROR: Handshake failed!"));
 	};
 
-	QObject::connect(cancelbutton, &QPushButton::clicked, this, &UpdateDialog::reject);
-	QObject::connect(choosebutton, &QPushButton::clicked, this, &UpdateDialog::myfileDialog);
-	QObject::connect(okbutton, &QPushButton::clicked, this, &UpdateDialog::initUpdate);
-	QObject::connect(update, &Update::progress, progressbar, &QProgressBar::setValue);
-	QObject::connect(update, &Update::message, this, &UpdateDialog::updateMessage);
-	QObject::connect(update, &Update::fileopenerror, this,  fileerror);
-	QObject::connect(update, &Update::flashinfoerror, this, flashinfoerror );
-	QObject::connect(update, &Update::wrongsectorsize, this,  wrontsectorsize);
-	QObject::connect(update, &Update::wrongtimestamp, this,  wrongtimestamp);
-	QObject::connect(update, &Update::filetoolarge, this,  filetoolarge);
-	QObject::connect(update, &Update::handshakefailed, this,  handshakefailed);
+	QObject::connect(&cancelbutton, &QPushButton::clicked, this, &UpdateDialog::reject);
+	QObject::connect(&choosebutton, &QPushButton::clicked, this, &UpdateDialog::myfileDialog);
+	QObject::connect(&okbutton, &QPushButton::clicked, this, &UpdateDialog::initUpdate);
+	QObject::connect(&update, &Update::progress, &progressbar, &QProgressBar::setValue);
+	QObject::connect(&update, &Update::message, this, &UpdateDialog::updateMessage);
+	QObject::connect(&update, &Update::fileopenerror, this,  fileerror);
+	QObject::connect(&update, &Update::flashinfoerror, this, flashinfoerror );
+	QObject::connect(&update, &Update::wrongsectorsize, this,  wrontsectorsize);
+	QObject::connect(&update, &Update::wrongtimestamp, this,  wrongtimestamp);
+	QObject::connect(&update, &Update::filetoolarge, this,  filetoolarge);
+	QObject::connect(&update, &Update::handshakefailed, this,  handshakefailed);
 }
 
 void UpdateDialog::initGUIElements() {
-	okbutton = new QPushButton(tr("Start Update"), this);
-	cancelbutton = new QPushButton(tr("Exit"), this);
-	lineedit = new QLineEdit(this);
-	choosebutton = new QPushButton(tr("Choose"), this);
-	progressbar = new QProgressBar(this);
+	okbutton.setText(tr("Start Update"));
+	okbutton.setParent(this);
 
-	infolabel = new QLabel(this);
-	infolabel->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-	infolabel->setText(tr("Choose the new Firmware"));
+	cancelbutton.setText(tr("Exit"));
+
+	cancelbutton.setParent(this);
+
+	lineedit.setParent(this);
+
+	choosebutton.setText(tr("Choose"));
+	choosebutton.setParent(this);
+
+	progressbar.setParent(this);
+
+	infolabel.setParent(this);
+	infolabel.setFrameStyle(QFrame::Panel | QFrame::Sunken);
+	infolabel.setText(tr("Choose the new Firmware"));
 
 	QBoxLayout *toplayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
 	QBoxLayout *buttonlayout = new QBoxLayout(QBoxLayout::LeftToRight, this);
 	QBoxLayout *filepicklayout = new QBoxLayout(QBoxLayout::LeftToRight, this);
 
 	toplayout->addLayout(filepicklayout);
-	toplayout->addWidget(infolabel);
-	toplayout->addWidget(progressbar);
+	toplayout->addWidget(&infolabel);
+	toplayout->addWidget(&progressbar);
 	toplayout->addLayout(buttonlayout);
 
 	buttonlayout->addStretch();
-	buttonlayout->addWidget(okbutton);
-	buttonlayout->addWidget(cancelbutton);
+	buttonlayout->addWidget(&okbutton);
+	buttonlayout->addWidget(&cancelbutton);
 
-	filepicklayout->addWidget(lineedit);
-	filepicklayout->addWidget(choosebutton);
+	filepicklayout->addWidget(&lineedit);
+	filepicklayout->addWidget(&choosebutton);
 }
 
 void UpdateDialog::myfileDialog() {
@@ -103,31 +110,31 @@ void UpdateDialog::myfileDialog() {
 	if (filename.isEmpty()) {
 		return;
 	}
-	lineedit->setText(filename);
+	lineedit.setText(filename);
 }
 
 void UpdateDialog::initUpdate() {
 	updaterunning = true;
 
-	QObject::disconnect (cancelbutton, &QPushButton::clicked, this,  &UpdateDialog::reject);
-	QObject::disconnect (choosebutton, &QPushButton::clicked, this, &UpdateDialog::myfileDialog);
-	QObject::disconnect (okbutton, &QPushButton::clicked, this, &UpdateDialog::initUpdate);
+	QObject::disconnect (&cancelbutton, &QPushButton::clicked, this,  &UpdateDialog::reject);
+	QObject::disconnect (&choosebutton, &QPushButton::clicked, this, &UpdateDialog::myfileDialog);
+	QObject::disconnect (&okbutton, &QPushButton::clicked, this, &UpdateDialog::initUpdate);
 
 	int result;
-	result = update->runUpdate(lineedit->text());
+	result = update.runUpdate(lineedit.text());
 	if (result == -2) {
 		QMessageBox::critical(this, "Kptc", tr("ERROR: Update failed!"));
 	}
 
-	QObject::connect (cancelbutton, &QPushButton::clicked, this, &UpdateDialog::reject);
-	QObject::connect (choosebutton, &QPushButton::clicked, this, &UpdateDialog::myfileDialog);
-	QObject::connect (okbutton, &QPushButton::clicked, this, &UpdateDialog::initUpdate);
+	QObject::connect (&cancelbutton, &QPushButton::clicked, this, &UpdateDialog::reject);
+	QObject::connect (&choosebutton, &QPushButton::clicked, this, &UpdateDialog::myfileDialog);
+	QObject::connect (&okbutton, &QPushButton::clicked, this, &UpdateDialog::initUpdate);
 
 	updaterunning = false;
 }
 
 void UpdateDialog::updateMessage(QString text) {
-	infolabel->setText(text);
+	infolabel.setText(text);
 }
 
 void UpdateDialog::closeEvent(QCloseEvent* event)
