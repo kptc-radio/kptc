@@ -30,34 +30,34 @@ StatusInfo::StatusInfo(QWidget *parent) : QStatusBar(parent) {
 	led->setToolTip(tr("SEND-LED"));
 	led->setWhatsThis(tr("The Send LED show the direction\nof the information flow.\nOn means: sending text\noff means: receiving text"));
 
-	send = new QLabel(this);
-	send->setText(tr("SEND"));
+	send.setParent(this);
+	send.setText(tr("SEND"));
 
-	prompt = new QLabel(this);
-	prompt->setFrameStyle(QFrame::Sunken | QFrame::Box);
-	prompt->setToolTip(tr("prompt"));
-	prompt->setWhatsThis(tr("Here is the current prompt showen."));
+	prompt.setParent(this);
+	prompt.setFrameStyle(QFrame::Sunken | QFrame::Box);
+	prompt.setToolTip(tr("prompt"));
+	prompt.setWhatsThis(tr("Here is the current prompt showen."));
 
-	mode = new QLabel(this);
-	mode->setFrameStyle(QFrame::Sunken | QFrame::Box);
-	mode->setText(tr("NO RESPONSE !"));
-	mode->setToolTip(tr("mode"));
-	mode->setWhatsThis(tr("Here are information about\nthe current mode showen."));
+	mode.setParent(this);
+	mode.setFrameStyle(QFrame::Sunken | QFrame::Box);
+	mode.setText(tr("NO RESPONSE !"));
+	mode.setToolTip(tr("mode"));
+	mode.setWhatsThis(tr("Here are information about\nthe current mode showen."));
 
-	status = new QLabel(this);
-	status->setFrameStyle(QFrame::Sunken | QFrame::Box);
-	status->setToolTip(tr("status"));
-	status->setWhatsThis(tr("Here are some status information showen."));
+	status.setParent(this);
+	status.setFrameStyle(QFrame::Sunken | QFrame::Box);
+	status.setToolTip(tr("status"));
+	status.setWhatsThis(tr("Here are some status information showen."));
 
-	statusmessage = new QLabel(this);
-	statusmessage->setFrameStyle(QFrame::Sunken | QFrame::Box);
-	statusmessage->setToolTip(tr("connect message"));
-	statusmessage->setWhatsThis(tr("Here is the current connect message showen."));
+	statusmessage.setParent(this);
+	statusmessage.setFrameStyle(QFrame::Sunken | QFrame::Box);
+	statusmessage.setToolTip(tr("connect message"));
+	statusmessage.setWhatsThis(tr("Here is the current connect message showen."));
 
-	call = new QLabel(this);
-	call->setFrameStyle(QFrame::Sunken | QFrame::Box);
-	call->setToolTip(tr("call/selcall"));
-	call->setWhatsThis(tr("This is your call and your Amtor Selcall\nhow you have entered it in the config dialog"));
+	call.setParent(this);
+	call.setFrameStyle(QFrame::Sunken | QFrame::Box);
+	call.setToolTip(tr("call/selcall"));
+	call.setWhatsThis(tr("This is your call and your Amtor Selcall\nhow you have entered it in the config dialog"));
 	this->setSize();
 
 }
@@ -66,10 +66,10 @@ void StatusInfo::setSize() {
 	QFontMetrics metric(this->font());
 	constexpr int promptWidth = 80;
 	constexpr int distance = 0;
-	int modeWidth = metric.horizontalAdvance(mode->text());
-	int statusWidth = metric.horizontalAdvance(mode->text());
-	int statusMessageWidth = metric.horizontalAdvance(mode->text());
-	int callWidth = metric.horizontalAdvance(call->text());
+	int modeWidth = metric.horizontalAdvance(mode.text());
+	int statusWidth = metric.horizontalAdvance(mode.text());
+	int statusMessageWidth = metric.horizontalAdvance(mode.text());
+	int callWidth = metric.horizontalAdvance(call.text());
 	constexpr int ledwidth = 16;
 	constexpr int sendwidth = 30;
 	constexpr int y = 0;
@@ -85,12 +85,12 @@ void StatusInfo::setSize() {
 	int callx = statusx + statusWidth + distance;
 
 	led->setGeometry (x, y, ledwidth, height);
-	send->setGeometry(sendx, y, sendwidth, height);
-	prompt->setGeometry(promptx, y, promptWidth, height);
-	mode->setGeometry(modex, y, modeWidth, height);
-	status->setGeometry(statusx, y, statusWidth, height);
-	statusmessage->resize(statusMessageWidth, height);
-	call->setGeometry(callx, y, callWidth, height);
+	send.setGeometry(sendx, y, sendwidth, height);
+	prompt.setGeometry(promptx, y, promptWidth, height);
+	mode.setGeometry(modex, y, modeWidth, height);
+	status.setGeometry(statusx, y, statusWidth, height);
+	statusmessage.resize(statusMessageWidth, height);
+	call.setGeometry(callx, y, callWidth, height);
 }
 
 void StatusInfo::resizeEvent(QResizeEvent *event) {
@@ -108,23 +108,23 @@ void StatusInfo::setLED(bool state) {
 }
 
 void StatusInfo::setPrompt(QString prompt) {
-	this->prompt->setText(prompt);
+	this->prompt.setText(prompt);
 }
 
 void StatusInfo::setCall(QString call) {
-	this->call->setText(call);
+	this->call.setText(call);
 }
 
 void StatusInfo::setStatus(QString status) {
-	this->status->setText(status);
+	this->status.setText(status);
 }
 
 void StatusInfo::setMode(QString mode) {
-	this->mode->setText(mode);
+	this->mode.setText(mode);
 }
 
 void StatusInfo::setStatusMessage(QString message) {
-	this->statusmessage->setText(message);
+	this->statusmessage.setText(message);
 }
 
 StatusInfo::~StatusInfo() {

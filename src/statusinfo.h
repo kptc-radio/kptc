@@ -46,13 +46,13 @@ class StatusInfo : public QStatusBar  {
 		 void resizeEvent(QResizeEvent *event) override;
 
 	private:
-		QLabel *prompt;
-		QLabel *status;
-		QLabel *mode;
+		QLabel prompt;
+		QLabel status;
+		QLabel mode;
 		KLed *led;
-		QLabel *send;
-		QLabel *statusmessage;
-		QLabel *call;
+		QLabel send;
+		QLabel statusmessage;
+		QLabel call;
 
 		void setSize();
 
