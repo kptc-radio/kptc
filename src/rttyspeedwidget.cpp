@@ -25,18 +25,19 @@ RTTYSpeedWidget::RTTYSpeedWidget(QWidget *parent) : QDialog(parent) {
 	setMinimumSize(200, 80);
 
 	QVBoxLayout *vbox = new QVBoxLayout(this);
-	slider = new QSlider(this);
-	slider->setOrientation(Qt::Horizontal);
-	slider->setGeometry(20, 300, 1, 45);
-	lineedit = new QLineEdit(this);
-	lineedit->setText("45");
-	okbutton = new QPushButton(tr("Ok"), this);
-	vbox->addWidget(slider);
-	vbox->addWidget(lineedit);
-	vbox->addWidget(okbutton);
-	connect(okbutton, &QPushButton::clicked, this, &RTTYSpeedWidget::change);
-	connect(slider, &QSlider::valueChanged, this, &RTTYSpeedWidget::updateText);
-	connect(lineedit, &QLineEdit::textChanged, this, &RTTYSpeedWidget::updateSlider);
+	slider.setParent(this);
+	slider.setOrientation(Qt::Horizontal);
+	slider.setGeometry(20, 300, 1, 45);
+	lineedit.setParent(this);
+	lineedit.setText("45");
+	okbutton.setText(tr("Ok"));
+	okbutton.setParent(this);
+	vbox->addWidget(&slider);
+	vbox->addWidget(&lineedit);
+	vbox->addWidget(&okbutton);
+	connect(&okbutton, &QPushButton::clicked, this, &RTTYSpeedWidget::change);
+	connect(&slider, &QSlider::valueChanged, this, &RTTYSpeedWidget::updateText);
+	connect(&lineedit, &QLineEdit::textChanged, this, &RTTYSpeedWidget::updateSlider);
 }
 
 
@@ -44,12 +45,12 @@ void RTTYSpeedWidget::updateText(int i) {
 	QString qi;
 	qi.setNum(i);
 	speed = i;
-	lineedit->setText(qi);
+	lineedit.setText(qi);
 }
 
 void RTTYSpeedWidget::updateSlider(const QString &qs) {
 	speed = qs.toUInt();
-	slider->setValue(speed);
+	slider.setValue(speed);
 }
 
 void RTTYSpeedWidget::change() {

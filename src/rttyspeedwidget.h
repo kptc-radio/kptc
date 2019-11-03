@@ -38,9 +38,9 @@ class RTTYSpeedWidget : public QDialog  {
 		Q_OBJECT
 
 public:
-	QPushButton *okbutton;
-	QSlider *slider;
-	QLineEdit *lineedit;
+	QPushButton okbutton;
+	QSlider slider;
+	QLineEdit lineedit;
 
 	RTTYSpeedWidget(QWidget *parent = 0);
 	~RTTYSpeedWidget();
