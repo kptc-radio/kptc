@@ -38,13 +38,13 @@ class ModeButtons : public QToolBar  {
 		~ModeButtons();
 
 	private:
-		QRadioButton *pactorButton;
-		QRadioButton *amtorButton;
-		QRadioButton *rttyButton;
-		QRadioButton *psk31Button;
-		QRadioButton *cwButton;
-		QButtonGroup *buttongroup;
-		ModeCommander *commander;
+		QRadioButton pactorButton;
+		QRadioButton amtorButton;
+		QRadioButton rttyButton;
+		QRadioButton psk31Button;
+		QRadioButton cwButton;
+		QButtonGroup buttongroup;
+		ModeCommander commander;
 };
 
 #endif

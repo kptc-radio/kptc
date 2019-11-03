@@ -20,31 +20,36 @@
 #include "modebuttons.h"
 
 ModeButtons::ModeButtons(ModeCommander *commander, QWidget *parent) : commander(commander), QToolBar(parent) {
-	buttongroup = new QButtonGroup(parent);
-	pactorButton = new QRadioButton("Pactor", parent);
-	amtorButton = new QRadioButton("Amtor", parent);
-	rttyButton = new QRadioButton("RTTY", parent);
-	psk31Button = new QRadioButton("PSK31", parent);
-	cwButton = new QRadioButton("CW", parent);
+	buttongroup.setParent(parent);
+	pactorButton.setText(tr("Pactor"));
+	pactorButton.setParent(parent);
+	amtorButton.setText(tr("Amtor"));
+	amtorButton.setParent(parent);
+	rttyButton.setText(tr("RTTY"));
+	rttyButton.setParent(parent);
+	psk31Button.setText(tr("PSK31"));
+	psk31Button.setParent(parent);
+	cwButton.setText(tr("CW"));
+	cwButton.setParent(parent);
 
-	buttongroup->addButton(pactorButton, 1);
-	buttongroup->addButton(amtorButton, 2);
-	buttongroup->addButton(rttyButton, 3);
-	buttongroup->addButton(psk31Button, 4);
-	buttongroup->addButton(cwButton, 5);
-	buttongroup->setExclusive(true);
+	buttongroup.addButton(&pactorButton, 1);
+	buttongroup.addButton(&amtorButton, 2);
+	buttongroup.addButton(&rttyButton, 3);
+	buttongroup.addButton(&psk31Button, 4);
+	buttongroup.addButton(&cwButton, 5);
+	buttongroup.setExclusive(true);
 
-	addWidget(pactorButton);
-	addWidget(amtorButton);
-	addWidget(rttyButton);
-	addWidget(psk31Button);
-	addWidget(cwButton);
+	addWidget(&pactorButton);
+	addWidget(&amtorButton);
+	addWidget(&rttyButton);
+	addWidget(&psk31Button);
+	addWidget(&cwButton);
 
-	connect(pactorButton, &QRadioButton::clicked, commander, &ModeCommander::changetoPactor);
-	connect(amtorButton, &QRadioButton::clicked, commander, &ModeCommander::changetoAmtor);
-	connect(rttyButton, &QRadioButton::clicked, commander, &ModeCommander::changetoRTTY);
-	connect(psk31Button, &QRadioButton::clicked, commander, &ModeCommander::changetoPSK31);
-	connect(cwButton, &QRadioButton::clicked, commander, &ModeCommander::changetoCW);
+	connect(&pactorButton, &QRadioButton::clicked, commander, &ModeCommander::changetoPactor);
+	connect(&amtorButton, &QRadioButton::clicked, commander, &ModeCommander::changetoAmtor);
+	connect(&rttyButton, &QRadioButton::clicked, commander, &ModeCommander::changetoRTTY);
+	connect(&psk31Button, &QRadioButton::clicked, commander, &ModeCommander::changetoPSK31);
+	connect(&cwButton, &QRadioButton::clicked, commander, &ModeCommander::changetoCW);
 }
 
 ModeButtons::~ModeButtons() {
