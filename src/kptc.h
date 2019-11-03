@@ -82,7 +82,7 @@ class Kptc : public QMainWindow {
 		DataParser dataparser;
 		ModeButtons *modebuttons;
 		ModeCommander *modecommander;
-		StatusInfo *statusinfo;
+		StatusInfo statusinfo;
 		CWSpeedWidget  *cwspeedwidget;
 		RTTYSpeedWidget *rttyspeedwidget;
 		QSplitter splitter;

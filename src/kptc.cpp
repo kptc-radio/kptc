@@ -49,24 +49,24 @@ Kptc::Kptc(QWidget *parent) : QMainWindow(parent)
 	this->initializeToolBar();
 	this->resizeElements();
 
-	connect(this, &Kptc::status, statusinfo, &StatusInfo::setStatus);
-	connect(this, &Kptc::mode, statusinfo, &StatusInfo::setMode);
-	connect(this, &Kptc::direction, statusinfo, &StatusInfo::setLED);
-	connect(this, &Kptc::changePrompt, statusinfo, &StatusInfo::setPrompt);
-	connect(this, &Kptc::changeCall, statusinfo, &StatusInfo::setCall);
-	connect(this, &Kptc::changeStatusMessage, statusinfo, &StatusInfo::setStatusMessage);
+	connect(this, &Kptc::status, &statusinfo, &StatusInfo::setStatus);
+	connect(this, &Kptc::mode, &statusinfo, &StatusInfo::setMode);
+	connect(this, &Kptc::direction, &statusinfo, &StatusInfo::setLED);
+	connect(this, &Kptc::changePrompt, &statusinfo, &StatusInfo::setPrompt);
+	connect(this, &Kptc::changeCall, &statusinfo, &StatusInfo::setCall);
+	connect(this, &Kptc::changeStatusMessage, &statusinfo, &StatusInfo::setStatusMessage);
 
 	connect(&dataparser, &DataParser::statusMessage, this, &Kptc::setStatusMessage);
 	connect(&dataparser, &DataParser::character, this, &Kptc::appendToPrompt);
 	connect(&dataparser, &DataParser::prompt, this, &Kptc::showPrompt);
-	connect(&dataparser, &DataParser::direction, statusinfo, &StatusInfo::setLED);
-	connect(&dataparser, &DataParser::status, statusinfo, &StatusInfo::setStatus);
-	connect(&dataparser, &DataParser::mode, statusinfo, &StatusInfo::setMode);
+	connect(&dataparser, &DataParser::direction, &statusinfo, &StatusInfo::setLED);
+	connect(&dataparser, &DataParser::status, &statusinfo, &StatusInfo::setStatus);
+	connect(&dataparser, &DataParser::mode, &statusinfo, &StatusInfo::setMode);
 	connect(&dataparser, &DataParser::listen, modecommander, &ModeCommander::setListen);
 	connect(&dataparser, &DataParser::line, this, &Kptc::apppendToTermoutput);
 	connect(&dataparser, &DataParser::currentmode, this, &Kptc::updateStatusBar);
 
-	statusinfo->setCall(configdata.getCall() + " (" + configdata.getSelCall() + ") ");
+	statusinfo.setCall(configdata.getCall() + " (" + configdata.getSelCall() + ") ");
 }
 
 bool Kptc::handleFirstStart() {
@@ -245,8 +245,8 @@ void Kptc::initFixMenu() {
 }
 
 void Kptc::initializeStatusBar() {
-	statusinfo = new StatusInfo(this);
-	setStatusBar(statusinfo);
+	statusinfo.setParent(this);
+	setStatusBar(&statusinfo);
 }
 
 void Kptc::initializeMenuBar() {
