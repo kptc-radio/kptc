@@ -37,9 +37,9 @@ class CWSpeedWidget : public QDialog  {
 	Q_OBJECT
 
 	public:
-		QPushButton * okbutton;
-		QSlider *slider;
-		QLineEdit *lineedit;
+		QPushButton okbutton;
+		QSlider slider;
+		QLineEdit lineedit;
 
 		CWSpeedWidget(QWidget *parent = 0);
 		~CWSpeedWidget();

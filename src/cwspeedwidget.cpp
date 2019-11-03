@@ -25,31 +25,32 @@ CWSpeedWidget::CWSpeedWidget(QWidget *parent) : QDialog(parent) {
 	setMinimumSize(200, 80);
 
 	QVBoxLayout *vbox = new QVBoxLayout(this);
-	slider = new QSlider(this);
-	slider->setOrientation(Qt::Horizontal);
-	slider->setGeometry(40,1200, 1, 160);
+	slider.setParent(this);
+	slider.setOrientation(Qt::Horizontal);
+	slider.setGeometry(40,1200, 1, 160);
 
-	lineedit = new QLineEdit(this);
-	lineedit->setText("160");
-	okbutton = new QPushButton(tr("Ok"), this);
-	vbox->addWidget(slider);
-	vbox->addWidget(lineedit);
-	vbox->addWidget(okbutton);
-	connect(okbutton, &QPushButton::clicked, this, &CWSpeedWidget::change);
-	connect(slider, &QSlider::valueChanged, this, &CWSpeedWidget::updateText);
-	connect(lineedit, &QLineEdit::textChanged, this, &CWSpeedWidget::updateSlider);
+	lineedit.setParent(this);
+	lineedit.setText("160");
+	okbutton.setText(tr("Ok"));
+	okbutton.setParent(this);
+	vbox->addWidget(&slider);
+	vbox->addWidget(&lineedit);
+	vbox->addWidget(&okbutton);
+	connect(&okbutton, &QPushButton::clicked, this, &CWSpeedWidget::change);
+	connect(&slider, &QSlider::valueChanged, this, &CWSpeedWidget::updateText);
+	connect(&lineedit, &QLineEdit::textChanged, this, &CWSpeedWidget::updateSlider);
 }
 
 void CWSpeedWidget::updateText(int i) {
 	QString qi;
 	qi.setNum(i);
 	speed = i;
-	lineedit->setText(qi);
+	lineedit.setText(qi);
 }
 
 void CWSpeedWidget::updateSlider(const QString &qs) {
 	speed = qs.toUInt();
-	slider->setValue(speed);
+	slider.setValue(speed);
 }
 
 void CWSpeedWidget::change() {
