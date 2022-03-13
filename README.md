@@ -14,4 +14,8 @@ Maybe the qmake binary has another name (e. g. under openSUSE qmake-qt5).
 
 But this does not work currently with openSUSE (I do not know why). But to build kptc there, run build from QtCreator, that works fine.
 
+# About
+
+This software was an orphaned project on, which has been refactored to be runable on current systems. The Refactoring may impaired its functionality. If you try it, do not hestiate to report malfunctions or odd behaviour.
+
 Please note that is a beta version.
